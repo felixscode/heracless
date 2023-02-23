@@ -1,4 +1,5 @@
 import datetime
+from dataclasses import dataclass
 
 cfg_dict = {
     "invoice": 34843,

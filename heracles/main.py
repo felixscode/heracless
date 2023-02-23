@@ -7,8 +7,8 @@ from pathlib import Path
 from yaml import full_load
 import os
 from heracles.utils.exeptions import DirectoryError
-from heracles.utils.expr_tree import CfgTree
-from heracles.utils.expr_tree import dict_to_expr_tree
+from heracles.utils.cfg_tree import CfgTree
+from heracles.utils.cfg_tree import dict_to_cfg_tree
 
 
 DEFAULT_DIR = Path(__file__).parent.resolve() / Path("./tests/test_config.yaml")
@@ -26,21 +26,22 @@ def load_as_dict(cfg_dir: Path, yaml_load_func: Callable) -> dict:
     return yaml_load_func(stream)
 
 
-def dump_in_console(expr_tree: CfgTree, *args, **kwargs):
-    print(expr_tree)
+def dump_in_console(cfg_tree: CfgTree, *args, **kwargs):
+    print(cfg_tree)
 
 
-def dump_in_file(expr_tree: CfgTree, dump_dir: Path):
+def dump_in_file(cfg_tree: CfgTree, dump_dir: Path):
     path_exists(dump_dir)
     with open(dump_dir, "w") as dd:
-        dd.write(str(expr_tree))
+        dd.write(str(cfg_tree))
 
 
 def main(cfg_dir: Path, dump_dir: Path, dump_func: Callable, yaml_load_func: Callable):
     cfg_dict = load_as_dict(cfg_dir, yaml_load_func)
-    expr_tree = dict_to_expr_tree(cfg_dict)
-    dump_func(expr_tree, dump_dir)
+    cfg_tree = dict_to_cfg_tree(cfg_dict)
+    dump_func(cfg_tree, dump_dir)
+    return cfg_tree.to_obj()
 
 
 if __name__ == "__main__":
-    pass
+    main
