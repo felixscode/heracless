@@ -1,0 +1,1090 @@
+versions pytest-7.2.1, python-3.11.0.candidate.1
+cwd=/home/felix/Documents/Projects/heracles/Heracles
+args=('--debug==True#',)
+
+  pytest_cmdline_main [hook]
+      config: <_pytest.config.Config object at 0x7f9228d9e910>
+    pytest_plugin_registered [hook]
+        plugin: <Session Heracles exitstatus='<UNSET>' testsfailed=0 testscollected=0>
+        manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+    finish pytest_plugin_registered --> [] [hook]
+    pytest_configure [hook]
+        config: <_pytest.config.Config object at 0x7f9228d9e910>
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.LFPlugin object at 0x7f9228e44a10>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.NFPlugin object at 0x7f9228e2f410>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+    early skip of rewriting module: faulthandler [assertion]
+      pytest_plugin_registered [hook]
+          plugin: <class '_pytest.legacypath.LegacyTmpdirPlugin'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+    early skip of rewriting module: pdb [assertion]
+    early skip of rewriting module: cmd [assertion]
+    early skip of rewriting module: code [assertion]
+    early skip of rewriting module: codeop [assertion]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.config.Config object at 0x7f9228d9e910>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.mark' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/mark/__init__.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.main' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/main.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.runner' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/runner.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.fixtures' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/fixtures.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.helpconfig' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/helpconfig.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.python' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/python.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.terminal' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/terminal.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.debugging' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/debugging.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.unittest' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/unittest.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.capture' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/capture.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.skipping' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/skipping.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.legacypath' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/legacypath.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.tmpdir' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/tmpdir.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.monkeypatch' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/monkeypatch.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.recwarn' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/recwarn.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.pastebin' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/pastebin.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.nose' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/nose.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.assertion' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/assertion/__init__.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.junitxml' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/junitxml.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.doctest' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/doctest.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.cacheprovider' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/cacheprovider.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.freeze_support' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/freeze_support.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.setuponly' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/setuponly.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.setupplan' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/setupplan.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.stepwise' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/stepwise.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.warnings' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/warnings.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.logging' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/logging.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.reports' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/reports.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.python_path' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/python_path.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.unraisableexception' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/unraisableexception.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.threadexception' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/threadexception.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.faulthandler' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/faulthandler.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <CaptureManager _method='fd' _global_capturing=<MultiCapture out=<FDCapture 1 oldfd=5 _state='suspended' tmpfile=<_io.TextIOWrapper name="<_io.FileIO name=6 mode='rb+' closefd=True>" mode='r+' encoding='utf-8'>> err=<FDCapture 2 oldfd=7 _state='suspended' tmpfile=<_io.TextIOWrapper name="<_io.FileIO name=8 mode='rb+' closefd=True>" mode='r+' encoding='utf-8'>> in_=<FDCapture 0 oldfd=3 _state='started' tmpfile=<_io.TextIOWrapper name='/dev/null' mode='r' encoding='utf-8'>> _state='suspended' _in_suspended=False> _capture_fixture=None>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.LFPlugin object at 0x7f9228e44a10>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.NFPlugin object at 0x7f9228e2f410>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <class '_pytest.legacypath.LegacyTmpdirPlugin'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.terminal.TerminalReporter object at 0x7f9228e50f10>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.logging.LoggingPlugin object at 0x7f9228c7bc50>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+    finish pytest_configure --> [] [hook]
+    pytest_sessionstart [hook]
+        session: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.config.Config object at 0x7f9228d9e910>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.mark' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/mark/__init__.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.main' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/main.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.runner' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/runner.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.fixtures' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/fixtures.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.helpconfig' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/helpconfig.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.python' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/python.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.terminal' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/terminal.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.debugging' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/debugging.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.unittest' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/unittest.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.capture' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/capture.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.skipping' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/skipping.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.legacypath' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/legacypath.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.tmpdir' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/tmpdir.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.monkeypatch' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/monkeypatch.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.recwarn' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/recwarn.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.pastebin' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/pastebin.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.nose' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/nose.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.assertion' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/assertion/__init__.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.junitxml' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/junitxml.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.doctest' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/doctest.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.cacheprovider' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/cacheprovider.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.freeze_support' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/freeze_support.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.setuponly' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/setuponly.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.setupplan' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/setupplan.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.stepwise' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/stepwise.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.warnings' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/warnings.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.logging' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/logging.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.reports' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/reports.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.python_path' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/python_path.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.unraisableexception' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/unraisableexception.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.threadexception' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/threadexception.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.faulthandler' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/faulthandler.py'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <CaptureManager _method='fd' _global_capturing=<MultiCapture out=<FDCapture 1 oldfd=5 _state='suspended' tmpfile=<_io.TextIOWrapper name="<_io.FileIO name=6 mode='rb+' closefd=True>" mode='r+' encoding='utf-8'>> err=<FDCapture 2 oldfd=7 _state='suspended' tmpfile=<_io.TextIOWrapper name="<_io.FileIO name=8 mode='rb+' closefd=True>" mode='r+' encoding='utf-8'>> in_=<FDCapture 0 oldfd=3 _state='started' tmpfile=<_io.TextIOWrapper name='/dev/null' mode='r' encoding='utf-8'>> _state='suspended' _in_suspended=False> _capture_fixture=None>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.LFPlugin object at 0x7f9228e44a10>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.NFPlugin object at 0x7f9228e2f410>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <class '_pytest.legacypath.LegacyTmpdirPlugin'>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.terminal.TerminalReporter object at 0x7f9228e50f10>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.logging.LoggingPlugin object at 0x7f9228c7bc50>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.fixtures.FixtureManager object at 0x7f9228c7b190>
+          manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_report_header [hook]
+          config: <_pytest.config.Config object at 0x7f9228d9e910>
+          start_path: /home/felix/Documents/Projects/heracles/Heracles
+          startdir: /home/felix/Documents/Projects/heracles/Heracles
+      finish pytest_report_header --> [['rootdir: /home/felix/Documents/Projects/heracles/Heracles'], ['using: pytest-7.2.1']] [hook]
+    finish pytest_sessionstart --> [] [hook]
+    pytest_collection [hook]
+        session: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+    perform_collect <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0> ['/home/felix/Documents/Projects/heracles/Heracles'] [collection]
+        pytest_collectstart [hook]
+            collector: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+        finish pytest_collectstart --> [] [hook]
+        pytest_make_collect_report [hook]
+            collector: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+        processing argument (PosixPath('/home/felix/Documents/Projects/heracles/Heracles'), []) [collection]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/.gitignore
+                path: /home/felix/Documents/Projects/heracles/Heracles/.gitignore
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/.gitignore
+                path: /home/felix/Documents/Projects/heracles/Heracles/.gitignore
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/=True#
+                path: /home/felix/Documents/Projects/heracles/Heracles/=True#
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/=True#
+                path: /home/felix/Documents/Projects/heracles/Heracles/=True#
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/LICENSE
+                path: /home/felix/Documents/Projects/heracles/Heracles/LICENSE
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/LICENSE
+                path: /home/felix/Documents/Projects/heracles/Heracles/LICENSE
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/README.md
+                path: /home/felix/Documents/Projects/heracles/Heracles/README.md
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/README.md
+                path: /home/felix/Documents/Projects/heracles/Heracles/README.md
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/README.txt
+                path: /home/felix/Documents/Projects/heracles/Heracles/README.txt
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/README.txt
+                path: /home/felix/Documents/Projects/heracles/Heracles/README.txt
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/setup.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/setup.py
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/setup.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/setup.py
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/.git
+                path: /home/felix/Documents/Projects/heracles/Heracles/.git
+            finish pytest_ignore_collect --> None [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/.pytest_cache
+                path: /home/felix/Documents/Projects/heracles/Heracles/.pytest_cache
+            finish pytest_ignore_collect --> None [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/.vscode
+                path: /home/felix/Documents/Projects/heracles/Heracles/.vscode
+            finish pytest_ignore_collect --> None [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info
+                path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info
+            finish pytest_ignore_collect --> None [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/PKG-INFO
+                path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/PKG-INFO
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/PKG-INFO
+                path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/PKG-INFO
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/SOURCES.txt
+                path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/SOURCES.txt
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/SOURCES.txt
+                path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/SOURCES.txt
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/dependency_links.txt
+                path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/dependency_links.txt
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/dependency_links.txt
+                path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/dependency_links.txt
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/top_level.txt
+                path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/top_level.txt
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/top_level.txt
+                path: /home/felix/Documents/Projects/heracles/Heracles/Heracless.egg-info/top_level.txt
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles
+            finish pytest_ignore_collect --> None [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/__init__.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/__init__.py
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/__init__.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/__init__.py
+              pytest_pycollect_makemodule [hook]
+                  parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                  module_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/__init__.py
+                  path: /home/felix/Documents/Projects/heracles/Heracles/heracles/__init__.py
+              finish pytest_pycollect_makemodule --> <Package heracles> [hook]
+            finish pytest_collect_file --> [<Package heracles>] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/.vscode
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/.vscode
+            finish pytest_ignore_collect --> None [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests
+            finish pytest_ignore_collect --> None [hook]
+          find_module called for: conftest [assertion]
+          rewriting conftest file: '/home/felix/Documents/Projects/heracles/Heracles/heracles/tests/conftest.py' [assertion]
+          found cached rewritten pyc for /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/conftest.py [assertion]
+          loading conftestmodule <module 'conftest' from '/home/felix/Documents/Projects/heracles/Heracles/heracles/tests/conftest.py'> [pluginmanage]
+            pytest_plugin_registered [hook]
+                plugin: <module 'conftest' from '/home/felix/Documents/Projects/heracles/Heracles/heracles/tests/conftest.py'>
+                manager: <_pytest.config.PytestPluginManager object at 0x7f9228d83810>
+            finish pytest_plugin_registered --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/conftest.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/conftest.py
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/conftest.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/conftest.py
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/load.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/load.py
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/load.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/load.py
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_config.yaml
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_config.yaml
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_config.yaml
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_config.yaml
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_end_to_end.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_end_to_end.py
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_end_to_end.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_end_to_end.py
+              pytest_pycollect_makemodule [hook]
+                  parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                  module_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_end_to_end.py
+                  path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_end_to_end.py
+              finish pytest_pycollect_makemodule --> <Module heracles/tests/test_end_to_end.py> [hook]
+            finish pytest_collect_file --> [<Module heracles/tests/test_end_to_end.py>] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_units.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_units.py
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_units.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_units.py
+              pytest_pycollect_makemodule [hook]
+                  parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                  module_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_units.py
+                  path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_units.py
+              finish pytest_pycollect_makemodule --> <Module heracles/tests/test_units.py> [hook]
+            finish pytest_collect_file --> [<Module heracles/tests/test_units.py>] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/config
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/config
+            finish pytest_ignore_collect --> None [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/config/types.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/config/types.py
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/config/types.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/config/types.py
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils
+            finish pytest_ignore_collect --> None [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/c_types.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/c_types.py
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/c_types.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/c_types.py
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/cfg_tree.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/cfg_tree.py
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/cfg_tree.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/cfg_tree.py
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/cfg_tree_old.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/cfg_tree_old.py
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/cfg_tree_old.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/cfg_tree_old.py
+            finish pytest_collect_file --> [] [hook]
+            pytest_ignore_collect [hook]
+                config: <_pytest.config.Config object at 0x7f9228d9e910>
+                collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/exeptions.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/exeptions.py
+            finish pytest_ignore_collect --> None [hook]
+            pytest_collect_file [hook]
+                parent: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+                file_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/exeptions.py
+                path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/exeptions.py
+            finish pytest_collect_file --> [] [hook]
+        finish pytest_make_collect_report --> <CollectReport '' lenresult=3 outcome='passed'> [hook]
+        pytest_collectreport [hook]
+            report: <CollectReport '' lenresult=3 outcome='passed'>
+        finish pytest_collectreport --> [] [hook]
+    genitems <Package heracles> [collection]
+      pytest_collectstart [hook]
+          collector: <Package heracles>
+      finish pytest_collectstart --> [] [hook]
+      pytest_make_collect_report [hook]
+          collector: <Package heracles>
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/cli_tool.py
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/cli_tool.py
+        finish pytest_ignore_collect --> None [hook]
+        pytest_collect_file [hook]
+            parent: <Package heracles>
+            file_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/cli_tool.py
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/cli_tool.py
+        finish pytest_collect_file --> [] [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/decorator.py
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/decorator.py
+        finish pytest_ignore_collect --> None [hook]
+        pytest_collect_file [hook]
+            parent: <Package heracles>
+            file_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/decorator.py
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/decorator.py
+        finish pytest_collect_file --> [] [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/main.py
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/main.py
+        finish pytest_ignore_collect --> None [hook]
+        pytest_collect_file [hook]
+            parent: <Package heracles>
+            file_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/main.py
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/main.py
+        finish pytest_collect_file --> [] [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/.vscode
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/.vscode
+        finish pytest_ignore_collect --> None [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests
+        finish pytest_ignore_collect --> None [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/conftest.py
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/conftest.py
+        finish pytest_ignore_collect --> None [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/load.py
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/load.py
+        finish pytest_ignore_collect --> None [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_config.yaml
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_config.yaml
+        finish pytest_ignore_collect --> None [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_end_to_end.py
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_end_to_end.py
+        finish pytest_ignore_collect --> None [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_units.py
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_units.py
+        finish pytest_ignore_collect --> None [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/config
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/config
+        finish pytest_ignore_collect --> None [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/config/types.py
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/config/types.py
+        finish pytest_ignore_collect --> None [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils
+        finish pytest_ignore_collect --> None [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/c_types.py
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/c_types.py
+        finish pytest_ignore_collect --> None [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/cfg_tree.py
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/cfg_tree.py
+        finish pytest_ignore_collect --> None [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/cfg_tree_old.py
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/cfg_tree_old.py
+        finish pytest_ignore_collect --> None [hook]
+        pytest_ignore_collect [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            collection_path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/exeptions.py
+            path: /home/felix/Documents/Projects/heracles/Heracles/heracles/utils/exeptions.py
+        finish pytest_ignore_collect --> None [hook]
+      finish pytest_make_collect_report --> <CollectReport 'heracles/__init__.py' lenresult=0 outcome='passed'> [hook]
+      pytest_collectreport [hook]
+          report: <CollectReport 'heracles/__init__.py' lenresult=0 outcome='passed'>
+      finish pytest_collectreport --> [] [hook]
+    genitems <Module heracles/tests/test_end_to_end.py> [collection]
+      pytest_collectstart [hook]
+          collector: <Module heracles/tests/test_end_to_end.py>
+      finish pytest_collectstart --> [] [hook]
+      pytest_make_collect_report [hook]
+          collector: <Module heracles/tests/test_end_to_end.py>
+      find_module called for: test_end_to_end [assertion]
+      matched test file '/home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_end_to_end.py' [assertion]
+      found cached rewritten pyc for /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_end_to_end.py [assertion]
+      early skip of rewriting module: heracles [assertion]
+      early skip of rewriting module: heracles.decorator [assertion]
+      early skip of rewriting module: heracles.main [assertion]
+      early skip of rewriting module: yaml [assertion]
+      early skip of rewriting module: yaml.error [assertion]
+      early skip of rewriting module: yaml.tokens [assertion]
+      early skip of rewriting module: yaml.events [assertion]
+      early skip of rewriting module: yaml.nodes [assertion]
+      early skip of rewriting module: yaml.loader [assertion]
+      early skip of rewriting module: yaml.reader [assertion]
+      early skip of rewriting module: yaml.scanner [assertion]
+      early skip of rewriting module: yaml.parser [assertion]
+      early skip of rewriting module: yaml.composer [assertion]
+      early skip of rewriting module: yaml.constructor [assertion]
+      early skip of rewriting module: yaml.resolver [assertion]
+      early skip of rewriting module: yaml.dumper [assertion]
+      early skip of rewriting module: yaml.emitter [assertion]
+      early skip of rewriting module: yaml.serializer [assertion]
+      early skip of rewriting module: yaml.representer [assertion]
+      early skip of rewriting module: yaml.cyaml [assertion]
+      early skip of rewriting module: yaml._yaml [assertion]
+      early skip of rewriting module: yaml.yaml [assertion]
+      early skip of rewriting module: heracles.utils [assertion]
+      early skip of rewriting module: heracles.utils.exeptions [assertion]
+      early skip of rewriting module: heracles.utils.cfg_tree [assertion]
+      early skip of rewriting module: black [assertion]
+      early skip of rewriting module: 6b397dd64e00b5aff23d__mypyc [assertion]
+      early skip of rewriting module: click [assertion]
+      early skip of rewriting module: click.core [assertion]
+      early skip of rewriting module: click.types [assertion]
+      early skip of rewriting module: click._compat [assertion]
+      early skip of rewriting module: click.exceptions [assertion]
+      early skip of rewriting module: click.utils [assertion]
+      early skip of rewriting module: click.globals [assertion]
+      early skip of rewriting module: click.formatting [assertion]
+      early skip of rewriting module: click.parser [assertion]
+      early skip of rewriting module: click.termui [assertion]
+      early skip of rewriting module: click.decorators [assertion]
+      early skip of rewriting module: mypy_extensions [assertion]
+      early skip of rewriting module: pathspec [assertion]
+      early skip of rewriting module: pathspec.gitignore [assertion]
+      early skip of rewriting module: pathspec.pathspec [assertion]
+      early skip of rewriting module: pathspec.util [assertion]
+      early skip of rewriting module: pathspec.pattern [assertion]
+      early skip of rewriting module: pathspec.patterns [assertion]
+      early skip of rewriting module: pathspec.patterns.gitwildmatch [assertion]
+      early skip of rewriting module: pathspec._meta [assertion]
+      early skip of rewriting module: _black_version [assertion]
+      early skip of rewriting module: black [assertion]
+      early skip of rewriting module: black.cache [assertion]
+      early skip of rewriting module: pickle [assertion]
+      early skip of rewriting module: _compat_pickle [assertion]
+      early skip of rewriting module: _pickle [assertion]
+      early skip of rewriting module: org [assertion]
+      early skip of rewriting module: platformdirs [assertion]
+      early skip of rewriting module: platformdirs.api [assertion]
+      early skip of rewriting module: platformdirs.version [assertion]
+      early skip of rewriting module: platformdirs.unix [assertion]
+      early skip of rewriting module: configparser [assertion]
+      early skip of rewriting module: black.mode [assertion]
+      early skip of rewriting module: hashlib [assertion]
+      early skip of rewriting module: _hashlib [assertion]
+      early skip of rewriting module: _blake2 [assertion]
+      early skip of rewriting module: black.const [assertion]
+      early skip of rewriting module: black.comments [assertion]
+      early skip of rewriting module: black.nodes [assertion]
+      early skip of rewriting module: black.strings [assertion]
+      early skip of rewriting module: blib2to3 [assertion]
+      early skip of rewriting module: blib2to3.pytree [assertion]
+      early skip of rewriting module: blib2to3.pgen2 [assertion]
+      early skip of rewriting module: blib2to3.pgen2.grammar [assertion]
+      early skip of rewriting module: blib2to3.pgen2.token [assertion]
+      early skip of rewriting module: blib2to3.pygram [assertion]
+      early skip of rewriting module: blib2to3.pgen2.driver [assertion]
+      early skip of rewriting module: pkgutil [assertion]
+      early skip of rewriting module: blib2to3.pgen2.parse [assertion]
+      early skip of rewriting module: blib2to3.pgen2.tokenize [assertion]
+      early skip of rewriting module: blib2to3.pgen2.pgen [assertion]
+      early skip of rewriting module: black.files [assertion]
+      early skip of rewriting module: packaging [assertion]
+      early skip of rewriting module: packaging.specifiers [assertion]
+      early skip of rewriting module: packaging.utils [assertion]
+      early skip of rewriting module: packaging.tags [assertion]
+      early skip of rewriting module: sysconfig [assertion]
+      early skip of rewriting module: packaging._manylinux [assertion]
+      early skip of rewriting module: packaging._elffile [assertion]
+      early skip of rewriting module: packaging._musllinux [assertion]
+      early skip of rewriting module: packaging.version [assertion]
+      early skip of rewriting module: packaging._structures [assertion]
+      early skip of rewriting module: tomllib [assertion]
+      early skip of rewriting module: tomllib._parser [assertion]
+      early skip of rewriting module: tomllib._re [assertion]
+      early skip of rewriting module: tomllib._types [assertion]
+      early skip of rewriting module: black.handle_ipynb_magics [assertion]
+      early skip of rewriting module: secrets [assertion]
+      early skip of rewriting module: hmac [assertion]
+      early skip of rewriting module: black.output [assertion]
+      early skip of rewriting module: black.report [assertion]
+      early skip of rewriting module: black.linegen [assertion]
+      early skip of rewriting module: black.brackets [assertion]
+      early skip of rewriting module: black.lines [assertion]
+      early skip of rewriting module: black.numerics [assertion]
+      early skip of rewriting module: black.trans [assertion]
+      early skip of rewriting module: black.rusty [assertion]
+      early skip of rewriting module: black.parsing [assertion]
+      early skip of rewriting module: typed_ast [assertion]
+      early skip of rewriting module: heracles.tests [assertion]
+      early skip of rewriting module: heracles.tests.load [assertion]
+      early skip of rewriting module: heracles.tests.config [assertion]
+      early skip of rewriting module: heracles.tests.config.types [assertion]
+      finish pytest_make_collect_report --> <CollectReport 'heracles/tests/test_end_to_end.py' lenresult=0 outcome='failed'> [hook]
+      pytest_exception_interact [hook]
+          node: <Module heracles/tests/test_end_to_end.py>
+          call: <CallInfo when='collect' excinfo=<ExceptionInfo NameError("name 'Address' is not defined") tblen=3>>
+          report: <CollectReport 'heracles/tests/test_end_to_end.py' lenresult=0 outcome='failed'>
+      finish pytest_exception_interact --> [] [hook]
+      pytest_collectreport [hook]
+          report: <CollectReport 'heracles/tests/test_end_to_end.py' lenresult=0 outcome='failed'>
+      finish pytest_collectreport --> [] [hook]
+    genitems <Module heracles/tests/test_units.py> [collection]
+      pytest_collectstart [hook]
+          collector: <Module heracles/tests/test_units.py>
+      finish pytest_collectstart --> [] [hook]
+      pytest_make_collect_report [hook]
+          collector: <Module heracles/tests/test_units.py>
+      find_module called for: test_units [assertion]
+      matched test file '/home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_units.py' [assertion]
+      found cached rewritten pyc for /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_units.py [assertion]
+      early skip of rewriting module: heracles.utils.cfg_tree_old [assertion]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: @py_builtins
+            obj: <module 'builtins' (built-in)>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: @pytest_ar
+            obj: <module '_pytest.assertion.rewrite' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/_pytest/assertion/rewrite.py'>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: heracles
+            obj: <function heracles at 0x7f9228cae340>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: load_as_dict
+            obj: <function load_as_dict at 0x7f9228d33f60>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: full_load
+            obj: <function full_load at 0x7f9228d32de0>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: DEFAULT_DIR
+            obj: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/test_config.yaml
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: DEFAULT_DUMP_DIR
+            obj: /home/felix/Documents/Projects/heracles/Heracles/heracles/tests/config/types.py
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: path_exists
+            obj: <function path_exists at 0x7f9228cae480>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: filled_config
+            obj: <function <lambda> at 0x7f9227b5ab60>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: cfg_dict
+            obj: {'invoice': 34843, 'date': datetime.date(2001, 1, 23), 'bill-to': {'given': 'Chris', 'family': 'Dumars', 'address': {'lines': '458 Walkman Dr.\nSuite #292\n', 'city': 'Royal Oak', 'state': 'MI', 'postal': 48046}}, 'ship-to': {'given': 'Chris', 'family': 'Dumars', 'address': {'lines': '458 Walkman Dr.\nSuite #292\n', 'city': 'Royal Oak', 'state': 'MI', 'postal': 48046}}, 'product': [{'sku': 'BL394D', 'quantity': 4, 'description': 'Basketball', 'price': 450.0}, {'sku': 'BL4438H', 'quantity': 1, 'description': 'Super Hoop', 'price': 2392.0}], 'tax': 251.42, 'total': 4443.52, 'comments': 'Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338.'}
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: cfg_tree_old
+            obj: <module 'heracles.utils.cfg_tree_old' from '/home/felix/Documents/Projects/heracles/Heracles/heracles/utils/cfg_tree_old.py'>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: exeptions
+            obj: <module 'heracles.utils.exeptions' from '/home/felix/Documents/Projects/heracles/Heracles/heracles/utils/exeptions.py'>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: cfg_tree
+            obj: <module 'heracles.utils.cfg_tree' from '/home/felix/Documents/Projects/heracles/Heracles/heracles/utils/cfg_tree.py'>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: pytest
+            obj: <module 'pytest' from '/home/felix/.pyenvs/heracles/lib/python3.11/site-packages/pytest/__init__.py'>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: date
+            obj: <class 'datetime.date'>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: test_dict_loading
+            obj: <function test_dict_loading at 0x7f9227f07a60>
+          pytest_generate_tests [hook]
+              metafunc: <_pytest.python.Metafunc object at 0x7f9227b0ffd0>
+          finish pytest_generate_tests --> [] [hook]
+        finish pytest_pycollect_makeitem --> [<Function test_dict_loading>] [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: test_dir_error
+            obj: <function test_dir_error at 0x7f9227b5aca0>
+          pytest_generate_tests [hook]
+              metafunc: <_pytest.python.Metafunc object at 0x7f9227f45ad0>
+          finish pytest_generate_tests --> [] [hook]
+        finish pytest_pycollect_makeitem --> [<Function test_dir_error>] [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module heracles/tests/test_units.py>
+            name: TestTree
+            obj: <class 'test_units.TestTree'>
+        finish pytest_pycollect_makeitem --> <Class TestTree> [hook]
+      finish pytest_make_collect_report --> <CollectReport 'heracles/tests/test_units.py' lenresult=3 outcome='passed'> [hook]
+    genitems <Function test_dict_loading> [collection]
+      pytest_itemcollected [hook]
+          item: <Function test_dict_loading>
+      finish pytest_itemcollected --> [] [hook]
+    genitems <Function test_dir_error> [collection]
+      pytest_itemcollected [hook]
+          item: <Function test_dir_error>
+      finish pytest_itemcollected --> [] [hook]
+    genitems <Class TestTree> [collection]
+      pytest_collectstart [hook]
+          collector: <Class TestTree>
+      finish pytest_collectstart --> [] [hook]
+      pytest_make_collect_report [hook]
+          collector: <Class TestTree>
+        pytest_pycollect_makeitem [hook]
+            collector: <Class TestTree>
+            name: test_iterable_to_type_mapper
+            obj: <function TestTree.test_iterable_to_type_mapper at 0x7f9227fa2d40>
+          pytest_generate_tests [hook]
+              metafunc: <_pytest.python.Metafunc object at 0x7f9227f7a590>
+          finish pytest_generate_tests --> [] [hook]
+        finish pytest_pycollect_makeitem --> [<Function test_iterable_to_type_mapper>] [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Class TestTree>
+            name: test_iterable_generator
+            obj: <function TestTree.test_iterable_generator at 0x7f9227fa2660>
+          pytest_generate_tests [hook]
+              metafunc: <_pytest.python.Metafunc object at 0x7f9227b7ed50>
+          finish pytest_generate_tests --> [] [hook]
+        finish pytest_pycollect_makeitem --> [<Function test_iterable_generator>] [hook]
+      finish pytest_make_collect_report --> <CollectReport 'heracles/tests/test_units.py::TestTree' lenresult=2 outcome='passed'> [hook]
+    genitems <Function test_iterable_to_type_mapper> [collection]
+      pytest_itemcollected [hook]
+          item: <Function test_iterable_to_type_mapper>
+      finish pytest_itemcollected --> [] [hook]
+    genitems <Function test_iterable_generator> [collection]
+      pytest_itemcollected [hook]
+          item: <Function test_iterable_generator>
+      finish pytest_itemcollected --> [] [hook]
+      pytest_collectreport [hook]
+          report: <CollectReport 'heracles/tests/test_units.py::TestTree' lenresult=2 outcome='passed'>
+      finish pytest_collectreport --> [] [hook]
+      pytest_collectreport [hook]
+          report: <CollectReport 'heracles/tests/test_units.py' lenresult=3 outcome='passed'>
+      finish pytest_collectreport --> [] [hook]
+      pytest_collection_modifyitems [hook]
+          session: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=1 testscollected=0>
+          config: <_pytest.config.Config object at 0x7f9228d9e910>
+          items: [<Function test_dict_loading>, <Function test_dir_error>, <Function test_iterable_to_type_mapper>, <Function test_iterable_generator>]
+      finish pytest_collection_modifyitems --> [] [hook]
+      pytest_collection_finish [hook]
+          session: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=1 testscollected=0>
+        pytest_report_collectionfinish [hook]
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+            items: [<Function test_dict_loading>, <Function test_dir_error>, <Function test_iterable_to_type_mapper>, <Function test_iterable_generator>]
+            start_path: /home/felix/Documents/Projects/heracles/Heracles
+            startdir: /home/felix/Documents/Projects/heracles/Heracles
+        finish pytest_report_collectionfinish --> [] [hook]
+      finish pytest_collection_finish --> [] [hook]
+    finish pytest_collection --> None [hook]
+    pytest_runtestloop [hook]
+        session: <Session Heracles exitstatus=<ExitCode.OK: 0> testsfailed=1 testscollected=4>
+    pytest_keyboard_interrupt [hook]
+        excinfo: <ExceptionInfo Interrupted('1 error during collection') tblen=12>
+    finish pytest_keyboard_interrupt --> [] [hook]
+    pytest_sessionfinish [hook]
+        session: <Session Heracles exitstatus=<ExitCode.INTERRUPTED: 2> testsfailed=1 testscollected=4>
+        exitstatus: 2
+      pytest_terminal_summary [hook]
+          terminalreporter: <_pytest.terminal.TerminalReporter object at 0x7f9228e50f10>
+          exitstatus: 2
+          config: <_pytest.config.Config object at 0x7f9228d9e910>
+      early skip of rewriting module: pygments [assertion]
+      early skip of rewriting module: pygments [assertion]
+      early skip of rewriting module: pygments [assertion]
+        pytest_report_teststatus [hook]
+            report: <CollectReport 'heracles/tests/test_end_to_end.py' lenresult=0 outcome='failed'>
+            config: <_pytest.config.Config object at 0x7f9228d9e910>
+        finish pytest_report_teststatus --> ('error', 'E', 'ERROR') [hook]
+      finish pytest_terminal_summary --> [] [hook]
+    finish pytest_sessionfinish --> [] [hook]
+    pytest_unconfigure [hook]
+        config: <_pytest.config.Config object at 0x7f9228d9e910>
+    finish pytest_unconfigure --> [] [hook]
