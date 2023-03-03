@@ -1,23 +1,21 @@
 """
 contains domain logic for config handling:
-constructs a meta obj tree: used to construct config obj and gerneate typing files
+constructs a meta obj tree: used to construct config obj and generate typing files
 """
 
-from abc import abstractmethod
-from typing import Union, TypeAlias, Self, Any, Type, Iterator, Iterable, TypeVar
+import builtins
 import re
-import black
+from collections import namedtuple
+from dataclasses import make_dataclass
+from datetime import date, datetime
 from functools import *
 from itertools import repeat
-from dataclasses import make_dataclass
-from collections import namedtuple
-from heracles.utils.exeptions import NotIterable
 from pathlib import Path
-from datetime import datetime, date
-from dataclasses import dataclass
-from types import new_class
-import builtins
+from typing import Any, Iterable, Iterator, Type, TypeAlias, Union
 
+import black
+
+from heracles.utils.exceptions import NotIterable
 
 IMPORTS = "from dataclasses import dataclass\nfrom datetime import datetime\nfrom datetime import date\nfrom pathlib import Path"
 
@@ -25,6 +23,7 @@ IMPORTS = "from dataclasses import dataclass\nfrom datetime import datetime\nfro
 Node: TypeAlias = Union["Leaf", "Structure"]
 Value: TypeAlias = Any
 Config: TypeAlias = object
+
 
 # helper_functions for string conversions
 def replace_invalid_names(name):
@@ -57,7 +56,7 @@ def iterable_generator(value: Any, name: str) -> Iterable:
     match value:
         case dict():
             return value.items()
-        case list():  # tuples are prefered in dataclasses (mutabilty)
+        case list():  # tuples are preferred in dataclasses (mutabilty)
             return zip(repeat(name + "_item"), tuple(value))
         case tuple() | set():
             return zip(repeat(name + "_item"), value)
@@ -66,16 +65,12 @@ def iterable_generator(value: Any, name: str) -> Iterable:
 
 
 def iterable_to_type_mapper(name: str, value: Value) -> tuple[Node, str, Value]:
-    if isinstance(value, Iterable) and not isinstance(
-        value, (str, Path, date, datetime)
-    ):
+    if isinstance(value, Iterable) and not isinstance(value, (str, Path, date, datetime)):
         return Structure, name, value
     return Leaf, name, value
 
 
-def tree_builder(
-    obj_type: Type[Node], name: str, value: Union[Value, Iterable]
-) -> Iterable[Node]:
+def tree_builder(obj_type: Type[Node], name: str, value: Union[Value, Iterable]) -> Iterable[Node]:
     if obj_type == Leaf:  # base case
         return obj_type(name, type(value).__name__, value)
 
@@ -84,7 +79,7 @@ def tree_builder(
     children = map(tree_builder, *zip(*type_value_name_elements))
     if obj_type == Tree:
         return obj_type(name, tuple(children))
-    if type(value) == list:  # dataclasses dont like lists
+    if type(value) == list:  # dataclasses don't like lists
         return obj_type(name, "tuple", tuple(children))
     return obj_type(name, type(value).__name__, tuple(children))
 
@@ -132,9 +127,7 @@ def structure_to_str_generator(frozen, structure: Structure) -> str:
     class_heading = class_heading_generator(frozen, structure)
     child_entry_functions = map(entry_generator_mapping, structure.children)
     zipped_child_functions = zip(child_entry_functions, structure.children)
-    entries = reduce(
-        lambda a, b: a + b, (func(elem) for func, elem in zipped_child_functions)
-    )
+    entries = reduce(lambda a, b: a + b, (func(elem) for func, elem in zipped_child_functions))
     return class_heading + entries
 
 
@@ -144,12 +137,8 @@ def tree_iterator(tree: Union[Tree, Structure]) -> Iterator[Structure]:
     elif tree.type == "dict":
         yield tree
 
-    filtered_structures = tuple(
-        filter(lambda child: type(child) == Structure, tree.children)
-    )
-    yield from (
-        elem for child in filtered_structures for elem in (tree_iterator(child))
-    )
+    filtered_structures = tuple(filter(lambda child: type(child) == Structure, tree.children))
+    yield from (elem for child in filtered_structures for elem in (tree_iterator(child)))
 
 
 def tree_to_str_generator(frozen: bool, tree: Tree) -> str:
@@ -182,9 +171,7 @@ def leaf_attribute_mapper(leaf: Leaf) -> tuple[str, Value]:
 
 
 def non_dict_structure_mapper(frozen: bool, child: Node) -> Iterable[Value | Node]:
-    return getattr(builtins, child.type)(
-        (attribute_generation_function_mapper(frozen, c)[1] for c in child.children)
-    )
+    return getattr(builtins, child.type)((attribute_generation_function_mapper(frozen, c)[1] for c in child.children))
 
 
 def attribute_generation_function_mapper(frozen: bool, child: Node):
@@ -199,9 +186,7 @@ def attribute_generation_function_mapper(frozen: bool, child: Node):
 
 def tree_to_config_obj(frozen: bool, tree: Union[Tree, Structure]) -> Config:
     name = as_uppercase(tree.name)
-    attrs_dict = tuple(
-        (attribute_generation_function_mapper(frozen, child) for child in tree.children)
-    )
+    attrs_dict = tuple((attribute_generation_function_mapper(frozen, child) for child in tree.children))
     dclass = make_dataclass(
         name,
         ((entry[0], type(entry[1]), entry[1]) for entry in attrs_dict),

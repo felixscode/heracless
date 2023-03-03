@@ -1,7 +1,7 @@
-import pytest
-from dataclasses import dataclass
 import datetime
-from pathlib import Path
+from dataclasses import dataclass
+
+import pytest
 
 
 @dataclass(frozen=True)
@@ -60,10 +60,8 @@ def cfg_leaf_int():
 
 
 @pytest.fixture(scope="module")
-def cfg_leaf_unvalid():
-    return {"int_number": int(3), "float_number": float(4)} @ pytest.fixture(
-        scope="module"
-    )
+def cfg_leaf_invalid():
+    return {"int_number": int(3), "float_number": float(4)} @ pytest.fixture(scope="module")
 
 
 @pytest.fixture(scope="module")
@@ -92,12 +90,8 @@ def cfg_type() -> Config:
             ),
         ),
         product=(
-            ProductItem(
-                sku="BL394D", quantity=4, description="Basketball", price=450.0
-            ),
-            ProductItem(
-                sku="BL4438H", quantity=1, description="Super Hoop", price=2392.0
-            ),
+            ProductItem(sku="BL394D", quantity=4, description="Basketball", price=450.0),
+            ProductItem(sku="BL4438H", quantity=1, description="Super Hoop", price=2392.0),
         ),
         tax=251.42,
         total=4443.52,

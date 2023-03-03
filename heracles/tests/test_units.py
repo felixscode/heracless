@@ -1,15 +1,16 @@
-from heracles.decorator import heracles
-from heracles.main import load_as_dict
-from yaml import full_load
-from heracles.main import DEFAULT_DIR, DEFAULT_DUMP_DIR, path_exists
-from heracles.tests.load import filled_config, cfg_dict
-from heracles.utils import cfg_tree_old, exeptions, cfg_tree
 import pytest
-from datetime import date
+from yaml import full_load
+
+from heracles.main import load_as_dict, path_exists
+from heracles.tests.load import cfg_dict
+from heracles.utils import cfg_tree
+from pathlib import Path
+
+TEST_DIR = Path(__file__).parent.resolve() / Path("./test_config.yaml")
 
 
 def test_dict_loading():
-    assert load_as_dict(DEFAULT_DIR, full_load) == cfg_dict
+    assert load_as_dict(TEST_DIR, full_load, False) == cfg_dict
 
 
 def test_dir_error():

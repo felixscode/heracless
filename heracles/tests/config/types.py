@@ -5,10 +5,11 @@ from pathlib import Path
 
 
 @dataclass(frozen=True)
-class ShipTo:
-    given: str
-    family: str
-    address: "Address"
+class Address:
+    lines: str
+    city: str
+    state: str
+    postal: int
 
 
 @dataclass(frozen=True)
@@ -39,8 +40,7 @@ class BillTo:
 
 
 @dataclass(frozen=True)
-class Address:
-    lines: str
-    city: str
-    state: str
-    postal: int
+class ShipTo:
+    given: str
+    family: str
+    address: "Address"

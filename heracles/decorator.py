@@ -1,7 +1,9 @@
-from heracles.main import dump_in_file, main, DEFAULT_DIR, DEFAULT_DUMP_DIR
-from yaml import full_load
 from pathlib import Path
-from typing import Callable, TypeAlias, Type
+from typing import Callable, TypeAlias
+
+from yaml import full_load
+
+from heracles.main import DEFAULT_DIR, DEFAULT_DUMP_DIR, dump_in_file, main
 
 Config: TypeAlias = "Config"
 
@@ -10,11 +12,12 @@ def heracles(
     cfg_path: Path = DEFAULT_DIR,
     dump_func: Callable = dump_in_file,
     dump_dir: Path = DEFAULT_DUMP_DIR,
+    make_dir: bool = True,
     frozen: bool = True,
 ) -> Config:
     """
     heracles decorator:
-    args: cfg_path directory where config yaml location, dump_func: contols dump behavior, dump_dir: directory for generated typing files
+    args: cfg_path directory where config yaml location, dump_func: controls dump behavior, dump_dir: directory for generated typing files
     return: config obj
     usage: add @heracles() as decorator on top of functions, its gonna provide a config obj as first argument into your target func:
     @heracles()
@@ -29,6 +32,7 @@ def heracles(
                 dump_dir=dump_dir,
                 dump_func=dump_func,
                 yaml_load_func=full_load,
+                make_dir=make_dir,
                 frozen=frozen,
             )
             output = func(cfg, *args, **kwargs)
