@@ -1,5 +1,5 @@
 """
-heracles YAML TO PyObject parser
+heracless YAML TO PyObject parser
 
 """
 import os
@@ -8,8 +8,8 @@ from typing import Callable
 
 from yaml import full_load
 
-from heracles.utils.cfg_tree import Tree, tree_parser, tree_to_config_obj, tree_to_string_translator
-from heracles.utils.exceptions import DirectoryError
+from heracless.utils.cfg_tree import Tree, tree_parser, tree_to_config_obj, tree_to_string_translator
+from heracless.utils.exceptions import DirectoryError
 
 DEFAULT_DIR = Path("./config/config.yaml")
 DEFAULT_DUMP_DIR = Path("./config/types.py")

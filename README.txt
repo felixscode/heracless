@@ -1,4 +1,4 @@
-Heracles
+heracless
 ========
 
 Config Manager using yaml.
@@ -6,7 +6,7 @@ Config Manager using yaml.
 Description
 -----------
 
-Heracles aims to make working with config files in python easy. It
+heracless aims to make working with config files in python easy. It
 parses a config file into a dataclass and creates types as a python file
 with can be used for type hints. Generated types also make
 autocompletion a dreamy!
@@ -20,10 +20,10 @@ code.
 
 .. code:: python
 
-   from heracles.decorator import heracles
+   from heracless.decorator import heracless
    from config.types import Config
 
-   @heracles()
+   @heracless()
    def main(cfg:Config) -> Any: 
    """
    simply add a cfg parameter to any function at the first place
@@ -40,7 +40,7 @@ Decorator arguments:
 -  **dump_dir**:Path Path where types are going to be written to ->
    Default ./config/types.py
 -  **dump_func**:Callable control’s the dumping behavior -> options:
-   heracles.dump_in_file|heracles.dump_in_console\| heracles.dump_dummy
+   heracless.dump_in_file|heracless.dump_in_console\| heracless.dump_dummy
    -> Default dump_in_file
 -  **frozen**:bool whether dataclass config objects are mutable or not
    -> Default True
@@ -52,12 +52,12 @@ installation
 
 .. code:: bash
 
-   pip install heracles
+   pip install heracless
 
 Version
 -------
 
-heracles 0.1 written in python 3.11
+heracless 0.1 written in python 3.11
 
 Future
 ------

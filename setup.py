@@ -1,16 +1,16 @@
 from distutils.core import setup
 
+with open("requirements.txt") as f:
+    requirements = f.read().splitlines()
+
 setup(
-    name="Heracles",
+    name="heraclesss",
     version="0.1",
     author="Felix Schelling",
-    packages=["heracles"],
-    url="http://pypi.python.org/pypi/Heracles/",
+    packages=["heraclesss"],
+    url="http://pypi.python.org/pypi/heraclesss/",
     license="LICENSE.txt",
     description="YAML Config Parser and Manager",
     long_description=open("README.txt").read(),
-    install_requires=[
-        "Django >= 1.1.1",
-        "caldav == 0.1.4",
-    ],
+    install_requires=requirements,
 )

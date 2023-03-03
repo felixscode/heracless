@@ -15,7 +15,7 @@ from typing import Any, Iterable, Iterator, Type, TypeAlias, Union
 
 import black
 
-from heracles.utils.exceptions import NotIterable
+from heracless.utils.exceptions import NotIterable
 
 IMPORTS = "from dataclasses import dataclass\nfrom datetime import datetime\nfrom datetime import date\nfrom pathlib import Path"
 

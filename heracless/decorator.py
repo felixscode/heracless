@@ -3,12 +3,12 @@ from typing import Callable, TypeAlias
 
 from yaml import full_load
 
-from heracles.main import DEFAULT_DIR, DEFAULT_DUMP_DIR, dump_in_file, main
+from heracless.main import DEFAULT_DIR, DEFAULT_DUMP_DIR, dump_in_file, main
 
 Config: TypeAlias = "Config"
 
 
-def heracles(
+def heracless(
     cfg_path: Path = DEFAULT_DIR,
     dump_func: Callable = dump_in_file,
     dump_dir: Path = DEFAULT_DUMP_DIR,
@@ -16,16 +16,16 @@ def heracles(
     frozen: bool = True,
 ) -> Config:
     """
-    heracles decorator:
+    heracless decorator:
     args: cfg_path directory where config yaml location, dump_func: controls dump behavior, dump_dir: directory for generated typing files
     return: config obj
-    usage: add @heracles() as decorator on top of functions, its gonna provide a config obj as first argument into your target func:
-    @heracles()
+    usage: add @heracless() as decorator on top of functions, its gonna provide a config obj as first argument into your target func:
+    @heracless()
     def target_function(config:Config,*args,**kwargs):
         pass
     """
 
-    def heracles_wrapper(func):
+    def heracless_wrapper(func):
         def _fight_hydra(*args, **kwargs):
             cfg = main(
                 cfg_dir=cfg_path,
@@ -40,4 +40,4 @@ def heracles(
 
         return _fight_hydra
 
-    return heracles_wrapper
+    return heracless_wrapper
