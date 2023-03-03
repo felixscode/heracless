@@ -1,10 +1,11 @@
+from pathlib import Path
+
 import pytest
 from yaml import full_load
 
 from heracless.main import load_as_dict, path_exists
 from heracless.tests.load import cfg_dict
 from heracless.utils import cfg_tree
-from pathlib import Path
 
 TEST_DIR = Path(__file__).parent.resolve() / Path("./test_config.yaml")
 

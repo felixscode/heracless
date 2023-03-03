@@ -8,7 +8,8 @@ from typing import Callable
 
 from yaml import full_load
 
-from heracless.utils.cfg_tree import Tree, tree_parser, tree_to_config_obj, tree_to_string_translator
+from heracless.utils.cfg_tree import (Tree, tree_parser, tree_to_config_obj,
+                                      tree_to_string_translator)
 from heracless.utils.exceptions import DirectoryError
 
 DEFAULT_DIR = Path("./config/config.yaml")
