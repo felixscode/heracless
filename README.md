@@ -13,7 +13,7 @@ with can be used for type hints. Generated types also make autocompletion a drea
 first create a config file in yaml format and put in your desired fields.
 to access the config information do like in following sample code.
 
-```python
+```
 from heracless.decorator import heracless
 from config.types import Config
 

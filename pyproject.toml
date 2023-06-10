@@ -1,3 +1,30 @@
 [tool.black]
 line-length = 120
 target-version = ['py311']
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "heracless"
+version = "0.1.1"
+description = "Yaml to Dataclass parser for Config files"
+readme = {file = "README.md", content-type = "text/markdown"}
+authors = [{ name = "Felix Schelling", email = "felix.schelling@protonmail.com" }]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+keywords = ["YMAL", "Dataclass", "Config"]
+dependencies = [
+    "black==23.1.0",
+    "pytest==7.2.1",
+    "PyYAML==6.0",
+]
+requires-python = ">=3.10"
+
+[project.urls]
+"Homepage" = "https://github.com/felixscode/heracless"
+
