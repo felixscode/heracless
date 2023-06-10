@@ -31,7 +31,7 @@ def replace_invalid_names(name):
 
 
 def as_uppercase(name: str) -> str:
-    name = replace_invalid_names(name)
+    name = as_lowercase(name)  # add _ incase its allready uppercase
     return "".join(word.title() for word in name.split("_"))
 
 
