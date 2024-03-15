@@ -1,3 +1,7 @@
+"""
+This module provides the main entry points for the Heracless Client Tool.
+"""
+
 from heracless.decorator import heracless
 from heracless.utils.helper import from_dict, mutate_config, as_dict
 from heracless.main import DEFAULT_DIR, DEFAULT_DUMP_DIR
@@ -34,11 +38,6 @@ def load_config(
         frozen=frozen,
     )
 
-
-# heracless = heracless
-# from_dict = from_dict
-# mutate_config = mutate_config
-# as_dict = as_dict
 
 if __name__ == "__main__":
     _run_cli()
