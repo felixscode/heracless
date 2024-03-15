@@ -1,8 +1,3 @@
-"""
-contains domain logic for config handling:
-constructs a meta obj tree: used to construct config obj and generate typing files
-"""
-
 import builtins
 import re
 from collections import namedtuple
@@ -12,12 +7,18 @@ from functools import *
 from itertools import repeat
 from pathlib import Path
 from typing import Any, Iterable, Iterator, Type, TypeAlias, Union
-
 import black
-
 from heracless.utils.exceptions import NotIterable
 
-IMPORTS = "from dataclasses import dataclass\nfrom datetime import datetime\nfrom datetime import date\nfrom pathlib import Path"
+"""
+contains domain logic for config handling:
+constructs a meta obj tree: used to construct config obj and generate typing files
+"""
+
+
+IMPORTS: str = (
+    "from dataclasses import dataclass\nfrom datetime import datetime\nfrom datetime import date\nfrom pathlib import Path"
+)
 
 # type aliases to avoid redundancy in type annotations
 Node: TypeAlias = Union["Leaf", "Structure"]
@@ -26,21 +27,25 @@ Config: TypeAlias = object
 
 
 # helper_functions for string conversions
-def replace_invalid_names(name):
+def replace_invalid_names(name: str) -> str:
+    """Replace invalid characters in a name with underscores."""
     return re.sub("[^a-zA-Z0-9 \n\.]", "_", name)
 
 
 def as_uppercase(name: str) -> str:
-    name = as_lowercase(name)  # add _ incase its allready uppercase
+    """Convert a name to uppercase."""
+    name = as_lowercase(name)  # add _ incase its already uppercase
     return "".join(word.title() for word in name.split("_"))
 
 
 def as_lowercase(name: str) -> str:
+    """Convert a name to lowercase."""
     name = replace_invalid_names(name)
     return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
 
 
 def format_str(input: str) -> str:
+    """Format a string using black."""
     return black.format_str(input, mode=black.Mode())
 
 
@@ -53,10 +58,11 @@ Tree = namedtuple("Tree", ("name", "children"))
 
 # tree builder
 def iterable_generator(value: Any, name: str) -> Iterable:
+    """Generate an iterable from a value."""
     match value:
         case dict():
             return value.items()
-        case list():  # tuples are preferred in dataclasses (mutabilty)
+        case list():  # tuples are preferred in dataclasses (mutability)
             return zip(repeat(name + "_item"), tuple(value))
         case tuple() | set():
             return zip(repeat(name + "_item"), value)
@@ -65,12 +71,14 @@ def iterable_generator(value: Any, name: str) -> Iterable:
 
 
 def iterable_to_type_mapper(name: str, value: Value) -> tuple[Node, str, Value]:
+    """Map an iterable to its corresponding node type."""
     if isinstance(value, Iterable) and not isinstance(value, (str, Path, date, datetime)):
         return Structure, name, value
     return Leaf, name, value
 
 
 def tree_builder(obj_type: Type[Node], name: str, value: Union[Value, Iterable]) -> Iterable[Node]:
+    """Build a tree of nodes from a value."""
     if obj_type == Leaf:  # base case
         return obj_type(name, type(value).__name__, value)
 
@@ -88,18 +96,22 @@ def tree_builder(obj_type: Type[Node], name: str, value: Union[Value, Iterable])
 
 
 def class_heading_generator(frozen: bool, structure: Structure) -> str:
+    """Generate the class heading for a structure."""
     return f"""\n@dataclass(frozen={frozen})\nclass {as_uppercase(structure.name)}:\n"""
 
 
 def structure_class_entry_generator(structure: Structure) -> str:
-    return f"""\t{as_lowercase(structure.name)}:"{as_uppercase(structure.name)}"\n"""
+    """Generate the class entry for a structure."""
+    return f"""\t{as_lowercase(structure.name)}: {as_uppercase(structure.name)}\n"""
 
 
 def leaf_class_entry_generator(leaf: Leaf) -> str:
-    return f"""\t{as_lowercase(leaf.name)}:{leaf.type}\n"""
+    """Generate the class entry for a leaf."""
+    return f"""\t{as_lowercase(leaf.name)}: {leaf.type}\n"""
 
 
-def child_type_mapper(child: Node):
+def child_type_mapper(child: Node) -> str:
+    """Map the child type to its corresponding string representation."""
     match child, child.type:
         case Structure(), "dict":
             return f""" "{as_uppercase(child.name)}" """
@@ -110,10 +122,12 @@ def child_type_mapper(child: Node):
 
 
 def non_dict_structure_entry_generator(structure: Structure) -> Structure:
-    return f"""\t{structure.name}:{structure.type}[{child_type_mapper(structure.children[0])}]\n"""
+    """Generate the entry for a non-dict structure."""
+    return f"""\t{structure.name}: {structure.type}[{child_type_mapper(structure.children[0])}]\n"""
 
 
 def entry_generator_mapping(node: Node) -> callable:
+    """Map a node to its corresponding entry generator function."""
     match (node, node.type):
         case (Leaf(), _):
             return leaf_class_entry_generator
@@ -123,7 +137,8 @@ def entry_generator_mapping(node: Node) -> callable:
             return non_dict_structure_entry_generator
 
 
-def structure_to_str_generator(frozen, structure: Structure) -> str:
+def structure_to_str_generator(frozen: bool, structure: Structure) -> str:
+    """Generate the string representation of a structure."""
     class_heading = class_heading_generator(frozen, structure)
     child_entry_functions = map(entry_generator_mapping, structure.children)
     zipped_child_functions = zip(child_entry_functions, structure.children)
@@ -132,6 +147,7 @@ def structure_to_str_generator(frozen, structure: Structure) -> str:
 
 
 def tree_iterator(tree: Union[Tree, Structure]) -> Iterator[Structure]:
+    """Iterate over the structures in a tree."""
     if type(tree) == Tree:
         yield tree
     elif tree.type == "dict":
@@ -142,6 +158,7 @@ def tree_iterator(tree: Union[Tree, Structure]) -> Iterator[Structure]:
 
 
 def tree_to_str_generator(frozen: bool, tree: Tree) -> str:
+    """Generate the string representation of a tree."""
     structure_children = tree_iterator(tree)
     strings = tuple(
         reversed(
@@ -158,6 +175,7 @@ def tree_to_string_translator(
     frozen: bool,
     tree: Tree,
 ) -> str:
+    """Translate a tree to a string representation."""
     import_str = IMPORTS
     raw_str = tree_to_str_generator(frozen, tree)
     return format_str(import_str + raw_str)
@@ -167,14 +185,17 @@ def tree_to_string_translator(
 
 
 def leaf_attribute_mapper(leaf: Leaf) -> tuple[str, Value]:
+    """Map a leaf to its corresponding attribute."""
     return leaf.value
 
 
 def non_dict_structure_mapper(frozen: bool, child: Node) -> Iterable[Value | Node]:
+    """Map a non-dict structure to its corresponding attributes."""
     return getattr(builtins, child.type)((attribute_generation_function_mapper(frozen, c)[1] for c in child.children))
 
 
 def attribute_generation_function_mapper(frozen: bool, child: Node):
+    """Map a child node to its corresponding attribute generation function."""
     match (child, child.type):
         case (Leaf(), _):
             return as_lowercase(child.name), leaf_attribute_mapper(child)
@@ -185,6 +206,7 @@ def attribute_generation_function_mapper(frozen: bool, child: Node):
 
 
 def tree_to_config_obj(frozen: bool, tree: Union[Tree, Structure]) -> Config:
+    """Generate a config object from a tree."""
     name = as_uppercase(tree.name)
     attrs_dict = tuple((attribute_generation_function_mapper(frozen, child) for child in tree.children))
     dclass = make_dataclass(
@@ -197,6 +219,7 @@ def tree_to_config_obj(frozen: bool, tree: Union[Tree, Structure]) -> Config:
 
 # parse dict
 def tree_parser(_dict: dict) -> Tree:
+    """Parse a dictionary and build a tree."""
     tree = tree_builder(Tree, "Config", _dict)
     return tree
 

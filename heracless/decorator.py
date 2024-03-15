@@ -2,10 +2,13 @@ from pathlib import Path
 from typing import Callable, TypeAlias
 
 from yaml import full_load
-
+from heracless.utils.c_types import Config
 from heracless.main import DEFAULT_DIR, DEFAULT_DUMP_DIR, dump_in_file, main
-
-Config: TypeAlias = "Config"
+from pathlib import Path
+from typing import Callable, TypeAlias
+from yaml import full_load
+from heracless.utils.c_types import Config
+from heracless.main import DEFAULT_DIR, DEFAULT_DUMP_DIR, dump_in_file, main
 
 
 def heracless(
@@ -16,13 +19,24 @@ def heracless(
     frozen: bool = True,
 ) -> Config:
     """
-    heracless decorator:
-    args: cfg_path directory where config yaml location, dump_func: controls dump behavior, dump_dir: directory for generated typing files
-    return: config obj
-    usage: add @heracless() as decorator on top of functions, its gonna provide a config obj as first argument into your target func:
-    @heracless()
-    def target_function(config:Config,*args,**kwargs):
-        pass
+    A decorator that provides a config object as the first argument to the decorated function.
+
+    Args:
+        cfg_path (Path): The directory where the config YAML file is located. Defaults to DEFAULT_DIR.
+        dump_func (Callable): The function that controls the dump behavior. Defaults to dump_in_file.
+        dump_dir (Path): The directory for generated typing files. Defaults to DEFAULT_DUMP_DIR.
+        make_dir (bool): Flag to indicate whether to create the directory if it doesn't exist. Defaults to True.
+        frozen (bool): Flag to indicate whether the config object should be frozen. Defaults to True.
+
+    Returns:
+        Config: The config object.
+
+    Usage:
+        Add @heracless() as a decorator on top of functions. It will provide a config object as the first argument to your target function.
+
+        @heracless()
+        def target_function(config: Config, *args, **kwargs):
+            pass
     """
 
     def heracless_wrapper(func):
