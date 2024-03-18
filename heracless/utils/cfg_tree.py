@@ -102,7 +102,7 @@ def class_heading_generator(frozen: bool, structure: Structure) -> str:
 
 def structure_class_entry_generator(structure: Structure) -> str:
     """Generate the class entry for a structure."""
-    return f"""\t{as_lowercase(structure.name)}: {as_uppercase(structure.name)}\n"""
+    return f"""\t{as_lowercase(structure.name)}: "{as_uppercase(structure.name)}"\n"""
 
 
 def leaf_class_entry_generator(leaf: Leaf) -> str:
