@@ -4,6 +4,7 @@
 #
 pip-compile pyproject.toml
 #
+art==6.1
 attrs==22.2.0
     # via pytest
 black==23.1.0
