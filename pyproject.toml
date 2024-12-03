@@ -19,10 +19,10 @@ classifiers = [
 ]
 keywords = ["YMAL", "Dataclass", "Config"]
 dependencies = [
-    "black==23.1.0",
-    "pytest==7.2.1",
-    "PyYAML==6.0",
-    "art==6.1",
+    "black",
+    "pytest",
+    "PyYAML",
+    "art",
 ]
 requires-python = ">=3.10"
 

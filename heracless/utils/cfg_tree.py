@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any, Iterable, Iterator, Type, TypeAlias, Union
 import black
 from heracless.utils.exceptions import NotIterable
+from heracless.utils.c_types import Config
 
 """
 contains domain logic for config handling:
@@ -23,7 +24,6 @@ IMPORTS: str = (
 # type aliases to avoid redundancy in type annotations
 Node: TypeAlias = Union["Leaf", "Structure"]
 Value: TypeAlias = Any
-Config: TypeAlias = object
 
 
 # helper_functions for string conversions

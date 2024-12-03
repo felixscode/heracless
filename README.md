@@ -120,7 +120,10 @@ written in python 3.11
 
 ## Future
 
-add config variants <br>
+[] add config variants <br>
+[] add none type support <br>
+[] web app <br>
+
 
 
 ## Author

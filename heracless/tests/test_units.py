@@ -1,5 +1,6 @@
+from heracless import load_config
+from heracless.utils.c_types import Config
 from pathlib import Path
-
 import pytest
 from yaml import full_load
 
@@ -8,11 +9,13 @@ from heracless.tests.load import cfg_dict
 from heracless.utils import cfg_tree
 from heracless import as_dict, from_dict, mutate_config, load_config
 
+from datetime import datetime
+
 TEST_DIR = Path(__file__).parent.resolve() / Path("./test_config.yaml")
 DUMP_DIR = Path(__file__).parent.resolve() / Path("./conftest.py")
 
 
-def test_dict_loading():
+def test_dict_loading(cfg_dict):
     assert load_as_dict(TEST_DIR, full_load, False) == cfg_dict
 
 
@@ -43,7 +46,42 @@ def test_dict_helpers():
     assert config.invoice == _config.invoice
 
 
-def test_mutatate():
+def test_mutate():
     config = load_config(cfg_path=TEST_DIR, dump_dir=DUMP_DIR)
     config = mutate_config(config, "invoice", 0)
     assert config.invoice == 0
+
+
+def test_config_type():
+    config = load_config(cfg_path=TEST_DIR, dump_dir=DUMP_DIR)
+    assert isinstance(config, Config)
+
+
+def test_config_values():
+    config = load_config(cfg_path=TEST_DIR, dump_dir=DUMP_DIR)
+    assert config.invoice == 34843
+    assert config.date == datetime.strptime("2001-01-23", "%Y-%m-%d").date()
+    assert config.bill_to.given == "Chris"
+    assert config.bill_to.family == "Dumars"
+    assert config.bill_to.address.city == "Royal Oak"
+    assert config.product[0].sku == "BL394D"
+    assert config.product[0].quantity == 4
+    assert config.product[0].description == "Basketball"
+    assert config.product[0].price == 450.0
+    assert config.tax == 251.42
+    assert config.total == 4443.52
+    assert config.comments == "Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338."
+
+
+def test_mutate_nested():
+    config = load_config(cfg_path=TEST_DIR, dump_dir=DUMP_DIR)
+    config = mutate_config(config, "bill_to.address.city", "New City")
+    assert config.bill_to.address.city == "New City"
+
+
+def test_as_dict():
+    config = load_config(cfg_path=TEST_DIR, dump_dir=DUMP_DIR)
+    config_dict = as_dict(config)
+    assert config_dict["invoice"] == 34843
+    assert config_dict["bill_to"]["given"] == "Chris"
+    assert config_dict["product"][0]["sku"] == "BL394D"
