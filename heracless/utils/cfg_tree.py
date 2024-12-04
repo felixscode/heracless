@@ -7,9 +7,8 @@ from functools import *
 from itertools import repeat
 from pathlib import Path
 from typing import Any, Iterable, Iterator, Type, TypeAlias, Union
+
 import black
-
-
 
 """
 contains domain logic for config handling:
@@ -179,7 +178,7 @@ def tree_to_string_translator(
     import_str = IMPORTS
     raw_str = tree_to_str_generator(frozen, tree)
     function_str = FUNCTION_STUB
-    return format_str(import_str + raw_str+function_str)
+    return format_str(import_str + raw_str + function_str)
 
 
 # dynamic dataclass generation

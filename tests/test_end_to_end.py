@@ -7,11 +7,10 @@ from pathlib import Path
 
 from yaml import full_load
 
+from heracless import as_dict, from_dict, heracless, load_config, mutate_config
 from heracless.decorator import heracless
 from heracless.fight import load_as_dict
 from heracless.utils.cfg_tree import Tree, tree_parser
-from heracless import heracless, as_dict, from_dict, load_config, mutate_config
-from pathlib import Path
 
 TEST_DIR = Path(__file__).parent.resolve() / Path("./test_config.yaml")
 TEST_DUMP_DIR = Path(__file__).parent.resolve() / Path("./config/types.py")

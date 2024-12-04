@@ -1,11 +1,12 @@
 import argparse
-from heracless.fight import _fight_hydra, dump_in_console, dump_in_file
-from yaml import full_load
 import os
-import yaml
-from art import text2art
 import sys
 from typing import Optional
+
+from art import text2art
+from yaml import full_load
+
+from heracless.fight import dump_in_console, dump_in_file
 
 
 def parse_args() -> argparse.Namespace:

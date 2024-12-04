@@ -1,6 +1,6 @@
-from heracless import heracless, as_dict, from_dict, load_config, mutate_config
 from pathlib import Path
 
+from heracless import as_dict, from_dict, load_config, mutate_config
 
 if __name__ == "__main__":
     cfg_path = Path("./heracless/tests/test_config.yaml")

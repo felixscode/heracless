@@ -1,12 +1,14 @@
-from heracless import load_config as _load_config
 from pathlib import Path
-from typing import Type, TypeVar
+from typing import TypeVar
 
-# CONFIG_YAML_PATH is a global variable that sets the path of your yaml config file 
+from heracless import load_config as _load_config
+
+# CONFIG_YAML_PATH is a global variable that sets the path of your yaml config file
 # Edit this to your config file path
 CONFIG_YAML_PATH = None
 
 Config = TypeVar("Config")
+
 
 def load_config(frozen: bool = True) -> Config:
     """
@@ -28,4 +30,4 @@ def load_config(frozen: bool = True) -> Config:
 
     file_path = Path(__file__).resolve()
     yaml_config_path = CONFIG_YAML_PATH
-    return _load_config(file_path, yaml_config_path,frozen=frozen)
+    return _load_config(file_path, yaml_config_path, frozen=frozen)

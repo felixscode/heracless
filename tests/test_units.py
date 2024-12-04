@@ -1,16 +1,13 @@
-from heracless import load_config
-
+from datetime import datetime
 from pathlib import Path
+
 import pytest
 from yaml import full_load
-from dataclasses import dataclass
 
+from heracless import as_dict, from_dict, load_config, mutate_config
 from heracless.fight import load_as_dict, path_exists
 from heracless.utils import cfg_tree
-from heracless import as_dict, from_dict, mutate_config, load_config
 from tests.config.types import Config
-
-from datetime import datetime
 
 TEST_DIR = Path(__file__).parent.resolve() / Path("./test_config.yaml")
 DUMP_DIR = Path(__file__).parent.resolve() / Path("./conftest.py")

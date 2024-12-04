@@ -2,6 +2,7 @@
 heracless YAML TO PyObject parser
 
 """
+
 import os
 from pathlib import Path
 from typing import Callable
@@ -12,9 +13,7 @@ from heracless.utils.cfg_tree import (Tree, tree_parser, tree_to_config_obj,
                                       tree_to_string_translator)
 from heracless.utils.utils import path_exists
 
-
 DEFAULT_DIR = Path("./config/config.yaml")
-
 
 
 def load_as_dict(cfg_dir: Path, yaml_load_func: Callable) -> dict:
@@ -66,17 +65,14 @@ def _fight_hydra(
         cfg_tree,
         dump_dir,
     )
-    config_obj =  tree_to_config_obj(frozen, cfg_tree)
+    config_obj = tree_to_config_obj(frozen, cfg_tree)
     return config_obj
 
-def fight(
-    cfg_dir: Path,
-    dump_dir: Path,
-    frozen: bool):
+
+def fight(cfg_dir: Path, dump_dir: Path, frozen: bool):
     dump_func = dump_in_file
     yaml_load_func = full_load
     return _fight_hydra(cfg_dir, dump_dir, dump_func, yaml_load_func, frozen)
-
 
 
 if __name__ == "__main__":

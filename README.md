@@ -40,9 +40,10 @@ pip install -e .
 First, create a `config.yaml` file in a desired location and add desired configs. Make a new Python file called `load_config.py` and put it somewhere into your project. Paste the following code into your `load_config.py`:
 
 ```python
-from heracless import load_config as _load_config
 from pathlib import Path
 from typing import Type, TypeVar
+
+from heracless import load_config as _load_config
 
 # CONFIG_YAML_PATH is a global variable that sets the path of your YAML config file 
 # Edit this to your config file path
@@ -98,8 +99,9 @@ This document describes the helper functions in the `helper.py` module of the He
 This function takes a `Config` object, a name, and a value, and returns a new `Config` object with the value at the name updated.
 
 ```python
-from heracless.utils.helper import mutate_config
 from your_project import load_config
+
+from heracless.utils.helper import mutate_config
 
 config = load_config()
 new_config = mutate_config(config, "name", "new_value")
@@ -110,8 +112,9 @@ new_config = mutate_config(config, "name", "new_value")
 This function converts a `Config` object to a dictionary.
 
 ```python
-from heracless.utils.helper import as_dict
 from your_project import load_config
+
+from heracless.utils.helper import as_dict
 
 config = load_config()
 config_dict = as_dict(config)
