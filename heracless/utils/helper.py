@@ -1,11 +1,10 @@
-from heracless.main import main
-from heracless.utils.c_types import Config
+
 import heracless.utils as _heracless_utils
 from dataclasses import asdict
 from dataclasses import replace
-from typing import Any
+from typing import Any, TypeVar
 
-
+Config = TypeVar("Config")
 def mutate_config(config: Config, name: str, value: Any) -> Config:
     """
     mutate_config: a function that takes a config, a name and a value and returns a new config with the value at the name

@@ -1,5 +1,5 @@
 import argparse
-from heracless.main import main, dump_in_console, dump_in_file
+from heracless.fight import _fight_hydra, dump_in_console, dump_in_file
 from yaml import full_load
 import os
 import yaml

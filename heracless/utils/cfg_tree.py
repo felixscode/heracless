@@ -8,8 +8,7 @@ from itertools import repeat
 from pathlib import Path
 from typing import Any, Iterable, Iterator, Type, TypeAlias, Union
 import black
-from heracless.utils.exceptions import NotIterable
-from heracless.utils.c_types import Config
+
 
 
 """
@@ -207,7 +206,7 @@ def attribute_generation_function_mapper(frozen: bool, child: Node):
             return as_lowercase(child.name), non_dict_structure_mapper(frozen, child)
 
 
-def tree_to_config_obj(frozen: bool, tree: Union[Tree, Structure]) -> Config:
+def tree_to_config_obj(frozen: bool, tree: Union[Tree, Structure]):
     """Generate a config object from a tree."""
     name = as_uppercase(tree.name)
     attrs_dict = tuple((attribute_generation_function_mapper(frozen, child) for child in tree.children))
