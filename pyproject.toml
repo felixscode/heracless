@@ -1,31 +1,36 @@
-[tool.black]
-line-length = 120
-target-version = ['py311']
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools >= 69.5.1"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "heracless"
-version = "0.2.2"
-description = "Yaml to Dataclass parser for Config files"
-readme = {file = "README.md", content-type = "text/markdown"}
-authors = [{ name = "Felix Schelling", email = "felix.schelling@protonmail.com" }]
-classifiers = [
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-]
-keywords = ["YMAL", "Dataclass", "Config"]
+version = "0.2.3"
 dependencies = [
     "black",
     "pytest",
     "PyYAML",
     "art",
 ]
-requires-python = ">=3.10"
-
+requires-python = ">= 3.10"
+authors = [
+    {name = "Felix Schelling", email = "felix.schelling@protonmail.com"},
+]
+description = "Yaml to Dataclass parser for Config files"
+keywords = ["YAML", "Dataclass", "Config","config", "config management"]
+readme = {file = "README.md", content-type = "text/markdown"}
+classifiers = [
+    # How mature is this project? Common values are
+    # 3 - Alpha
+    # 4 - Beta
+    # 5 - Production / Stable
+    "Development Status :: 4 - Beta",
+    # Indicate audience
+    "Intended Audience :: Researchers",
+    "Programming Language :: Python :: 3.12",
+]
+[tool.setuptools]
+package-dir = {"" = "."}
 [project.urls]
-"Homepage" = "https://github.com/felixscode/heracless"
-
+Repository = "https://github.com/felixscode/heracless.git"
+"Homepage" = "https://heracless.io"
+[tool.black]
+line-length = 120

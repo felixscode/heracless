@@ -10,20 +10,11 @@ from yaml import full_load
 
 from heracless.utils.cfg_tree import (Tree, tree_parser, tree_to_config_obj,
                                       tree_to_string_translator)
-from heracless.utils.exceptions import DirectoryError
+from heracless.utils.utils import path_exists
+from dataclasses import dataclass, field, make_dataclass
 
 DEFAULT_DIR = Path("./config/config.yaml")
-DEFAULT_DUMP_DIR = Path("./config/types.py")
 
-
-def path_exists(path: Path, create_path: bool):
-    if not os.path.exists(path):
-        if not create_path:
-            raise DirectoryError(path)
-        else:
-            if not os.path.exists(path.parent):
-                os.makedirs(path.parent)
-            os.mknod(path)
 
 
 def load_as_dict(cfg_dir: Path, yaml_load_func: Callable, make_dir: bool) -> dict:
@@ -55,7 +46,7 @@ def dump_in_file(frozen: bool, create_dir: bool, cfg_tree: Tree, dump_dir: Path)
         dd.write(string)
 
 
-def main(
+def _fight_hydra(
     cfg_dir: Path,
     dump_dir: Path,
     dump_func: Callable,
@@ -73,9 +64,20 @@ def main(
         cfg_tree,
         dump_dir,
     )
-    return tree_to_config_obj(frozen, cfg_tree)
+    config_obj =  tree_to_config_obj(frozen, cfg_tree)
+    return config_obj
+
+def fight(
+    cfg_dir: Path,
+    dump_dir: Path,
+    frozen: bool):
+    dump_func = dump_in_file
+    yaml_load_func = full_load
+    make_dir = False
+    return _fight_hydra(cfg_dir, dump_dir, dump_func, yaml_load_func, make_dir, frozen)
+
 
 
 if __name__ == "__main__":
-    cfg = main(DEFAULT_DIR, DEFAULT_DUMP_DIR, dump_in_file, full_load, True, True)
+    cfg = fight(DEFAULT_DIR, dump_in_file, True)
     print(cfg)

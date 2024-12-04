@@ -5,6 +5,22 @@ from pathlib import Path
 
 
 @dataclass(frozen=True)
+class ProductItem:
+    sku: str
+    quantity: int
+    description: str
+    price: float
+
+
+@dataclass(frozen=True)
+class Address:
+    lines: str
+    city: str
+    state: str
+    postal: str
+
+
+@dataclass(frozen=True)
 class ShipTo:
     given: str
     family: str
@@ -21,22 +37,6 @@ class Config:
     tax: float
     total: float
     comments: str
-
-
-@dataclass(frozen=True)
-class Address:
-    lines: str
-    city: str
-    state: str
-    postal: int
-
-
-@dataclass(frozen=True)
-class ProductItem:
-    sku: str
-    quantity: int
-    description: str
-    price: float
 
 
 @dataclass(frozen=True)

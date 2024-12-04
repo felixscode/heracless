@@ -11,6 +11,7 @@ import black
 from heracless.utils.exceptions import NotIterable
 from heracless.utils.c_types import Config
 
+
 """
 contains domain logic for config handling:
 constructs a meta obj tree: used to construct config obj and generate typing files
@@ -20,7 +21,7 @@ constructs a meta obj tree: used to construct config obj and generate typing fil
 IMPORTS: str = (
     "from dataclasses import dataclass\nfrom datetime import datetime\nfrom datetime import date\nfrom pathlib import Path"
 )
-
+FUNCTION_STUB: str = "\ndef load_config(config_path: str) -> Config: ..."
 # type aliases to avoid redundancy in type annotations
 Node: TypeAlias = Union["Leaf", "Structure"]
 Value: TypeAlias = Any
@@ -178,7 +179,8 @@ def tree_to_string_translator(
     """Translate a tree to a string representation."""
     import_str = IMPORTS
     raw_str = tree_to_str_generator(frozen, tree)
-    return format_str(import_str + raw_str)
+    function_str = FUNCTION_STUB
+    return format_str(import_str + raw_str+function_str)
 
 
 # dynamic dataclass generation

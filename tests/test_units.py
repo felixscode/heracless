@@ -1,13 +1,14 @@
 from heracless import load_config
-from heracless.utils.c_types import Config
+
 from pathlib import Path
 import pytest
 from yaml import full_load
+from dataclasses import dataclass
 
-from heracless.main import load_as_dict, path_exists
-from heracless.tests.load import cfg_dict
+from heracless.fight import load_as_dict, path_exists
 from heracless.utils import cfg_tree
 from heracless import as_dict, from_dict, mutate_config, load_config
+from tests.config.types import Config
 
 from datetime import datetime
 
