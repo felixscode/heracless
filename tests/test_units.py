@@ -4,8 +4,8 @@ from pathlib import Path
 import pytest
 from yaml import full_load
 
-from heracless import as_dict, from_dict, load_config, mutate_config
-from heracless.fight import load_as_dict, path_exists
+from heracless.utils import as_dict, from_dict, mutate_config
+from heracless.fight import load_as_dict, path_exists,fight as load_config
 from heracless.utils import cfg_tree
 from tests.config.types import Config
 
