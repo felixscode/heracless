@@ -12,6 +12,7 @@ from yaml import full_load
 from heracless.utils.cfg_tree import (Tree, tree_parser, tree_to_config_obj,
                                       tree_to_string_translator)
 from heracless.utils.utils import path_exists
+from heracless.utils.exceptions import YamlSyntaxError
 
 DEFAULT_DIR = Path("./config/config.yaml")
 
@@ -31,7 +32,10 @@ def load_as_dict(cfg_dir: Path, yaml_load_func: Callable[[Any], dict]) -> dict:
     if os.stat(cfg_dir).st_size == 0:
         raise ValueError("Empty config file")
     stream = open(cfg_dir, "r")
-    return yaml_load_func(stream)
+    try:
+        return yaml_load_func(stream)
+    except Exception as e:
+        raise YamlSyntaxError(str(e))
 
 
 def dump_in_console(frozen: bool, _: Any, cfg_tree: Tree, *args: Any, **kwargs: Any) -> None:

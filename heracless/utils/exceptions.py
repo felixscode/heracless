@@ -18,3 +18,11 @@ class NotIterable(Exception):
 
     def __str__(self):
         return f"The given value of type: {type(self.value)} is not iteratable"
+
+class YamlSyntaxError(Exception):
+    def __init__(self, exception: Any, *args):
+        super().__init__(args)
+        self.value = exception
+
+    def __str__(self):
+        return f"Syntax Error in your YAML File:\n {self.value}"
