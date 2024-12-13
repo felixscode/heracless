@@ -10,7 +10,7 @@ bill-to: &id001
       Suite #292
     city: Royal Oak
     state: MI
-    postal: None
+    postal: 48046
 ship-to: *id001
 product:
   - sku: BL394D

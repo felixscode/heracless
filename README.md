@@ -1,5 +1,5 @@
 # Heracless
-
+![Heracless Logo](logo.png)
 Config Manager using YAML.
 
 ## Table of Contents
@@ -149,3 +149,5 @@ GitHub: [felixscode](https://github.com/felixscode)<br>
 Website: [heracless.io](https://heracless.io)<br>
 Personal website: [felixschelling.de](https://felixschelling.de)<br>
 Written with ❤️ in Mexico
+
+
