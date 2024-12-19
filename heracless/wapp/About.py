@@ -38,6 +38,11 @@ st.markdown(
     ```bash
     pip install heracless
     ```
+    ## About Stub Files
+    Heracless generates Python stub files (.pyi) for type hints.
+    Stub files are used by IDEs to provide autocompletion and type hints.
+    Sub files where introduced in PEP 484 and are used by PyCharm, VSCode, and other IDEs.
+    Readmore about stub files [here](https://www.python.org/dev/peps/pep-0484/#stub-files).
     ## License
     [MIT](https://github.com/aws/mit-0)
     ## Author

@@ -1,6 +1,6 @@
 # ⚔️ Heracless ⚔️
 
-A simple and minimalistic Config Manager using YAML.
+A simple and minimalistic Config Manager using YAML.   
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/felixscode/heracless)
 [![PyPi](https://img.shields.io/badge/PyPi-Package-blue?logo=pypi)](https://pypi.org/project/heracless/)
 [![Documentation](https://img.shields.io/badge/Documentation-Read-green?logo=readthedocs)](https://heracless.io/docs)
