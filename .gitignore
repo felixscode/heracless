@@ -131,3 +131,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 tmp/test_file.pyi
+heracless_web_service/certs/dhparam.pem

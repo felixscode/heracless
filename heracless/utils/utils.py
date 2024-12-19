@@ -16,7 +16,8 @@ def insert_path_into_load_config_template(config_dir: Path) -> list[str]:
     Inserts the path of the config file into the load_config function template
     """
     _mod_lines = []
-    with open("heracless/utils/load_func_template.py", "r") as f:
+    template_path = Path(__file__).parent / "load_func_template.py"
+    with open(template_path, "r") as f:
         lines = f.readlines()
         for line in lines:
             if line.startswith("CONFIG_YAML_PATH ="):

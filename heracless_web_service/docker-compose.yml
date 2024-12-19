@@ -1,0 +1,13 @@
+services:
+
+  # Streamlit app service
+  streamlit-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    container_name: streamlit-app
+    restart: always
+    ports:
+      - "8501:8501"
+
+
