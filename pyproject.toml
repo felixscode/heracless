@@ -9,6 +9,8 @@ dependencies = [
     "pytest",
     "PyYAML",
     "art",
+    "streamlit",
+    "streamlit_ace",
 ]
 requires-python = ">= 3.10"
 authors = [

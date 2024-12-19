@@ -1,6 +1,10 @@
-# Heracless
-![Heracless Logo](logo.png)
-Config Manager using YAML.
+# ⚔️ Heracless ⚔️
+
+A simple and minimalistic Config Manager using YAML.
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/felixscode/heracless)
+[![PyPi](https://img.shields.io/badge/PyPi-Package-blue?logo=pypi)](https://pypi.org/project/heracless/)
+[![Documentation](https://img.shields.io/badge/Documentation-Read-green?logo=readthedocs)](https://heracless.io/docs)
+    
 
 ## Table of Contents
 - [Description](#description)
@@ -37,7 +41,24 @@ pip install -e .
 
 ## Setup
 
-First, create a `config.yaml` file in a desired location and add desired configs. Make a new Python file called `load_config.py` and put it somewhere into your project. Paste the following code into your `load_config.py`:
+First, create a `config.yaml` file in a desired location and add desired configs. Make a new Python file called `load_config.py` and put it somewhere into your project.
+Here is an example project structure:
+```
+├── src
+│   └── your_module
+│       ├── main.py
+│       └──utils
+│           └── load_config.py
+├── data
+│   └── config.yaml
+├── README.md
+├── pyproject.toml
+└── .gitignore
+
+```
+
+
+Paste the following code into your `load_config.py`:
 
 ```python
 from pathlib import Path
@@ -80,15 +101,6 @@ After creating the `load_config.py` file, set the `CONFIG_YAML_PATH` variable to
 CONFIG_YAML_PATH = "/path/to/your/config.yaml"
 ```
 
-## CLI Tool
-
-Heracless also comes with a CLI tool to generate the types file from a config file. Simply run the following command in your terminal:
-
-```bash
-heracless path/to/config.yaml -p path/to/load_config.py # generates types file
-heracless path/to/config.yaml -d # dumps types to console
-heracless path/to/config.yaml -h # for help
-```
 
 ## Helper Functions in Heracless
 
@@ -133,14 +145,14 @@ config = from_dict(config_dict, frozen=True)
 
 ## Version
 
-Heracless 0.2 <br>
+Heracless 0.4 <br>
 Written in Python 3.11
 
 ## Future
 
 - [ ] Add config variants
 - [ ] Add None type support
-- [ ] Web app
+- [x] Web app
 
 ## Author
 
