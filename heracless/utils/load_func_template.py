@@ -30,4 +30,4 @@ def load_config(frozen: bool = True) -> Config:
 
     file_path = Path(__file__).resolve()
     yaml_config_path = CONFIG_YAML_PATH
-    return _load_config(file_path, yaml_config_path, frozen=frozen)
+    return _load_config(yaml_config_path, file_path, frozen=frozen)
