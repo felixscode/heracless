@@ -3,7 +3,7 @@ requires = ["setuptools >= 69.5.1"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "heracless"
-version = "0.2.3"
+version = "0.3.0"
 dependencies = [
     "black",
     "pytest",
