@@ -1,26 +1,27 @@
 version: "3.8"
 
-services:
-  # Traefik service for reverse proxy
-  traefik:
-    image: traefik:v2.6
-    container_name: traefik
-    restart: always
-    command:
-      - "--api.insecure=true"  # Optional: Exposes Traefik dashboard
-      - "--providers.docker=true"
-      - "--entryPoints.web.address=:80"
-      - "--entryPoints.websecure.address=:443"
-      - "--certificatesResolvers.le.acme.httpChallenge.entryPoint=web"
-      - "--certificatesResolvers.le.acme.email=youremail@example.com"  # Set your email
-      - "--certificatesResolvers.le.acme.storage=/letsencrypt/acme.json"  # Persistent storage
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"  # Allows Traefik to listen to Docker events
-      - "./letsencrypt:/letsencrypt"  # Persistent storage for SSL certificates
 
+services:
+
+  traefik:
+    image: "traefik:v3.3"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.myresolver.acme.email=postmaster@example.com"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
   # Streamlit app service
   streamlit-app:
     build:
@@ -34,10 +35,6 @@ services:
       - STREAMLIT_SERVER_HEADLESS=true
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.streamlit.rule=Host(`yourdomain.com`)"
-      - "traefik.http.routers.streamlit.entrypoints=websecure"
-      - "traefik.http.routers.streamlit.tls=true"
-      - "traefik.http.routers.streamlit.tls.certresolver=le"  # Uses Let's Encrypt
-
-    volumes:
-      - .:/app
+      - "traefik.http.routers.whoami.rule=Host(`whoami.example.com`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
