@@ -7,6 +7,7 @@ from art import text2art
 from yaml import full_load
 
 from heracless.fight import dump_in_console, dump_in_file
+from heracless.fight import fight as main
 
 
 def parse_args() -> argparse.Namespace:

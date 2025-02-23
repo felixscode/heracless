@@ -111,7 +111,7 @@ def _fight_hydra(
     return config_obj
 
 
-def fight(cfg_dir: Path, dump_dir: Path, frozen: bool) -> Optional[Any]:
+def fight(cfg_dir: Path|str, dump_dir: Path|None, frozen: bool) -> Optional[Any]:
     """
     Parse YAML config and dump it into a file.
 
@@ -123,7 +123,13 @@ def fight(cfg_dir: Path, dump_dir: Path, frozen: bool) -> Optional[Any]:
     :raises FileNotFoundError: If the config file does not exist.
     :raises OSError: If there is an issue reading the file.
     """
-    dump_func = dump_in_file
+    if isinstance(cfg_dir, str):
+        cfg_dir = Path(cfg_dir)
+    if isinstance(dump_dir, str):
+        dump_dir = Path(dump_dir)
+    if cfg_dir is None:
+        raise TypeError("cfg_dir cannot be None. please set the path to the config files location")
+    dump_func = dump_in_file if dump_dir else dump_dummy # if dump_dir is None, then dump_dummy is used
     yaml_load_func = full_load
     return _fight_hydra(cfg_dir, dump_dir, dump_func, yaml_load_func, frozen)
 

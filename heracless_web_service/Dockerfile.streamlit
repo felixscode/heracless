@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y git
 RUN git clone https://github.com/felixscode/heracless.git /app/heracless
 
 # Install the required packages
-RUN pip install /app/heracless/
+RUN pip install /app/heracless/.[dev]
 
 # Expose the port that Streamlit uses
 EXPOSE 8501

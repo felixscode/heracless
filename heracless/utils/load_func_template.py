@@ -10,12 +10,14 @@ CONFIG_YAML_PATH = None
 Config = TypeVar("Config")
 
 
-def load_config(frozen: bool = True) -> Config:
+def load_config(config_path : Path|str = CONFIG_YAML_PATH,frozen: bool = True,stub_dump:bool = True) -> Config:
     """
     Load the configuration from the specified directory and return a Config object.
 
     Args:
+        config_path (Path|str, optional): The path to the configuration file. Defaults to CONFIG_YAML_PATH.
         frozen (bool, optional): Whether the configuration should be frozen. Defaults to True.
+        stub_dump (bool, optional): Whether to dump a stub file for typing support or not. Defaults to True.
 
     Returns:
         Config: The loaded configuration object.
@@ -28,6 +30,5 @@ def load_config(frozen: bool = True) -> Config:
         CONFIG_YAML_PATH is a global variable that sets the path of your YAML config file.
     """
 
-    file_path = Path(__file__).resolve()
-    yaml_config_path = CONFIG_YAML_PATH
-    return _load_config(yaml_config_path, file_path, frozen=frozen)
+    file_path = Path(__file__).resolve() if stub_dump else None
+    return _load_config(config_path, file_path, frozen=frozen)

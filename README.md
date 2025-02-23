@@ -62,22 +62,25 @@ Paste the following code into your `load_config.py`:
 
 ```python
 from pathlib import Path
-from typing import Type, TypeVar
+from typing import TypeVar
 
 from heracless import load_config as _load_config
 
-# CONFIG_YAML_PATH is a global variable that sets the path of your YAML config file 
+# CONFIG_YAML_PATH is a global variable that sets the path of your yaml config file
 # Edit this to your config file path
 CONFIG_YAML_PATH = None
 
 Config = TypeVar("Config")
 
-def load_config(frozen: bool = True) -> Config:
+
+def load_config(config_path : Path|str = CONFIG_YAML_PATH,frozen: bool = True,stub_dump:bool = True) -> Config:
     """
     Load the configuration from the specified directory and return a Config object.
 
     Args:
+        config_path (Path|str, optional): The path to the configuration file. Defaults to CONFIG_YAML_PATH.
         frozen (bool, optional): Whether the configuration should be frozen. Defaults to True.
+        stub_dump (bool, optional): Whether to dump a stub file for typing support or not. Defaults to True.
 
     Returns:
         Config: The loaded configuration object.
@@ -90,9 +93,8 @@ def load_config(frozen: bool = True) -> Config:
         CONFIG_YAML_PATH is a global variable that sets the path of your YAML config file.
     """
 
-    file_path = Path(__file__).resolve()
-    yaml_config_path = CONFIG_YAML_PATH
-    return _load_config(yaml_config_path,file_path, frozen=frozen)
+    file_path = Path(__file__).resolve() if stub_dump else None
+    return _load_config(config_path, file_path, frozen=frozen)
 ```
 
 After creating the `load_config.py` file, set the `CONFIG_YAML_PATH` variable to the path of your `config.yaml` file. For example:
@@ -151,8 +153,18 @@ Written in Python 3.11
 ## Future
 
 - [ ] Add config variants
-- [ ] Add None type support
+- [x] Add None type support
 - [x] Web app
+
+
+# Development Environment
+
+in Order to install all dependcies install the optinal [dev] dependcies.
+```bash
+git clone ...
+cd heracless
+pip install -e .[dev]
+```
 
 ## Author
 
