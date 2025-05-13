@@ -1,4 +1,6 @@
-# ⚔️ Heracless ⚔️
+# Heracless
+
+![Heracless](https://images.unsplash.com/photo-1728246950251-d0ca4d99e927?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
 A simple and minimalistic Config Manager using YAML.   
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/felixscode/heracless)
@@ -172,6 +174,5 @@ Felix Schelling<br>
 GitHub: [felixscode](https://github.com/felixscode)<br>
 Website: [heracless.io](https://heracless.io)<br>
 Personal website: [felixschelling.de](https://felixschelling.de)<br>
-Written with ❤️ in Mexico
 
 
