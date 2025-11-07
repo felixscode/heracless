@@ -38,29 +38,33 @@ def load_as_dict(cfg_dir: Path, yaml_load_func: Callable[[Any], dict]) -> dict:
         raise YamlSyntaxError(str(e))
 
 
-def dump_in_console(frozen: bool, _: Any, cfg_tree: Tree, *args: Any, **kwargs: Any) -> None:
+def dump_in_console(frozen: bool, cfg_tree: Tree, _: Optional[Path], *args: Any, **kwargs: Any) -> None:
     """
     Console dumper: prints generated config object type into console.
 
     :param frozen: Whether the config object is frozen.
-    :param _: Unused parameter.
     :param cfg_tree: Configuration tree.
+    :param _: Unused parameter (dump_dir).
     :param args: Additional arguments.
     :param kwargs: Additional keyword arguments.
     """
     print(tree_to_string_translator(frozen, cfg_tree))
 
 
-def dump_dummy(*args: Any, **kwargs: Any) -> None:
+def dump_dummy(frozen: bool, cfg_tree: Tree, dump_dir: Optional[Path], *args: Any, **kwargs: Any) -> None:
     """
     Dummy dumper: can be used to bypass dumping.
 
+    :param frozen: Whether the config object is frozen.
+    :param cfg_tree: Configuration tree.
+    :param dump_dir: Directory to dump the config file.
     :param args: Additional arguments.
     :param kwargs: Additional keyword arguments.
     """
+    pass
 
 
-def dump_in_file(frozen: bool, cfg_tree: Tree, dump_dir: Path) -> None:
+def dump_in_file(frozen: bool, cfg_tree: Tree, dump_dir: Optional[Path]) -> None:
     """
     File dumper: dumps config types into a file.
 
@@ -69,7 +73,10 @@ def dump_in_file(frozen: bool, cfg_tree: Tree, dump_dir: Path) -> None:
     :param dump_dir: Directory to dump the config file.
     :raises FileNotFoundError: If the dump directory does not exist.
     :raises OSError: If there is an issue writing to the file.
+    :raises ValueError: If dump_dir is None.
     """
+    if dump_dir is None:
+        raise ValueError("dump_dir cannot be None for file dumping")
     if not dump_dir.suffix == ".pyi":
         dump_dir = dump_dir.with_suffix(".pyi")
     path_exists(dump_dir)
@@ -80,8 +87,8 @@ def dump_in_file(frozen: bool, cfg_tree: Tree, dump_dir: Path) -> None:
 
 def _fight_hydra(
     cfg_dir: Path,
-    dump_dir: Path,
-    dump_func: Callable[[bool, Tree, Path], None],
+    dump_dir: Optional[Path],
+    dump_func: Callable[[bool, Tree, Optional[Path]], None],
     yaml_load_func: Callable[[Any], dict],
     frozen: bool,
 ) -> Optional[Any]:

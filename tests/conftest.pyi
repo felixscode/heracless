@@ -17,6 +17,13 @@ class Config:
 
 
 @dataclass(frozen=True)
+class ShipTo:
+    given: str
+    family: str
+    address: "Address"
+
+
+@dataclass(frozen=True)
 class BillTo:
     given: str
     family: str
@@ -37,13 +44,6 @@ class ProductItem:
     quantity: int
     description: str
     price: float
-
-
-@dataclass(frozen=True)
-class ShipTo:
-    given: str
-    family: str
-    address: "Address"
 
 
 def load_config(config_path: str) -> Config: ...

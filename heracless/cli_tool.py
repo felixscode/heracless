@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+from pathlib import Path
 from typing import Optional
 
 from art import text2art
@@ -36,36 +37,35 @@ def run_cli() -> None:
     """
     Parses command line arguments and runs the main function based on the arguments.
 
-    If --dry is provided, it runs the main function with dump_func set to dump_in_console.
-    If --parse is provided, it runs the main function with dump_func set to dump_in_file.
+    If --dry is provided, it runs the main function with dump_dir set to None (no file output).
+    If --parse is provided, it runs the main function with dump_dir set to the specified path.
     """
     args = parse_args()
     cfg_path: str = args.cfg_dir
 
     if not os.path.exists(cfg_path) or not cfg_path.endswith(".yaml"):
         print("Config file does not exist or is not a YAML file.")
+        return
 
     if args.dry:
-        main(
+        config = main(
             cfg_dir=cfg_path,
             dump_dir=None,
-            dump_func=dump_in_console,
-            yaml_load_func=full_load,
-            make_dir=False,
             frozen=True,
         )
+        print(f"Loaded config: {config}")
     elif args.parse:
         dump_path: Optional[str] = args.parse
-        if not os.path.exists(dump_path) or not dump_path.endswith(".py"):
-            print("Dump file does not exist or is not a Python file.")
-        main(
+        if dump_path and (not dump_path.endswith(".py") and not dump_path.endswith(".pyi")):
+            print("Dump file must be a Python file (.py or .pyi).")
+            return
+        dump_path_obj: Optional[Path] = Path(dump_path) if dump_path else None
+        config = main(
             cfg_dir=cfg_path,
-            dump_dir=dump_path,
-            dump_func=dump_in_file,
-            yaml_load_func=full_load,
-            make_dir=False,
+            dump_dir=dump_path_obj,
             frozen=True,
         )
+        print(f"Config generated and written to {dump_path}")
 
 
 if __name__ == "__main__":
