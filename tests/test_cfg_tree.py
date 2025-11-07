@@ -47,7 +47,7 @@ class TestStringHelpers:
 
     def test_replace_invalid_names_special_chars(self) -> None:
         assert replace_invalid_names("a!b@c#d$e%f") == "a_b_c_d_e_f"
-        assert replace_invalid_names("test-123_abc.xyz") == "test_123_abc.xyz"
+        assert replace_invalid_names("test-123_abc.xyz") == "test_123_abc_xyz"
 
     def test_as_uppercase_simple(self) -> None:
         assert as_uppercase("test") == "Test"

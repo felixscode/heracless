@@ -38,7 +38,7 @@ def replace_invalid_names(name: str) -> str:
     Returns:
         str: The sanitized name with invalid characters replaced by underscores.
     """
-    return re.sub(r"[^a-zA-Z0-9 \n\.]", "_", name)
+    return re.sub(r"[^a-zA-Z0-9 \n]", "_", name)
 
 
 def as_uppercase(name: str) -> str:
@@ -66,7 +66,9 @@ def as_lowercase(name: str) -> str:
         str: The name converted to lowercase.
     """
     name = replace_invalid_names(name)
-    return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
+    result = re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
+    # Normalize multiple consecutive underscores to a single one
+    return re.sub(r"_+", "_", result)
 
 
 def format_str(input: str) -> str:
@@ -149,8 +151,12 @@ def tree_builder(obj_type: Type[Node], name: str, value: Union[Value, Iterable])
         return obj_type(name, type_name, value)
 
     iterables = iterable_generator(value, name)
-    type_value_name_elements = map(iterable_to_type_mapper, *zip(*iterables))
-    children = tuple(map(tree_builder, *zip(*type_value_name_elements)))
+    # Handle empty iterables (e.g., empty dict)
+    if not iterables:
+        children = tuple()
+    else:
+        type_value_name_elements = map(iterable_to_type_mapper, *zip(*iterables))
+        children = tuple(map(tree_builder, *zip(*type_value_name_elements)))
     if obj_type == Tree:  # type: ignore[comparison-overlap]
         return Tree(name, children)
     if type(value) == list:  # dataclasses don't like lists
@@ -401,9 +407,22 @@ def tree_to_config_obj(frozen: bool, tree: Union[Tree, Structure]) -> Any:
     """
     name = as_uppercase(tree.name)
     attrs_dict = tuple((attribute_generation_function_mapper(frozen, child) for child in tree.children))
+
+    # Deduplicate field names by adding suffix for duplicates
+    seen_names: dict[str, int] = {}
+    deduped_attrs = []
+    for field_name, field_value in attrs_dict:
+        if field_name in seen_names:
+            seen_names[field_name] += 1
+            deduped_name = f"{field_name}_{seen_names[field_name]}"
+        else:
+            seen_names[field_name] = 0
+            deduped_name = field_name
+        deduped_attrs.append((deduped_name, type(field_value), field_value))
+
     dclass = make_dataclass(
         name,
-        ((entry[0], type(entry[1]), entry[1]) for entry in attrs_dict),
+        deduped_attrs,
         frozen=True,
     )
     return dclass()

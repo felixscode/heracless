@@ -9,7 +9,7 @@ dependencies = [
     "PyYAML",
     "art",
 ]
-requires-python = ">= 3.10"
+requires-python = ">= 3.10, < 3.14"
 authors = [
     {name = "Felix Schelling", email = "felix.schelling@protonmail.com"},
 ]

@@ -17,20 +17,19 @@ from heracless.utils.exceptions import YamlSyntaxError
 DEFAULT_DIR = Path("./config/config.yaml")
 
 
-def load_as_dict(cfg_dir: Path, yaml_load_func: Callable[[Any], dict]) -> dict:
+def load_as_dict(cfg_dir: Path, yaml_load_func: Callable[[Any], dict]) -> Optional[dict]:
     """
     Load a YAML configuration file and return it as a dictionary.
 
     :param cfg_dir: Path to the YAML configuration file.
     :param yaml_load_func: Function to load YAML content.
-    :return: Dictionary representation of the YAML content.
-    :raises ValueError: If the config file is empty.
+    :return: Dictionary representation of the YAML content, or None if the file is empty.
     :raises FileNotFoundError: If the config file does not exist.
     :raises OSError: If there is an issue reading the file.
     """
     path_exists(cfg_dir)
     if os.stat(cfg_dir).st_size == 0:
-        raise ValueError("Empty config file")
+        return None
     stream = open(cfg_dir, "r")
     try:
         return yaml_load_func(stream)

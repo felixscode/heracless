@@ -3,9 +3,9 @@ from typing import Any, Optional
 
 from heracless import load_config as _load_config
 
+CONFIG_YAML_PATH: Optional[Path] = None
 # CONFIG_YAML_PATH is a global variable that sets the path of your yaml config file
 # Edit this to your config file path
-CONFIG_YAML_PATH: Optional[Path] = None
 
 
 def load_config(config_path: Optional[Path | str] = None, frozen: bool = True, stub_dump: bool = True) -> Any:

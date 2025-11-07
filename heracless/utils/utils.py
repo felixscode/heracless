@@ -20,8 +20,9 @@ def insert_path_into_load_config_template(config_dir: Path) -> list[str]:
     with open(template_path, "r") as f:
         lines = f.readlines()
         for line in lines:
-            if line.startswith("CONFIG_YAML_PATH ="):
-                _mod_lines.append(f'CONFIG_YAML_PATH = Path("{config_dir}")\n')
+            # Match the assignment line: CONFIG_YAML_PATH: Optional[Path] = ...
+            if line.strip().startswith("CONFIG_YAML_PATH:") or line.strip().startswith("CONFIG_YAML_PATH ="):
+                _mod_lines.append(f'CONFIG_YAML_PATH: Optional[Path] = Path("{config_dir}")\n')
             else:
                 _mod_lines.append(line)
     return _mod_lines
