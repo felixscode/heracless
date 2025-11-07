@@ -35,6 +35,8 @@ dev = [
     "pytest-cov",
     "mypy",
     "types-PyYAML",
+]
+doc = [
     "streamlit",
     "streamlit_ace",
 ]
