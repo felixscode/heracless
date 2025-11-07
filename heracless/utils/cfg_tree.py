@@ -144,7 +144,9 @@ def tree_builder(obj_type: Type[Node], name: str, value: Union[Value, Iterable])
         Union[Node, Tree]: The root node of the constructed tree.
     """
     if obj_type == Leaf:  # base case
-        return obj_type(name, type(value).__name__, value)
+        # Handle None type specially for mypy compatibility
+        type_name = "None" if value is None else type(value).__name__
+        return obj_type(name, type_name, value)
 
     iterables = iterable_generator(value, name)
     type_value_name_elements = map(iterable_to_type_mapper, *zip(*iterables))
