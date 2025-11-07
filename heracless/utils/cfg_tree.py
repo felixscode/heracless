@@ -152,6 +152,7 @@ def tree_builder(obj_type: Type[Node], name: str, value: Union[Value, Iterable])
 
     iterables = iterable_generator(value, name)
     # Handle empty iterables (e.g., empty dict)
+    children: tuple[Union[Node, Tree], ...]
     if not iterables:
         children = tuple()
     else:

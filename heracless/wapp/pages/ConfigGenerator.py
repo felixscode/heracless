@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import streamlit as st
 from streamlit_ace import st_ace
 from streamlit_ace import THEMES
@@ -28,7 +30,7 @@ content = st_ace(
 )
 if st.button("Generate ⚡"):
     if is_valid_yaml(content):
-        stub_string, template_str = get_file_content(content, config_dir, frozen)
+        stub_string, template_str = get_file_content(content, Path(config_dir), frozen)
         st.write("### Python Stub File")
         st.code(stub_string, language="python", line_numbers=True)
         download_button(label="Download 📥", data=stub_string, file_name=load_file_name.split(".")[0] + ".pyi")

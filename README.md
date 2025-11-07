@@ -7,6 +7,7 @@ A simple and minimalistic Config Manager using YAML.
 [![Tests](https://github.com/felixscode/heracless/actions/workflows/test.yml/badge.svg)](https://github.com/felixscode/heracless/actions/workflows/test.yml)
 [![Publish](https://github.com/felixscode/heracless/actions/workflows/publish.yml/badge.svg)](https://github.com/felixscode/heracless/actions/workflows/publish.yml)
 [![codecov](https://codecov.io/gh/felixscode/heracless/branch/main/graph/badge.svg)](https://codecov.io/gh/felixscode/heracless)
+[![mypy](https://img.shields.io/badge/mypy-checked-blue)](http://mypy-lang.org/)
 [![Python Version](https://img.shields.io/pypi/pyversions/heracless)](https://pypi.org/project/heracless/)
 [![PyPI version](https://badge.fury.io/py/heracless.svg)](https://badge.fury.io/py/heracless)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/felixscode/heracless)
