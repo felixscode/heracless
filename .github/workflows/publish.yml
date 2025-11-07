@@ -1,0 +1,175 @@
+name: Publish to PyPI
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  validate-version:
+    name: Validate version matches tag
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Get tag version
+      id: get_version
+      run: |
+        TAG_VERSION=${GITHUB_REF#refs/tags/v}
+        echo "version=$TAG_VERSION" >> $GITHUB_OUTPUT
+        echo "Tag version: $TAG_VERSION"
+
+    - name: Get pyproject.toml version
+      id: get_pyproject_version
+      run: |
+        PYPROJECT_VERSION=$(grep -m 1 'version = ' pyproject.toml | cut -d'"' -f2)
+        echo "pyproject_version=$PYPROJECT_VERSION" >> $GITHUB_OUTPUT
+        echo "pyproject.toml version: $PYPROJECT_VERSION"
+
+    - name: Compare versions
+      run: |
+        TAG_VERSION="${{ steps.get_version.outputs.version }}"
+        PYPROJECT_VERSION="${{ steps.get_pyproject_version.outputs.pyproject_version }}"
+
+        if [ "$TAG_VERSION" != "$PYPROJECT_VERSION" ]; then
+          echo "❌ Version mismatch!"
+          echo "Tag version: v$TAG_VERSION"
+          echo "pyproject.toml version: $PYPROJECT_VERSION"
+          exit 1
+        fi
+
+        echo "✅ Versions match: $TAG_VERSION"
+
+  test:
+    name: Run tests before publishing
+    needs: validate-version
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e ".[dev]"
+        pip install pytest-cov
+
+    - name: Run tests
+      run: |
+        pytest tests/ -v
+
+    - name: Run mypy
+      run: |
+        mypy heracless/
+
+  build:
+    name: Build distribution packages
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install build dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine
+
+    - name: Build package
+      run: |
+        python -m build
+
+    - name: Check package
+      run: |
+        twine check dist/*
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist
+        path: dist/
+        retention-days: 7
+
+  publish-testpypi:
+    name: Publish to TestPyPI (optional)
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.repository == 'felixscode/heracless'
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/project/heracless
+
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: dist
+        path: dist/
+
+    - name: Publish to TestPyPI
+      if: vars.PUBLISH_TO_TESTPYPI == 'true'
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        repository-url: https://test.pypi.org/legacy/
+        skip-existing: true
+        print-hash: true
+
+  publish-pypi:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.repository == 'felixscode/heracless'
+    environment:
+      name: pypi
+      url: https://pypi.org/project/heracless
+    permissions:
+      id-token: write  # Required for trusted publishing
+
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: dist
+        path: dist/
+
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.PYPI_API_TOKEN }}
+        print-hash: true
+
+  create-release:
+    name: Create GitHub Release
+    needs: publish-pypi
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        generate_release_notes: true
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

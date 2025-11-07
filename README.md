@@ -2,7 +2,13 @@
 
 ![Heracless](https://images.unsplash.com/photo-1728246950251-d0ca4d99e927?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-A simple and minimalistic Config Manager using YAML.   
+A simple and minimalistic Config Manager using YAML.
+
+[![Tests](https://github.com/felixscode/heracless/actions/workflows/test.yml/badge.svg)](https://github.com/felixscode/heracless/actions/workflows/test.yml)
+[![Publish](https://github.com/felixscode/heracless/actions/workflows/publish.yml/badge.svg)](https://github.com/felixscode/heracless/actions/workflows/publish.yml)
+[![codecov](https://codecov.io/gh/felixscode/heracless/branch/main/graph/badge.svg)](https://codecov.io/gh/felixscode/heracless)
+[![Python Version](https://img.shields.io/pypi/pyversions/heracless)](https://pypi.org/project/heracless/)
+[![PyPI version](https://badge.fury.io/py/heracless.svg)](https://badge.fury.io/py/heracless)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/felixscode/heracless)
 [![PyPi](https://img.shields.io/badge/PyPi-Package-blue?logo=pypi)](https://pypi.org/project/heracless/)
 [![Documentation](https://img.shields.io/badge/Documentation-Read-green?logo=readthedocs)](https://heracless.io/Documentation)
