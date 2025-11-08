@@ -26,12 +26,12 @@ Transform your YAML config files into strongly-typed Python dataclasses with ful
 Stop wrestling with dictionaries and string keys. Heracless automatically converts your YAML configuration files into Python dataclasses with **full type safety** and **IDE autocomplete support**.
 
 ```python
-# ❌ Without Heracless - prone to typos, no autocomplete
+# WITHOUT Heracless - prone to typos, no autocomplete
 config = yaml.load(open("config.yaml"))
 db_host = config["database"]["host"]  # Runtime errors waiting to happen
 db_port = config["databse"]["port"]   # Typo goes unnoticed!
 
-# ✅ With Heracless - type-safe, autocomplete, catch errors at write-time
+# WITH Heracless - type-safe, autocomplete, catch errors at write-time
 config = load_config()
 db_host = config.database.host  # Autocomplete works!
 db_port = config.database.port  # Typos caught by IDE/mypy
@@ -41,14 +41,14 @@ db_port = config.database.port  # Typos caught by IDE/mypy
 
 ## Features
 
-✨ **Automatic Type Generation** - Generates `.pyi` stub files for full IDE support
-🔒 **Type Safety** - Catch configuration errors at development time, not runtime
-🚀 **Zero Boilerplate** - No manual dataclass definitions needed
-💡 **IDE Autocomplete** - Full IntelliSense/autocomplete for all config values
-🔧 **Immutable by Default** - Frozen dataclasses prevent accidental modifications
-🎯 **Simple API** - One function to load configs, helper utilities included
-🐍 **Modern Python** - Supports Python 3.10, 3.11, 3.12, 3.13, 3.14
-📦 **Minimal Dependencies** - Only PyYAML required for core functionality
+- **Automatic Type Generation** - Generates `.pyi` stub files for full IDE support
+- **Type Safety** - Catch configuration errors at development time, not runtime
+- **Zero Boilerplate** - No manual dataclass definitions needed
+- **IDE Autocomplete** - Full IntelliSense/autocomplete for all config values
+- **Immutable by Default** - Frozen dataclasses prevent accidental modifications
+- **Simple API** - One function to load configs, helper utilities included
+- **Modern Python** - Supports Python 3.10, 3.11, 3.12, 3.13, 3.14
+- **Minimal Dependencies** - Only PyYAML required for core functionality
 
 ---
 
@@ -72,8 +72,8 @@ pip install -e .
 
 | Python Version | Status |
 |---------------|--------|
-| 3.10+ | ✅ Supported |
-| 3.9 and below | ❌ Not supported |
+| 3.10+ | Supported |
+| 3.9 and below | Not supported |
 
 **Dependencies:** PyYAML, black, art
 
@@ -201,11 +201,11 @@ This stub file enables **full IDE autocomplete and type checking** without any m
 
 | Feature | Heracless | Plain YAML | Pydantic | OmegaConf |
 |---------|-----------|------------|----------|-----------|
-| Auto type generation | ✅ | ❌ | ❌ Manual | ❌ Manual |
-| IDE autocomplete | ✅ Full | ❌ None | ✅ With manual schemas | ⚠️ Limited |
-| Type checking (mypy) | ✅ | ❌ | ✅ | ⚠️ Partial |
-| Zero boilerplate | ✅ | ✅ | ❌ | ⚠️ |
-| Immutable configs | ✅ Default | ❌ | ⚠️ Optional | ⚠️ Optional |
+| Auto type generation | Yes | No | Manual | Manual |
+| IDE autocomplete | Full | None | With manual schemas | Limited |
+| Type checking (mypy) | Yes | No | Yes | Partial |
+| Zero boilerplate | Yes | Yes | No | Partial |
+| Immutable configs | Default | No | Optional | Optional |
 | Learning curve | Low | Low | Medium | Medium |
 | Config file format | YAML | YAML | Multiple | Multiple |
 
@@ -317,7 +317,7 @@ my_project/
 │       └── config/
 │           ├── __init__.py
 │           ├── load_config.py      # Your config loader
-│           └── load_config.pyi     # Auto-generated types ✨
+│           └── load_config.pyi     # Auto-generated types
 ├── config/
 │   ├── config.yaml                 # Main config
 │   ├── config.dev.yaml             # Development overrides
@@ -459,13 +459,13 @@ config = from_dict(config_dict, frozen=True)
 
 ### Best Practices
 
-- ✅ Keep config files under 5000 lines for optimal performance
-- ✅ Use nested structures to organize related settings
-- ✅ Commit generated `.pyi` files to version control
-- ✅ Use `frozen=True` (default) to prevent accidental modifications
-- ✅ Regenerate stubs after changing config structure
-- ❌ Avoid using YAML anchors/aliases for critical type-checked fields
-- ❌ Don't modify generated `.pyi` files manually (changes will be overwritten)
+- Keep config files under 5000 lines for optimal performance
+- Use nested structures to organize related settings
+- Commit generated `.pyi` files to version control
+- Use `frozen=True` (default) to prevent accidental modifications
+- Regenerate stubs after changing config structure
+- Avoid using YAML anchors/aliases for critical type-checked fields
+- Don't modify generated `.pyi` files manually (changes will be overwritten)
 
 ---
 
@@ -616,11 +616,11 @@ copies or substantial portions of the Software.
 
 ## Links & Resources
 
-- 📦 **PyPI Package:** [pypi.org/project/heracless](https://pypi.org/project/heracless/)
-- 📖 **Documentation:** [heracless.io/Documentation](https://heracless.io/Documentation)
-- 🐙 **GitHub Repository:** [github.com/felixscode/heracless](https://github.com/felixscode/heracless)
-- 🌐 **Project Website:** [heracless.io](https://heracless.io)
-- 💬 **Issues & Support:** [GitHub Issues](https://github.com/felixscode/heracless/issues)
+- **PyPI Package:** [pypi.org/project/heracless](https://pypi.org/project/heracless/)
+- **Documentation:** [heracless.io/Documentation](https://heracless.io/Documentation)
+- **GitHub Repository:** [github.com/felixscode/heracless](https://github.com/felixscode/heracless)
+- **Project Website:** [heracless.io](https://heracless.io)
+- **Issues & Support:** [GitHub Issues](https://github.com/felixscode/heracless/issues)
 
 ---
 
@@ -628,16 +628,16 @@ copies or substantial portions of the Software.
 
 **Felix Schelling**
 
-- 🐙 GitHub: [@felixscode](https://github.com/felixscode)
-- 🌐 Website: [felixschelling.de](https://felixschelling.de)
-- 📧 Email: felix.schelling@protonmail.com
+- GitHub: [@felixscode](https://github.com/felixscode)
+- Website: [felixschelling.de](https://felixschelling.de)
+- Email: felix.schelling@protonmail.com
 
 ---
 
 <div align="center">
 
-**If Heracless helps your project, consider giving it a ⭐️ on GitHub!**
+**If Heracless helps your project, consider giving it a star on GitHub!**
 
-[⬆ Back to Top](#heracless)
+[Back to Top](#heracless)
 
 </div>
