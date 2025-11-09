@@ -46,9 +46,6 @@ db_port = config.database.port  # Typos caught by IDE/mypy
 - **Zero Boilerplate** - No manual dataclass definitions needed
 - **IDE Autocomplete** - Full IntelliSense/autocomplete for all config values
 - **Immutable by Default** - Frozen dataclasses prevent accidental modifications
-- **Simple API** - One function to load configs, helper utilities included
-- **Modern Python** - Supports Python 3.10, 3.11, 3.12, 3.13, 3.14
-- **Minimal Dependencies** - Only PyYAML required for core functionality
 
 ---
 
@@ -73,7 +70,7 @@ pip install -e .
 | Python Version | Status |
 |---------------|--------|
 | 3.10+ | Supported |
-| 3.9 and below | Not supported |
+| 3.9 and below | Untested |
 
 **Dependencies:** PyYAML, black, art
 
@@ -93,7 +90,7 @@ database:
   name: myapp_db
   credentials:
     username: admin
-    password: secret123
+    password: secret123 # dont use thise in production
 
 api:
   base_url: https://api.example.com
@@ -190,30 +187,10 @@ class Config:
     api: Api
     features: Features
 
-Config = TypeVar("Config")
 ```
 
-This stub file enables **full IDE autocomplete and type checking** without any manual work!
+This stub file enables **full IDE autocomplete and type checking**
 
----
-
-## Comparison with Alternatives
-
-| Feature | Heracless | Plain YAML | Pydantic | OmegaConf |
-|---------|-----------|------------|----------|-----------|
-| Auto type generation | Yes | No | Manual | Manual |
-| IDE autocomplete | Full | None | With manual schemas | Limited |
-| Type checking (mypy) | Yes | No | Yes | Partial |
-| Zero boilerplate | Yes | Yes | No | Partial |
-| Immutable configs | Default | No | Optional | Optional |
-| Learning curve | Low | Low | Medium | Medium |
-| Config file format | YAML | YAML | Multiple | Multiple |
-
-**Why choose Heracless?**
-- **Automatic stub generation**: No manual dataclass or schema definitions needed
-- **Focused simplicity**: Does one thing exceptionally well - YAML to typed dataclass
-- **Development experience**: Catches config errors before you run your code
-- **Minimal overhead**: Lightweight with minimal dependencies
 
 ---
 
@@ -332,25 +309,10 @@ my_project/
 
 ## Troubleshooting
 
-### Common Issues
 
-#### **Issue: `ModuleNotFoundError: No module named 'heracless'`**
 
-**Solution:** Install heracless in your environment:
-```bash
-pip install heracless
-```
 
-#### **Issue: Stub file not generated**
-
-**Solution:** Ensure `stub_dump=True` in your `load_config()` function:
-```python
-def load_config(..., stub_dump: bool = True) -> Config:
-    file_path = Path(__file__).resolve() if stub_dump else None
-    return _load_config(config_path, file_path, frozen=frozen)
-```
-
-#### **Issue: IDE not showing autocomplete**
+### **Issue: IDE not showing autocomplete**
 
 **Solutions:**
 1. Ensure the `.pyi` file exists next to your `load_config.py`
@@ -370,14 +332,6 @@ def load_config(..., stub_dump: bool = True) -> Config:
 ```bash
 # Validate YAML syntax
 python -c "import yaml; yaml.safe_load(open('config.yaml'))"
-```
-
-#### **Issue: Type hints not working with mypy**
-
-**Solution:** Ensure mypy can find the generated `.pyi` file and you're using proper type imports:
-```python
-from typing import TypeVar
-Config = TypeVar("Config")  # Required for type checking
 ```
 
 ---
@@ -440,38 +394,9 @@ config = from_dict(config_dict, frozen=True)
 
 ---
 
-## Performance & Limitations
-
-### Performance
-
-- **Config loading:** Typically < 10ms for configs under 1000 lines
-- **Stub generation:** One-time cost, only runs when config structure changes
-- **Memory:** Minimal overhead compared to plain dictionaries
-- **Type checking:** Zero runtime overhead (all checking happens at development time)
-
-### Limitations
-
-- **YAML only:** Currently only supports YAML format (JSON, TOML support planned)
-- **Structure changes:** Stub file regeneration required when YAML structure changes
-- **Complex types:** Advanced YAML features (anchors, tags) may have limited type support
-- **Circular references:** Not supported in config structures
-- **Dynamic keys:** Dictionary-style configs with dynamic keys are not fully typed
-
-### Best Practices
-
-- Keep config files under 5000 lines for optimal performance
-- Use nested structures to organize related settings
-- Commit generated `.pyi` files to version control
-- Use `frozen=True` (default) to prevent accidental modifications
-- Regenerate stubs after changing config structure
-- Avoid using YAML anchors/aliases for critical type-checked fields
-- Don't modify generated `.pyi` files manually (changes will be overwritten)
-
----
-
 ## Contributing
 
-We welcome contributions! Here's how you can help:
+Contributions are welcome! Here's how you can help:
 
 ### Development Setup
 
@@ -529,26 +454,6 @@ pip install -e .[doc]
 streamlit run heracless/wapp/About.py
 ```
 
-### Contribution Guidelines
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Make** your changes
-4. **Add** tests for new functionality
-5. **Ensure** all tests pass (`pytest`)
-6. **Run** type checking (`mypy heracless`)
-7. **Format** code (`black heracless tests`)
-8. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-9. **Push** to your branch (`git push origin feature/amazing-feature`)
-10. **Open** a Pull Request
-
-### Code Style
-
-- Follow PEP 8 guidelines
-- Use type hints for all functions
-- Maximum line length: 120 characters (configured in black)
-- Write docstrings for public APIs
-- Add tests for new features
 
 ### Reporting Issues
 
@@ -570,23 +475,7 @@ Please include:
 ### Planned Features
 
 - [ ] **Config variants** - Support for environment-specific configs (dev/staging/prod)
-- [ ] **JSON support** - Load JSON configuration files
-- [ ] **TOML support** - Load TOML configuration files
-- [ ] **Config validation** - Built-in validation rules
 - [ ] **Environment variable interpolation** - `${ENV_VAR}` syntax in YAML
-- [ ] **Config merging** - Combine multiple config files
-- [ ] **Schema export** - Export JSON Schema from configs
-- [ ] **Migration tools** - Helper utilities for config updates
-
-### Completed
-
-- [x] None type support
-- [x] Web application for interactive config generation
-- [x] CLI tool for stub generation
-- [x] Frozen dataclass support
-- [x] Helper utilities (mutate_config, as_dict, from_dict)
-
-Want to see a feature? [Open an issue](https://github.com/felixscode/heracless/issues) to discuss!
 
 ---
 
