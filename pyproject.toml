@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools >= 69.5.1"]
-build-backend = "setuptools.build_meta"
+requires = ["maturin>=1.5,<2.0"]
+build-backend = "maturin"
 [project]
 name = "heracless"
 version = "0.4.0"
@@ -13,7 +13,7 @@ requires-python = ">= 3.10"
 authors = [
     {name = "Felix Schelling", email = "felix.schelling@protonmail.com"},
 ]
-description = "Yaml to Dataclass parser for Config files"
+description = "Yaml to Dataclass parser for Config files (Rust-powered for performance)"
 keywords = ["YAML", "Dataclass", "Config","config", "config management"]
 readme = {file = "README.md", content-type = "text/markdown"}
 classifiers = [

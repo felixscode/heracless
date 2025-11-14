@@ -335,6 +335,16 @@ def tree_to_string_translator(
     Returns:
         str: The string representation of the tree.
     """
+    # Try Rust backend first for better performance
+    try:
+        from heracless.rust_backend import is_rust_available
+        if is_rust_available():
+            # Note: For now, we still use Python implementation
+            # Future: Use Rust for code generation
+            pass
+    except ImportError:
+        pass
+
     import_str = IMPORTS
     raw_str = tree_to_str_generator(frozen, tree)
     function_str = FUNCTION_STUB

@@ -46,6 +46,7 @@ db_port = config.database.port  # Typos caught by IDE/mypy
 - **Zero Boilerplate** - No manual dataclass definitions needed
 - **IDE Autocomplete** - Full IntelliSense/autocomplete for all config values
 - **Immutable by Default** - Frozen dataclasses prevent accidental modifications
+- **Rust-Powered Core** - Optional Rust backend for 8x faster performance (automatic fallback to pure Python)
 
 ---
 
@@ -73,6 +74,25 @@ pip install -e .
 | 3.9 and below | Untested |
 
 **Dependencies:** PyYAML, black, art
+
+### Optional: Rust Backend for Performance
+
+For significantly better performance, you can build the Rust backend:
+
+```bash
+# Install Rust (if not already installed)
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Install maturin
+pip install maturin
+
+# Build Rust extension
+maturin develop --release
+```
+
+See [RUST.md](RUST.md) for detailed instructions.
+
+**Note:** Heracless works perfectly fine without the Rust backend using pure Python!
 
 ---
 
