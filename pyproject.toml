@@ -3,7 +3,7 @@ requires = ["maturin>=1.5,<2.0"]
 build-backend = "maturin"
 [project]
 name = "heracless"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
     "black",
     "PyYAML",
@@ -46,7 +46,7 @@ dev = [
     "types-PyYAML",
 ]
 doc = [
-    "streamlit",
+    "streamlit",5
     "streamlit_ace",
 ]
 [tool.black]
