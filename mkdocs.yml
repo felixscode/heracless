@@ -9,6 +9,8 @@ edit_uri: edit/main/docs/
 
 theme:
   name: material
+  logo: material/sword
+  favicon: material/sword
   palette:
     # Light mode
     - media: "(prefers-color-scheme: light)"
@@ -40,6 +42,7 @@ theme:
 
   icon:
     repo: fontawesome/brands/github
+    logo: material/sword
 
 nav:
   - Home: index.md
