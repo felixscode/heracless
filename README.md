@@ -14,8 +14,9 @@ Transform your YAML config files into strongly-typed Python dataclasses with ful
 [![Tests](https://github.com/felixscode/heracless/actions/workflows/test.yml/badge.svg)](https://github.com/felixscode/heracless/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/felixscode/heracless/branch/main/graph/badge.svg)](https://codecov.io/gh/felixscode/heracless)
 [![mypy](https://img.shields.io/badge/mypy-checked-blue)](http://mypy-lang.org/)
+[![Documentation](https://img.shields.io/badge/docs-mkdocs-blue)](https://heracless.io)
 
-[Installation](#installation) • [Quick Start](#quick-start) • [Documentation](https://heracless.io/Documentation) • [Examples](#usage-examples)
+[Installation](#installation) • [Quick Start](#quick-start) • [Documentation](https://heracless.io) • [Examples](#usage-examples)
 
 </div>
 
@@ -447,11 +448,17 @@ This includes:
 
 ### Documentation Development
 
-To work on the documentation web app:
+To work on the documentation:
 
 ```bash
+# Install documentation dependencies
 pip install -e .[doc]
-streamlit run heracless/wapp/About.py
+
+# Serve documentation locally
+mkdocs serve
+
+# Build documentation
+mkdocs build
 ```
 
 
@@ -506,9 +513,8 @@ copies or substantial portions of the Software.
 ## Links & Resources
 
 - **PyPI Package:** [pypi.org/project/heracless](https://pypi.org/project/heracless/)
-- **Documentation:** [heracless.io/Documentation](https://heracless.io/Documentation)
+- **Documentation:** [heracless.io](https://heracless.io)
 - **GitHub Repository:** [github.com/felixscode/heracless](https://github.com/felixscode/heracless)
-- **Project Website:** [heracless.io](https://heracless.io)
 - **Issues & Support:** [GitHub Issues](https://github.com/felixscode/heracless/issues)
 
 ---

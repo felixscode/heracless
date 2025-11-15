@@ -37,8 +37,9 @@ dev = [
     "types-PyYAML",
 ]
 doc = [
-    "streamlit",
-    "streamlit_ace",
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.5.0",
+    "mkdocstrings[python]>=0.24.0",
 ]
 [tool.black]
 line-length = 120
@@ -67,14 +68,6 @@ ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = "yaml.*"
-ignore_missing_imports = true
-
-[[tool.mypy.overrides]]
-module = "streamlit.*"
-ignore_missing_imports = true
-
-[[tool.mypy.overrides]]
-module = "streamlit_ace.*"
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
