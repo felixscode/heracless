@@ -530,7 +530,7 @@ copies or substantial portions of the Software.
 
 - GitHub: [@felixscode](https://github.com/felixscode)
 - Website: [felixschelling.de](https://felixschelling.de)
-- Email: felix.schelling@protonmail.com
+
 
 ---
 

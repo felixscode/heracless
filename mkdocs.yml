@@ -1,6 +1,6 @@
 site_name: Heracless
 site_url: https://heracless.io
-site_description: Type-safe YAML configuration management for Python
+site_description: Type-safe YAML configuration management for Python build with Rust speed.
 site_author: Felix Schelling
 
 repo_name: felixscode/heracless
@@ -9,22 +9,22 @@ edit_uri: edit/main/docs/
 
 theme:
   name: material
-  logo: material/sword
-  favicon: material/sword
+  logo: ./sword.svg
+  favicon: ./sword.svg
   palette:
     # Light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: indigo
+      primary: amber
+      accent: amber
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     # Dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: amber
+      accent: amber
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
@@ -42,7 +42,7 @@ theme:
 
   icon:
     repo: fontawesome/brands/github
-    logo: material/sword
+    logo: ./sword.svg
 
 nav:
   - Home: index.md

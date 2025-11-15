@@ -78,7 +78,7 @@ Working with config files in Python can be a pain. There's Meta's [Hydra](https:
 
 So I created **Heracless**, to fight Hydra.
 
-The name is a play on "Hercules" (who fought the Hydra in Greek mythology) and "less" (as in, less complexity than Hydra).
+
 
 ---
 
@@ -94,6 +94,4 @@ Heracless is released under the **MIT License**. See [LICENSE](https://github.co
 
 - GitHub: [@felixscode](https://github.com/felixscode)
 - Website: [felixschelling.de](https://felixschelling.de)
-- Email: felix.schelling@protonmail.com
 
-Written with ❤️ in Mexico
