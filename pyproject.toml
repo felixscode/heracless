@@ -1,9 +1,9 @@
 [build-system]
-requires = ["setuptools >= 69.5.1"]
-build-backend = "setuptools.build_meta"
+requires = ["maturin>=1.5,<2.0"]
+build-backend = "maturin"
 [project]
 name = "heracless"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
     "black",
     "PyYAML",
@@ -13,7 +13,7 @@ requires-python = ">= 3.10"
 authors = [
     {name = "Felix Schelling", email = "felix.schelling@protonmail.com"},
 ]
-description = "Yaml to Dataclass parser for Config files"
+description = "Yaml to Dataclass parser for Config files (Rust-powered for performance)"
 keywords = ["YAML", "Dataclass", "Config","config", "config management"]
 readme = {file = "README.md", content-type = "text/markdown"}
 classifiers = [
@@ -22,10 +22,19 @@ classifiers = [
     # 4 - Beta
     # 5 - Production / Stable
     "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Rust",
 ]
 [tool.setuptools]
 package-dir = {"" = "."}
+
+[tool.maturin]
+python-source = "."
+module-name = "heracless.heracless_core"
+
 [project.urls]
 Repository = "https://github.com/felixscode/heracless.git"
 "Homepage" = "https://heracless.io"

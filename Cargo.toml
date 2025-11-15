@@ -1,0 +1,30 @@
+[package]
+name = "heracless"
+version = "0.4.0"
+edition = "2021"
+authors = ["Felix Schelling <felix.schelling@protonmail.com>"]
+description = "Type-safe YAML configuration management - Rust-powered Python library"
+keywords = ["yaml", "config", "configuration", "type-safe", "python"]
+license = "MIT"
+repository = "https://github.com/felixscode/heracless"
+homepage = "https://heracless.io"
+readme = "README.md"
+rust-version = "1.70"
+
+[lib]
+name = "heracless_core"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_yaml = "0.9"
+serde_json = "1.0"
+thiserror = "1.0"
+regex = "1.10"
+heck = "0.5"
+indexmap = "2.2"
+
+[dev-dependencies]
+tempfile = "3.10"
+pretty_assertions = "1.4"

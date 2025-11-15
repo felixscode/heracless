@@ -1,6 +1,6 @@
+<div align="center">
 # Heracless
 
-<div align="center">
 
 ![Heracless](https://images.unsplash.com/photo-1728246950251-d0ca4d99e927?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
@@ -10,6 +10,7 @@ Transform your YAML config files into strongly-typed Python dataclasses with ful
 
 [![PyPI version](https://badge.fury.io/py/heracless.svg)](https://badge.fury.io/py/heracless)
 [![Python Version](https://img.shields.io/pypi/pyversions/heracless)](https://pypi.org/project/heracless/)
+[![Rust](https://img.shields.io/badge/Rust-1.70+-orange?logo=rust)](https://www.rust-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Tests](https://github.com/felixscode/heracless/actions/workflows/test.yml/badge.svg)](https://github.com/felixscode/heracless/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/felixscode/heracless/branch/main/graph/badge.svg)](https://codecov.io/gh/felixscode/heracless)
@@ -25,6 +26,7 @@ Transform your YAML config files into strongly-typed Python dataclasses with ful
 ## Why Heracless?
 
 Stop wrestling with dictionaries and string keys. Heracless automatically converts your YAML configuration files into Python dataclasses with **full type safety** and **IDE autocomplete support**.
+Plus it's written in Rust for blazing-fast performance.
 
 ```python
 # WITHOUT Heracless - prone to typos, no autocomplete
@@ -47,6 +49,7 @@ db_port = config.database.port  # Typos caught by IDE/mypy
 - **Zero Boilerplate** - No manual dataclass definitions needed
 - **IDE Autocomplete** - Full IntelliSense/autocomplete for all config values
 - **Immutable by Default** - Frozen dataclasses prevent accidental modifications
+- **Rust-Powered Performance** - Native Rust backend for blazing-fast YAML parsing and stub generation
 
 ---
 
@@ -70,10 +73,12 @@ pip install -e .
 
 | Python Version | Status |
 |---------------|--------|
-| 3.10+ | Supported |
-| 3.9 and below | Untested |
+| 3.10 - 3.13 | Fully Supported |
+| 3.9 and below | Not Supported |
 
 **Dependencies:** PyYAML, black, art
+
+**Note:** Prebuilt Rust wheels are available for Linux, macOS, and Windows. No Rust installation required!
 
 ---
 
@@ -91,7 +96,7 @@ database:
   name: myapp_db
   credentials:
     username: admin
-    password: secret123 # dont use thise in production
+    password: secret123 # don't use this in production
 
 api:
   base_url: https://api.example.com
