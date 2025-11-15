@@ -5,14 +5,15 @@ from pathlib import Path
 
 
 @dataclass(frozen=True)
-class BillTo:
-    given: str
-    family: str
-    address: "Address"
+class Address:
+    lines: str
+    city: str
+    state: str
+    postal: int
 
 
 @dataclass(frozen=True)
-class ShipTo:
+class BillTo:
     given: str
     family: str
     address: "Address"
@@ -39,11 +40,10 @@ class Config:
 
 
 @dataclass(frozen=True)
-class Address:
-    lines: str
-    city: str
-    state: str
-    postal: int
+class ShipTo:
+    given: str
+    family: str
+    address: "Address"
 
 
 def load_config(config_path: str) -> Config: ...
