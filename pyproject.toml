@@ -46,7 +46,7 @@ dev = [
     "types-PyYAML",
 ]
 doc = [
-    "streamlit",5
+    "streamlit",
     "streamlit_ace",
 ]
 [tool.black]
