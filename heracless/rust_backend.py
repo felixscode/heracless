@@ -7,11 +7,11 @@ Falls back to pure Python implementation if Rust extension is not available.
 
 import json
 from pathlib import Path
-from typing import Optional, Any
+from typing import Optional, Any, cast
 import warnings
 
 try:
-    from heracless_core import generate_python_stubs, parse_yaml_to_json
+    from heracless_core import generate_python_stubs, parse_yaml_to_json  # type: ignore[import-not-found]
     RUST_AVAILABLE = True
 except ImportError:
     RUST_AVAILABLE = False
@@ -35,7 +35,8 @@ def generate_stubs_rust(config_path: Path, frozen: bool) -> str:
     if not RUST_AVAILABLE:
         raise RuntimeError("Rust backend not available")
 
-    return generate_python_stubs(str(config_path), frozen)
+    result: str = generate_python_stubs(str(config_path), frozen)
+    return result
 
 
 def parse_yaml_rust(config_path: Path) -> dict[Any, Any]:
@@ -51,8 +52,9 @@ def parse_yaml_rust(config_path: Path) -> dict[Any, Any]:
     if not RUST_AVAILABLE:
         raise RuntimeError("Rust backend not available")
 
-    json_str = parse_yaml_to_json(str(config_path))
-    return json.loads(json_str)
+    json_str: str = parse_yaml_to_json(str(config_path))
+    result: dict[Any, Any] = json.loads(json_str)
+    return result
 
 
 def is_rust_available() -> bool:

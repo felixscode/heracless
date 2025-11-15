@@ -31,19 +31,19 @@ class BillTo:
 
 
 @dataclass(frozen=True)
-class ProductItem:
-    sku: str
-    quantity: int
-    description: str
-    price: float
-
-
-@dataclass(frozen=True)
 class Address:
     lines: str
     city: str
     state: str
     postal: int
+
+
+@dataclass(frozen=True)
+class ProductItem:
+    sku: str
+    quantity: int
+    description: str
+    price: float
 
 
 def load_config(config_path: str) -> Config: ...
