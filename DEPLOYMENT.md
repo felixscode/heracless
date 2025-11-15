@@ -252,6 +252,82 @@ twine upload dist/*
    - Verify on PyPI
    - Test installation
 
+## Documentation Deployment
+
+### Automatic Deployment to Hetzner VM
+
+Documentation is automatically built and deployed to your Hetzner VM when changes are pushed to the `main` branch.
+
+#### Required GitHub Secrets
+
+Configure these secrets in your GitHub repository settings:
+
+1. **`SSH_PRIVATE_KEY`** - Your SSH private key for authentication
+   ```bash
+   # Generate if needed
+   ssh-keygen -t ed25519 -C "github-actions-heracless"
+   # Add public key to server: ~/.ssh/authorized_keys
+   # Copy private key and add to GitHub Secrets
+   cat ~/.ssh/id_ed25519
+   ```
+
+2. **`SSH_HOST`** - Your Hetzner VM hostname or IP
+   ```
+   Example: heracless.io or 123.456.789.0
+   ```
+
+3. **`SSH_USER`** - SSH username
+   ```
+   Example: root or www-data
+   ```
+
+4. **`DEPLOY_PATH`** - Deployment path on server
+   ```
+   Example: /var/www/heracless/ or /var/www/html/
+   ```
+
+#### Workflow Triggers
+
+Docs will rebuild and deploy when:
+- Changes pushed to `main` branch affecting: `docs/**`, `mkdocs.yml`, or `.github/workflows/docs.yml`
+- Manual trigger via **Actions** tab → **Documentation** → **Run workflow**
+
+#### Testing Locally
+
+```bash
+# Build docs
+mkdocs build
+
+# Serve locally
+mkdocs serve
+
+# Manual deploy
+rsync -avz --delete site/ user@your-server:/var/www/heracless/
+```
+
+#### Server Setup
+
+Ensure your Hetzner VM has:
+- SSH access configured
+- Web server (nginx/apache) serving the deployment path
+- Proper permissions for deployment user
+
+Example nginx config:
+```nginx
+server {
+    listen 80;
+    server_name heracless.io;
+    root /var/www/heracless;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+```
+
+---
+
 ## Support
 
 If you encounter issues:
