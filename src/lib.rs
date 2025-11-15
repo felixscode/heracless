@@ -175,7 +175,7 @@ fn parse_yaml_to_json(config_path: String) -> PyResult<String> {
 
 /// Python module definition
 #[pymodule]
-fn heracless_core(_py: Python, m: &PyModule) -> PyResult<()> {
+fn heracless_core(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(generate_python_stubs, m)?)?;
     m.add_function(wrap_pyfunction!(parse_yaml_to_json, m)?)?;
     Ok(())

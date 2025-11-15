@@ -5,13 +5,6 @@ from pathlib import Path
 
 
 @dataclass(frozen=True)
-class ShipTo:
-    given: str
-    family: str
-    address: "Address"
-
-
-@dataclass(frozen=True)
 class Config:
     invoice: int
     date: date
@@ -24,19 +17,26 @@ class Config:
 
 
 @dataclass(frozen=True)
-class ProductItem:
-    sku: str
-    quantity: int
-    description: str
-    price: float
-
-
-@dataclass(frozen=True)
 class Address:
     lines: str
     city: str
     state: str
     postal: int
+
+
+@dataclass(frozen=True)
+class ShipTo:
+    given: str
+    family: str
+    address: "Address"
+
+
+@dataclass(frozen=True)
+class ProductItem:
+    sku: str
+    quantity: int
+    description: str
+    price: float
 
 
 @dataclass(frozen=True)
