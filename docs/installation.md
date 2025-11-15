@@ -26,8 +26,8 @@ pip install -e .
 
 | Python Version | Status |
 |---------------|--------|
-| 3.10+ | Supported |
-| 3.9 and below | Untested |
+| 3.10 - 3.13 | Fully Supported |
+| 3.9 and below | Not Supported |
 
 **Dependencies:**
 
@@ -38,6 +38,8 @@ Heracless has minimal dependencies:
 - `art` - ASCII art for CLI
 
 These are automatically installed when you install Heracless.
+
+**Note:** Prebuilt Rust wheels are available for Linux, macOS, and Windows. No Rust installation required!
 
 ---
 

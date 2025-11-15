@@ -16,7 +16,7 @@ database:
   name: myapp_db
   credentials:
     username: admin
-    password: secret123  # Don't use this in production!
+    password: secret123  # don't use this in production
 
 api:
   base_url: https://api.example.com
