@@ -62,20 +62,18 @@ jobs:
           pip install --upgrade pip
           pip install -e .[doc]
 
-      - name: Deploy to GitHub Pages
-        run: mkdocs gh-deploy --force
+      - name: Build documentation
+        run: mkdocs build --strict
 
-# NOTE: To deploy to Hetzner VM instead of GitHub Pages:
-# 1. Replace the deploy-docs job with SSH deployment
-# 2. Add SSH_PRIVATE_KEY and SSH_HOST to GitHub Secrets
-# 3. Use rsync or scp to copy site/ directory to your server
-# Example:
-#      - name: Deploy to Hetzner VM
-#        env:
-#          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-#          SSH_HOST: ${{ secrets.SSH_HOST }}
-#        run: |
-#          mkdir -p ~/.ssh
-#          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-#          chmod 600 ~/.ssh/id_rsa
-#          rsync -avz --delete site/ user@$SSH_HOST:/var/www/heracless/docs/
+      - name: Deploy to Hetzner VM
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+          rsync -avz --delete site/ $SSH_USER@$SSH_HOST:$DEPLOY_PATH
