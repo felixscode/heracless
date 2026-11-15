@@ -3,6 +3,7 @@ Tests to verify generated stub files are mypy-valid
 """
 
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -31,7 +32,7 @@ debug: true
 
         # Run mypy on stub file
         result = subprocess.run(
-            ["mypy", str(stub_file)],
+            [sys.executable, "-m", "mypy", str(stub_file)],
             capture_output=True,
             text=True,
         )
@@ -62,7 +63,7 @@ app:
 
         # Run mypy on stub file
         result = subprocess.run(
-            ["mypy", str(stub_file)],
+            [sys.executable, "-m", "mypy", str(stub_file)],
             capture_output=True,
             text=True,
         )
@@ -90,7 +91,7 @@ ports:
 
         # Run mypy on stub file
         result = subprocess.run(
-            ["mypy", str(stub_file)],
+            [sys.executable, "-m", "mypy", str(stub_file)],
             capture_output=True,
             text=True,
         )
@@ -150,7 +151,7 @@ features:
 
         # Run mypy on stub file
         result = subprocess.run(
-            ["mypy", str(stub_file)],
+            [sys.executable, "-m", "mypy", str(stub_file)],
             capture_output=True,
             text=True,
         )
@@ -177,7 +178,7 @@ users:
 
         # Run mypy on stub file
         result = subprocess.run(
-            ["mypy", str(stub_file)],
+            [sys.executable, "-m", "mypy", str(stub_file)],
             capture_output=True,
             text=True,
         )
@@ -214,7 +215,7 @@ list_of_ints:
 
         # Run mypy on stub file
         result = subprocess.run(
-            ["mypy", str(stub_file)],
+            [sys.executable, "-m", "mypy", str(stub_file)],
             capture_output=True,
             text=True,
         )
@@ -241,7 +242,7 @@ level1:
 
         # Run mypy on stub file
         result = subprocess.run(
-            ["mypy", str(stub_file)],
+            [sys.executable, "-m", "mypy", str(stub_file)],
             capture_output=True,
             text=True,
         )
@@ -290,7 +291,7 @@ def is_debug(config: Config) -> bool:
 
         # Run mypy on both stub and client code
         result = subprocess.run(
-            ["mypy", str(stub_file), str(client_file)],
+            [sys.executable, "-m", "mypy", str(stub_file), str(client_file)],
             capture_output=True,
             text=True,
         )
@@ -313,11 +314,10 @@ value: 42
         # Read and verify stub content
         stub_content = stub_file.read_text()
 
-        # Check for required imports
+        # Check for required imports (only what the stub uses)
         assert "from dataclasses import dataclass" in stub_content
-        assert "from datetime import datetime" in stub_content
-        assert "from datetime import date" in stub_content
-        assert "from pathlib import Path" in stub_content
+        assert "import pathlib" in stub_content
+        assert "import datetime" not in stub_content
 
         # Check for Config class
         assert "class Config:" in stub_content
@@ -327,10 +327,9 @@ value: 42
         # Check for load_config function
         assert "def load_config" in stub_content
 
-        # Verify it's properly formatted (black should have formatted it)
         # The content should be parseable Python
         result = subprocess.run(
-            ["python", "-m", "py_compile", str(stub_file)],
+            [sys.executable, "-m", "py_compile", str(stub_file)],
             capture_output=True,
             text=True,
         )
@@ -356,7 +355,7 @@ another-name: value3
 
         # Run mypy on stub file
         result = subprocess.run(
-            ["mypy", str(stub_file)],
+            [sys.executable, "-m", "mypy", str(stub_file)],
             capture_output=True,
             text=True,
         )
@@ -383,7 +382,7 @@ value: 42
 
         # Run mypy
         result = subprocess.run(
-            ["mypy", str(stub_file)],
+            [sys.executable, "-m", "mypy", str(stub_file)],
             capture_output=True,
             text=True,
         )
@@ -406,11 +405,12 @@ value: 42
         stub_content = stub_file.read_text()
 
         # Verify frozen parameter is set to False
-        assert "@dataclass(frozen=False)" in stub_content
+        assert "@dataclass\nclass Config:" in stub_content
+        assert "frozen=True" not in stub_content
 
         # Run mypy
         result = subprocess.run(
-            ["mypy", str(stub_file)],
+            [sys.executable, "-m", "mypy", str(stub_file)],
             capture_output=True,
             text=True,
         )
@@ -463,7 +463,7 @@ installed_apps:
 
         # Run mypy on stub file
         result = subprocess.run(
-            ["mypy", str(stub_file)],
+            [sys.executable, "-m", "mypy", str(stub_file)],
             capture_output=True,
             text=True,
         )
@@ -503,7 +503,7 @@ monitoring:
 
         # Run mypy on stub file
         result = subprocess.run(
-            ["mypy", str(stub_file)],
+            [sys.executable, "-m", "mypy", str(stub_file)],
             capture_output=True,
             text=True,
         )

@@ -1,30 +1,39 @@
 [package]
 name = "heracless"
-version = "0.4.0"
+version = "0.6.0"
 edition = "2021"
 authors = ["Felix Schelling <felix.schelling@protonmail.com>"]
-description = "Type-safe YAML configuration management - Rust-powered Python library"
+description = "Type-safe YAML configuration management - Rust core of the heracless Python library"
 keywords = ["yaml", "config", "configuration", "type-safe", "python"]
+categories = ["config", "development-tools"]
 license = "MIT"
 repository = "https://github.com/felixscode/heracless"
 homepage = "https://heracless.io"
 readme = "README.md"
-rust-version = "1.70"
+rust-version = "1.83"
+exclude = ["/.github", "/docs", "/tests", "/heracless", "/config", "uv.lock", "mkdocs.yml"]
 
 [lib]
-name = "heracless_core"
+name = "heracless"
 crate-type = ["cdylib", "rlib"]
 
+[features]
+default = []
+# Python bindings. Enabled by maturin (see `[tool.maturin]` in pyproject.toml);
+# pure Rust users don't pay for PyO3.
+python = ["dep:pyo3"]
+
 [dependencies]
-pyo3 = { version = "0.22", features = ["extension-module"] }
-serde = { version = "1.0", features = ["derive"] }
-serde_yaml = "0.9"
-serde_json = "1.0"
-thiserror = "1.0"
+indexmap = "2"
+pyo3 = { version = "0.30", optional = true, features = ["abi3-py310"] }
 regex = "1.10"
-heck = "0.5"
-indexmap = "2.2"
+thiserror = "2"
+yaml-rust2 = { version = "0.13", default-features = false }
 
 [dev-dependencies]
 tempfile = "3.10"
 pretty_assertions = "1.4"
+
+[profile.release]
+lto = true
+codegen-units = 1

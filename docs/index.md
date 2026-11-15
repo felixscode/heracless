@@ -6,7 +6,7 @@ Transform your YAML config files into strongly-typed Python dataclasses with ful
 
 [![PyPI version](https://badge.fury.io/py/heracless.svg)](https://badge.fury.io/py/heracless)
 [![Python Version](https://img.shields.io/pypi/pyversions/heracless)](https://pypi.org/project/heracless/)
-[![Rust](https://img.shields.io/badge/Rust-1.70+-orange?logo=rust)](https://www.rust-lang.org/)
+[![Rust](https://img.shields.io/badge/Rust-1.83+-orange?logo=rust)](https://www.rust-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Tests](https://github.com/felixscode/heracless/actions/workflows/test.yml/badge.svg)](https://github.com/felixscode/heracless/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/felixscode/heracless/branch/main/graph/badge.svg)](https://codecov.io/gh/felixscode/heracless)
@@ -16,11 +16,11 @@ Transform your YAML config files into strongly-typed Python dataclasses with ful
 
 ## Why Heracless?
 
-Stop wrestling with dictionaries and string keys. Heracless automatically converts your YAML configuration files into Python dataclasses with **full type safety** and **IDE autocomplete support**. Plus it's written in Rust for blazing-fast performance.
+Stop wrestling with dictionaries and string keys. Heracless automatically converts your YAML configuration files into Python dataclasses with **full type safety** and **IDE autocomplete support**. The YAML parsing, type inference and stub generation run in a Rust core, and the package has no runtime Python dependencies.
 
 ```python
 # WITHOUT Heracless - prone to typos, no autocomplete
-config = yaml.load(open("config.yaml"))
+config = yaml.safe_load(open("config.yaml"))
 db_host = config["database"]["host"]  # Runtime errors waiting to happen
 db_port = config["databse"]["port"]   # Typo goes unnoticed!
 
@@ -39,7 +39,7 @@ db_port = config.database.port  # Typos caught by IDE/mypy
 - **Zero Boilerplate** - No manual dataclass definitions needed
 - **IDE Autocomplete** - Full IntelliSense/autocomplete for all config values
 - **Immutable by Default** - Frozen dataclasses prevent accidental modifications
-- **Rust-Powered Performance** - Native Rust backend for blazing-fast YAML parsing and stub generation
+- **Rust Core, No Dependencies** - YAML parsing, type inference and stub generation are implemented in Rust; the package has no runtime Python dependencies
 
 ---
 
@@ -67,7 +67,7 @@ Heracless automatically generates type stubs, giving you:
 
 - Full autocomplete in your IDE
 - Type checking with mypy
-- Runtime validation
+- Clear errors for missing files and invalid YAML
 - Zero boilerplate
 
 ---

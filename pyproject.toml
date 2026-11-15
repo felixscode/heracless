@@ -1,48 +1,48 @@
 [build-system]
-requires = ["maturin>=1.5,<2.0"]
+requires = ["maturin>=1.9.4,<2.0"]
 build-backend = "maturin"
+
 [project]
 name = "heracless"
-version = "0.5.1"
-dependencies = [
-    "black",
-    "PyYAML",
-    "art",
-]
-requires-python = ">= 3.10"
+# The version is taken from Cargo.toml, the single source of truth.
+dynamic = ["version"]
+dependencies = []
+requires-python = ">=3.10"
 authors = [
     {name = "Felix Schelling", email = "felix.schelling@protonmail.com"},
 ]
-description = "Yaml to Dataclass parser for Config files (Rust-powered for performance)"
-keywords = ["YAML", "Dataclass", "Config","config", "config management"]
+description = "Type-safe YAML configuration: load YAML as typed dataclasses with generated stubs (Rust-powered)"
+keywords = ["YAML", "Dataclass", "Config", "config", "config management", "typing"]
 readme = {file = "README.md", content-type = "text/markdown"}
+license = "MIT"
 classifiers = [
-    # How mature is this project? Common values are
-    # 3 - Alpha
-    # 4 - Beta
-    # 5 - Production / Stable
     "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Programming Language :: Rust",
+    "Typing :: Typed",
 ]
-[tool.setuptools]
-package-dir = {"" = "."}
 
-[tool.maturin]
-python-source = "."
-module-name = "heracless.heracless_core"
+[project.scripts]
+heracless = "heracless.cli_tool:run_cli"
 
 [project.urls]
 Repository = "https://github.com/felixscode/heracless.git"
-"Homepage" = "https://heracless.io"
+Homepage = "https://heracless.io"
+Documentation = "https://heracless.io"
+
 [project.optional-dependencies]
 dev = [
+    "maturin>=1.9.4,<2.0",
     "pytest",
     "pytest-cov",
     "mypy",
+    # Only used by the test-suite, to check that YAML is resolved exactly like PyYAML does.
+    "PyYAML",
     "types-PyYAML",
 ]
 doc = [
@@ -50,6 +50,13 @@ doc = [
     "mkdocs-material>=9.5.0",
     "mkdocstrings[python]>=0.24.0",
 ]
+
+[tool.maturin]
+python-source = "."
+module-name = "heracless._core"
+features = ["python"]
+include = [{ path = "heracless/py.typed", format = ["sdist", "wheel"] }]
+
 [tool.black]
 line-length = 120
 
@@ -67,25 +74,12 @@ warn_no_return = true
 strict_equality = true
 strict_optional = true
 
-[[tool.mypy.overrides]]
-module = "art.*"
-ignore_missing_imports = true
-
-[[tool.mypy.overrides]]
-module = "black.*"
-ignore_missing_imports = true
-
-[[tool.mypy.overrides]]
-module = "yaml.*"
-ignore_missing_imports = true
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = [
-    "--verbose",
     "--strict-markers",
     "--tb=short",
 ]

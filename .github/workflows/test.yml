@@ -7,13 +7,37 @@ on:
     branches: [ main, master, develop ]
 
 jobs:
+  rust:
+    name: Rust (fmt, clippy, tests)
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Rust toolchain
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        components: rustfmt, clippy
+
+    - uses: Swatinem/rust-cache@v2
+
+    - name: Check formatting
+      run: cargo fmt --check
+
+    - name: Clippy
+      run: |
+        cargo clippy --all-targets -- -D warnings
+        cargo clippy --all-targets --features python -- -D warnings
+
+    - name: Tests
+      run: cargo test
+
   test:
-    name: Test Python ${{ matrix.python-version }}
+    name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
     steps:
     - uses: actions/checkout@v4
@@ -22,55 +46,32 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-        allow-prereleases: true
 
     - name: Install Rust toolchain
       uses: dtolnay/rust-toolchain@stable
 
-    - name: Cache Rust dependencies
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.cargo/registry
-          ~/.cargo/git
-          target
-        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-cargo-
+    - uses: Swatinem/rust-cache@v2
 
-    - name: Cache pip packages
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/pyproject.toml') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-
-    - name: Install dependencies
+    - name: Install package and dev dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install maturin
         pip install -e ".[dev]"
-        pip install pytest-cov
 
-    - name: Run tests with pytest
-      run: |
-        pytest tests/ -v --cov=heracless --cov-report=xml --cov-report=term-missing
+    - name: Run tests
+      run: pytest -v --cov=heracless --cov-report=xml --cov-report=term-missing
 
-    - name: Run mypy type checking
-      run: |
-        mypy heracless/
+    - name: Run mypy
+      run: mypy heracless/
 
     - name: Upload coverage to Codecov
-      if: matrix.python-version == '3.11'
+      if: matrix.python-version == '3.12'
       uses: codecov/codecov-action@v4
       with:
-        file: ./coverage.xml
+        files: ./coverage.xml
         flags: unittests
         name: codecov-umbrella
         fail_ci_if_error: false
         token: ${{ secrets.CODECOV_TOKEN }}
-
 
   test-package-build:
     name: Test package build
@@ -82,37 +83,22 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: "3.11"
+        python-version: "3.12"
 
-    - name: Install Rust toolchain
-      uses: dtolnay/rust-toolchain@stable
-
-    - name: Cache Rust dependencies
-      uses: actions/cache@v4
+    - name: Build wheel and sdist
+      uses: PyO3/maturin-action@v1
       with:
-        path: |
-          ~/.cargo/registry
-          ~/.cargo/git
-          target
-        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-cargo-
-
-    - name: Install build dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install maturin twine
-
-    - name: Build package
-      run: |
-        maturin build --release
+        command: build
+        args: --release --sdist --out dist
+        manylinux: auto
 
     - name: Check package with twine
       run: |
-        twine check target/wheels/*
+        python -m pip install --upgrade twine
+        twine check dist/*
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
         name: dist
-        path: target/wheels/
+        path: dist/

@@ -10,7 +10,10 @@ CONFIG_YAML_PATH: Optional[Path] = None
 
 def load_config(config_path: Optional[Path | str] = None, frozen: bool = True, stub_dump: bool = True) -> Any:
     """
-    Load the configuration from the specified directory and return a Config object.
+    Load the configuration from the specified file and return a Config object.
+
+    On every call with ``stub_dump=True``, a ``.pyi`` stub is written next to this
+    module so type checkers and IDEs know the exact shape of your config.
 
     Args:
         config_path (Path|str, optional): The path to the configuration file. Defaults to CONFIG_YAML_PATH.
@@ -22,10 +25,7 @@ def load_config(config_path: Optional[Path | str] = None, frozen: bool = True, s
 
     Raises:
         FileNotFoundError: If the configuration file does not exist.
-        yaml.YAMLError: If there is an error parsing the YAML configuration file.
-
-    Note:
-        CONFIG_YAML_PATH is a global variable that sets the path of your YAML config file.
+        heracless.YamlSyntaxError: If the configuration file is not valid YAML.
     """
     if config_path is None:
         config_path = CONFIG_YAML_PATH

@@ -19,7 +19,7 @@
 
 **Error:**
 ```
-TypeError: cannot assign to field 'host'
+dataclasses.FrozenInstanceError: cannot assign to field 'host'
 ```
 
 **Cause:** Config is frozen by default (immutable dataclass).
@@ -28,7 +28,7 @@ TypeError: cannot assign to field 'host'
 
 **Option 1:** Use `mutate_config()` helper (recommended)
 ```python
-from heracless.utils.helper import mutate_config
+from heracless import mutate_config
 
 config = load_config()
 new_config = mutate_config(config, "database.host", "new-host")
@@ -46,15 +46,16 @@ config.database.host = "new-host"
 
 **Error:**
 ```
-yaml.scanner.ScannerError: ...
+heracless.utils.exceptions.YamlSyntaxError: Syntax Error in your YAML File:
+ mapping values are not allowed in this context (line 3, column 8)
 ```
 
-**Cause:** Invalid YAML syntax in config file.
+**Cause:** Invalid YAML syntax in config file. The message includes the line and column of the problem.
 
 **Solution:** Validate your YAML:
 
 ```bash
-python -c "import yaml; yaml.safe_load(open('config.yaml'))"
+heracless config.yaml --dry
 ```
 
 Common issues:
@@ -63,14 +64,42 @@ Common issues:
 - Invalid characters
 - Mixing tabs and spaces
 
+`YamlSyntaxError` is also raised for YAML that heracless doesn't support:
+- More than one document in a file (separated by `---`)
+- Custom or unsupported tags such as `!!python/object` or `!!binary`
+- Nesting deeper than 128 levels, or aliases expanding to more than 1,000,000 nodes
+
 ---
 
-## FileNotFoundError
+## ConfigError
 
 **Error:**
 ```
-FileNotFoundError: [Errno 2] No such file or directory: 'config.yaml'
+heracless.utils.exceptions.ConfigError: the top level of a config file must be a mapping of keys to values, found a sequence
 ```
+
+**Cause:** The top level of the YAML file is a list or a single value instead of a mapping.
+
+**Solution:** Put your settings under keys at the top level of the file.
+
+---
+
+## Config Is `None`
+
+**Cause:** The config file is empty or only contains comments. `load_config()` returns `None` in that case and no stub is written.
+
+**Solution:** Add your settings to the file.
+
+---
+
+## DirectoryError / FileNotFoundError
+
+**Error:**
+```
+heracless.utils.exceptions.DirectoryError: The given Directory or Path: config.yaml is not existing
+```
+
+**Cause:** The config file doesn't exist, or the directory the stub should be written to doesn't exist. `DirectoryError` is a subclass of `FileNotFoundError`, so `except FileNotFoundError` catches it too. Heracless does not create a missing config file.
 
 **Solutions:**
 

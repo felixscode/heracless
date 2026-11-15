@@ -17,12 +17,11 @@ The project uses GitHub Actions for:
 - Pull requests to `main`, `master`, or `develop` branches
 
 **What it does:**
-1. Runs tests on Python 3.10, 3.11, 3.12 (stable)
-2. Tests Python 3.13, 3.14 (experimental, allowed to fail)
-3. Runs mypy type checking
-4. Generates code coverage report
-5. Uploads coverage to Codecov
-6. Tests package building
+1. **Rust job:** checks formatting (`cargo fmt --check`), runs clippy with `-D warnings` (with and without the `python` feature) and runs `cargo test`
+2. **Python jobs:** installs the package with `pip install -e ".[dev]"` (builds the Rust extension) and runs pytest and mypy on Python 3.10, 3.11, 3.12, 3.13 and 3.14 (all required)
+3. Generates code coverage report
+4. Uploads coverage to Codecov (from the Python 3.12 job)
+5. **Package build job:** builds a wheel and an sdist with maturin and checks them with `twine check`
 
 **Status:** View the badge in README.md
 
@@ -34,9 +33,9 @@ The project uses GitHub Actions for:
 - Push of a tag matching pattern `v*.*.*` (e.g., `v0.3.3`)
 
 **What it does:**
-1. **Validates** that the tag version matches `pyproject.toml` version
-2. **Tests** the code on Python 3.10, 3.11, 3.12
-3. **Builds** source distribution (sdist) and wheel
+1. **Validates** that the tag version matches the version in `Cargo.toml`
+2. **Tests** the code (`cargo test`, pytest, mypy) on Python 3.10 - 3.14
+3. **Builds** wheels with maturin for Linux (x86_64, aarch64, manylinux), Windows (x64) and macOS (universal2), plus a source distribution (sdist). The wheels use the stable ABI (abi3), so one wheel per platform covers Python 3.10 and newer.
 4. **Publishes** to TestPyPI (optional, if enabled)
 5. **Publishes** to PyPI
 6. **Creates** a GitHub Release with auto-generated notes
@@ -109,18 +108,20 @@ To enable TestPyPI deployment before production:
 
 ### Step 1: Update Version
 
-Edit `pyproject.toml`:
+The version lives only in `Cargo.toml`; `pyproject.toml` declares `dynamic = ["version"]` and maturin takes the version from `Cargo.toml`. Edit `Cargo.toml`:
 
 ```toml
-[project]
+[package]
 name = "heracless"
 version = "0.3.3"  # Update this
 ```
 
+Then refresh `Cargo.lock` (e.g. by running `cargo build` or `cargo test`).
+
 ### Step 2: Commit and Push
 
 ```bash
-git add pyproject.toml
+git add Cargo.toml Cargo.lock
 git commit -m "Bump version to 0.3.3"
 git push origin main
 ```
@@ -128,7 +129,7 @@ git push origin main
 ### Step 3: Create and Push Tag
 
 ```bash
-# Create tag (must match version in pyproject.toml)
+# Create tag (must match version in Cargo.toml)
 git tag v0.3.3
 
 # Push tag to trigger deployment
@@ -160,7 +161,7 @@ git push origin v0.3.3
 
 ### "Version mismatch" Error
 
-**Problem:** Tag version doesn't match `pyproject.toml` version
+**Problem:** Tag version doesn't match the `Cargo.toml` version
 
 **Solution:**
 ```bash
@@ -168,7 +169,7 @@ git push origin v0.3.3
 git tag -d v0.3.3
 git push origin :refs/tags/v0.3.3
 
-# Update pyproject.toml to match
+# Update Cargo.toml to match
 # Create correct tag
 git tag v0.3.3
 git push origin v0.3.3
@@ -190,6 +191,8 @@ git push origin v0.3.3
 **Solution:**
 1. Run tests locally first:
    ```bash
+   pip install -e ".[dev]"   # rebuilds the Rust extension
+   cargo test
    pytest tests/ -v
    mypy heracless/
    ```
@@ -209,12 +212,14 @@ git push origin v0.3.3
 
 If the pipeline fails, you can deploy manually:
 
+Building needs a Rust toolchain. Note that this builds a wheel only for your own platform; the other platforms' wheels come from the CI pipeline.
+
 ```bash
 # Install build tools
-pip install build twine
+pip install maturin twine
 
-# Build package
-python -m build
+# Build wheel and sdist
+maturin build --release --sdist --out dist
 
 # Check package
 twine check dist/*
@@ -228,9 +233,12 @@ twine upload dist/*
 
 1. **Always test locally first**
    ```bash
+   cargo fmt --check
+   cargo clippy --all-targets --features python -- -D warnings
+   cargo test
    pytest tests/ -v
    mypy heracless/
-   python -m build
+   maturin build --release --sdist --out dist
    ```
 
 2. **Use semantic versioning**
@@ -239,7 +247,7 @@ twine upload dist/*
    - Patch: Bug fixes (0.3.2 → 0.3.3)
 
 3. **Keep version in sync**
-   - Update `pyproject.toml` version
+   - Update the version in `Cargo.toml` (the only place it is set)
    - Create matching tag (v0.3.3)
 
 4. **Review before merge**

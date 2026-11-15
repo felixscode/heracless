@@ -1,221 +1,126 @@
 """
-Comprehensive tests for heracless.cli_tool module
+Tests for the command line interface (heracless.cli_tool), run end to end.
 """
 
-import argparse
+import subprocess
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock, patch
 
 import pytest
 
-from heracless.cli_tool import parse_args, run_cli
+from heracless.cli_tool import main, parse_args
+
+CONFIG = """
+database:
+  host: localhost
+  port: 5432
+"""
+
+
+@pytest.fixture
+def config_file(tmp_path: Path) -> Path:
+    path = tmp_path / "config.yaml"
+    path.write_text(CONFIG)
+    return path
 
 
 class TestParseArgs:
-    """Test command-line argument parsing"""
-
-    @patch("sys.argv", ["heracless", "config.yaml"])
-    def test_parse_args_basic(self) -> None:
-        """Test basic argument parsing with just config file"""
-        args = parse_args()
+    def test_basic(self) -> None:
+        args = parse_args(["config.yaml"])
         assert args.cfg_dir == "config.yaml"
         assert args.parse is None
         assert args.dry is False
 
-    @patch("sys.argv", ["heracless", "config.yaml", "--parse", "output.py"])
-    def test_parse_args_with_parse(self) -> None:
-        """Test parsing with --parse option"""
-        args = parse_args()
-        assert args.cfg_dir == "config.yaml"
-        assert args.parse == "output.py"
-        assert args.dry is False
+    @pytest.mark.parametrize("flag", ["--parse", "-p"])
+    def test_parse(self, flag: str) -> None:
+        assert parse_args(["config.yaml", flag, "out.pyi"]).parse == "out.pyi"
 
-    @patch("sys.argv", ["heracless", "config.yaml", "-p", "output.py"])
-    def test_parse_args_with_parse_short(self) -> None:
-        """Test parsing with -p short option"""
-        args = parse_args()
-        assert args.cfg_dir == "config.yaml"
-        assert args.parse == "output.py"
+    @pytest.mark.parametrize("flag", ["--dry", "-d"])
+    def test_dry(self, flag: str) -> None:
+        assert parse_args(["config.yaml", flag]).dry is True
 
-    @patch("sys.argv", ["heracless", "config.yaml", "--dry"])
-    def test_parse_args_with_dry(self) -> None:
-        """Test parsing with --dry option"""
-        args = parse_args()
-        assert args.cfg_dir == "config.yaml"
-        assert args.dry is True
+    def test_parse_and_dry_are_exclusive(self) -> None:
+        with pytest.raises(SystemExit):
+            parse_args(["config.yaml", "--dry", "--parse", "out.pyi"])
 
-    @patch("sys.argv", ["heracless", "config.yaml", "-d"])
-    def test_parse_args_with_dry_short(self) -> None:
-        """Test parsing with -d short option"""
-        args = parse_args()
-        assert args.cfg_dir == "config.yaml"
-        assert args.dry is True
+    def test_version(self, capsys: pytest.CaptureFixture[str]) -> None:
+        with pytest.raises(SystemExit) as exc:
+            parse_args(["--version"])
+        assert exc.value.code == 0
+        assert capsys.readouterr().out.startswith("heracless ")
 
 
-class TestRunCLI:
-    """Test CLI execution"""
+class TestMain:
+    def test_prints_stub_by_default(self, config_file: Path, capsys: pytest.CaptureFixture[str]) -> None:
+        assert main([str(config_file)]) == 0
+        out = capsys.readouterr().out
+        assert "class Database:\n    host: str\n    port: int\n" in out
 
-    @patch("heracless.cli_tool.parse_args")
-    @patch("heracless.cli_tool.main")
-    @patch("os.path.exists")
-    def test_run_cli_with_dry_run(
-        self, mock_exists: MagicMock, mock_main: MagicMock, mock_parse_args: MagicMock
+    def test_dry_run(self, config_file: Path, capsys: pytest.CaptureFixture[str]) -> None:
+        assert main([str(config_file), "--dry"]) == 0
+        out = capsys.readouterr().out
+        assert out.startswith("Loaded config: Config(database=Database(host='localhost', port=5432))")
+        assert list(config_file.parent.iterdir()) == [config_file]  # nothing written
+
+    @pytest.mark.parametrize("name", ["types.pyi", "types.py"])
+    def test_parse_writes_pyi(self, config_file: Path, name: str, capsys: pytest.CaptureFixture[str]) -> None:
+        assert main([str(config_file), "--parse", str(config_file.parent / name)]) == 0
+        stub = config_file.parent / "types.pyi"
+        assert "class Database:" in stub.read_text()
+        assert str(stub) in capsys.readouterr().out
+
+    def test_yml_suffix_is_accepted(self, tmp_path: Path) -> None:
+        path = tmp_path / "config.yml"
+        path.write_text(CONFIG)
+        assert main([str(path), "--dry"]) == 0
+
+    @pytest.mark.parametrize(
+        ("args", "message"),
+        [
+            (["missing.yaml"], "does not exist"),
+            (["config.txt"], "is not a YAML file"),
+        ],
+    )
+    def test_invalid_config_path(
+        self, tmp_path: Path, args: list[str], message: str, capsys: pytest.CaptureFixture[str]
     ) -> None:
-        """Test CLI with --dry flag"""
-        # Setup mocks
-        mock_parse_args.return_value = argparse.Namespace(
-            cfg_dir="test.yaml", parse=None, dry=True
-        )
-        mock_exists.return_value = True
-        mock_main.return_value = MagicMock(value=42)
+        (tmp_path / "config.txt").write_text(CONFIG)
+        assert main([str(tmp_path / a) for a in args]) == 1
+        captured = capsys.readouterr()
+        assert message in captured.err
+        assert captured.out == ""
 
-        # Run
-        run_cli()
+    def test_invalid_stub_suffix(self, config_file: Path, capsys: pytest.CaptureFixture[str]) -> None:
+        assert main([str(config_file), "--parse", "out.txt"]) == 1
+        assert "must be a Python file" in capsys.readouterr().err
 
-        # Verify
-        mock_main.assert_called_once()
-        args = mock_main.call_args
-        assert args[1]["cfg_dir"] == "test.yaml"
-        assert args[1]["dump_dir"] is None
-        assert args[1]["frozen"] is True
+    def test_invalid_yaml(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+        path = tmp_path / "config.yaml"
+        path.write_text("a: [1\n")
+        assert main([str(path)]) == 1
+        assert "Syntax Error" in capsys.readouterr().err
 
-    @patch("heracless.cli_tool.parse_args")
-    @patch("heracless.cli_tool.main")
-    @patch("os.path.exists")
-    def test_run_cli_with_parse(
-        self, mock_exists: MagicMock, mock_main: MagicMock, mock_parse_args: MagicMock
-    ) -> None:
-        """Test CLI with --parse flag"""
-        # Setup mocks
-        mock_parse_args.return_value = argparse.Namespace(
-            cfg_dir="test.yaml", parse="output.py", dry=False
-        )
-        mock_exists.return_value = True
-        mock_main.return_value = MagicMock(value=42)
+    def test_empty_config(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+        path = tmp_path / "config.yaml"
+        path.write_text("")
+        assert main([str(path), "--parse", str(tmp_path / "types.pyi")]) == 1
+        assert "is empty" in capsys.readouterr().err
+        assert not (tmp_path / "types.pyi").exists()
 
-        # Run
-        run_cli()
-
-        # Verify
-        mock_main.assert_called_once()
-        args = mock_main.call_args
-        assert args[1]["cfg_dir"] == "test.yaml"
-        assert isinstance(args[1]["dump_dir"], Path)
-        assert str(args[1]["dump_dir"]) == "output.py"
-
-    @patch("heracless.cli_tool.parse_args")
-    @patch("heracless.cli_tool.main")
-    @patch("os.path.exists")
-    @patch("builtins.print")
-    def test_run_cli_invalid_config_file(
-        self,
-        mock_print: MagicMock,
-        mock_exists: MagicMock,
-        mock_main: MagicMock,
-        mock_parse_args: MagicMock,
-    ) -> None:
-        """Test CLI with non-existent config file"""
-        mock_parse_args.return_value = argparse.Namespace(
-            cfg_dir="nonexistent.yaml", parse=None, dry=True
-        )
-        mock_exists.return_value = False
-
-        run_cli()
-
-        mock_print.assert_called()
-        assert "Config file does not exist" in str(mock_print.call_args)
-        mock_main.assert_not_called()
-
-    @patch("heracless.cli_tool.parse_args")
-    @patch("heracless.cli_tool.main")
-    @patch("os.path.exists")
-    @patch("builtins.print")
-    def test_run_cli_non_yaml_file(
-        self,
-        mock_print: MagicMock,
-        mock_exists: MagicMock,
-        mock_main: MagicMock,
-        mock_parse_args: MagicMock,
-    ) -> None:
-        """Test CLI with non-YAML file"""
-        mock_parse_args.return_value = argparse.Namespace(
-            cfg_dir="test.txt", parse=None, dry=True
-        )
-        mock_exists.return_value = True
-
-        run_cli()
-
-        mock_print.assert_called()
-        assert "not a YAML file" in str(mock_print.call_args)
-        mock_main.assert_not_called()
-
-    @patch("heracless.cli_tool.parse_args")
-    @patch("heracless.cli_tool.main")
-    @patch("os.path.exists")
-    @patch("builtins.print")
-    def test_run_cli_invalid_dump_file(
-        self,
-        mock_print: MagicMock,
-        mock_exists: MagicMock,
-        mock_main: MagicMock,
-        mock_parse_args: MagicMock,
-    ) -> None:
-        """Test CLI with invalid dump file extension"""
-        mock_parse_args.return_value = argparse.Namespace(
-            cfg_dir="test.yaml", parse="output.txt", dry=False
-        )
-        mock_exists.return_value = True
-
-        run_cli()
-
-        mock_print.assert_called()
-        assert "must be a Python file" in str(mock_print.call_args)
-        mock_main.assert_not_called()
-
-    @patch("heracless.cli_tool.parse_args")
-    @patch("heracless.cli_tool.main")
-    @patch("os.path.exists")
-    def test_run_cli_with_pyi_extension(
-        self, mock_exists: MagicMock, mock_main: MagicMock, mock_parse_args: MagicMock
-    ) -> None:
-        """Test CLI accepts .pyi extension for dump file"""
-        mock_parse_args.return_value = argparse.Namespace(
-            cfg_dir="test.yaml", parse="output.pyi", dry=False
-        )
-        mock_exists.return_value = True
-        mock_main.return_value = MagicMock()
-
-        run_cli()
-
-        mock_main.assert_called_once()
-        args = mock_main.call_args
-        assert isinstance(args[1]["dump_dir"], Path)
+    def test_missing_stub_directory(self, config_file: Path, capsys: pytest.CaptureFixture[str]) -> None:
+        assert main([str(config_file), "--parse", str(config_file.parent / "nope" / "types.pyi")]) == 1
+        assert "nope" in capsys.readouterr().err
 
 
-class TestCLIIntegration:
-    """Integration tests for CLI with real files"""
+def test_python_dash_m(config_file: Path) -> None:
+    """`python -m heracless` is the documented way to run the CLI."""
+    result = subprocess.run(
+        [sys.executable, "-m", "heracless", str(config_file)], capture_output=True, text=True, check=False
+    )
+    assert result.returncode == 0, result.stderr
+    assert "class Config:" in result.stdout
 
-    def test_cli_with_temp_files(self, tmp_path: Path) -> None:
-        """Test CLI with actual temporary files"""
-        # Create a test YAML file
-        yaml_content = """
-name: test
-version: 1.0
-"""
-        yaml_file = tmp_path / "test.yaml"
-        yaml_file.write_text(yaml_content)
-
-        # Create expected output path
-        output_file = tmp_path / "output.pyi"
-
-        # Mock sys.argv and run
-        with patch("sys.argv", ["heracless", str(yaml_file), "-p", str(output_file)]):
-            with patch("heracless.cli_tool.parse_args") as mock_parse:
-                mock_parse.return_value = argparse.Namespace(
-                    cfg_dir=str(yaml_file), parse=str(output_file), dry=False
-                )
-                # We would call run_cli() here but it would actually execute
-                # Just verify the parse_args would be called correctly
-                args = parse_args()
-                assert args.cfg_dir == str(yaml_file)
+    result = subprocess.run(
+        [sys.executable, "-m", "heracless", "missing.yaml"], capture_output=True, text=True, check=False
+    )
+    assert result.returncode == 1

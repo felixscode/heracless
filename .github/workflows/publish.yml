@@ -22,22 +22,23 @@ jobs:
         echo "version=$TAG_VERSION" >> $GITHUB_OUTPUT
         echo "Tag version: $TAG_VERSION"
 
-    - name: Get pyproject.toml version
-      id: get_pyproject_version
+    - name: Get package version
+      id: get_package_version
       run: |
-        PYPROJECT_VERSION=$(grep -m 1 'version = ' pyproject.toml | cut -d'"' -f2)
-        echo "pyproject_version=$PYPROJECT_VERSION" >> $GITHUB_OUTPUT
-        echo "pyproject.toml version: $PYPROJECT_VERSION"
+        # The version lives in Cargo.toml; pyproject.toml declares it dynamic.
+        PACKAGE_VERSION=$(grep -m 1 '^version = ' Cargo.toml | cut -d'"' -f2)
+        echo "package_version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+        echo "Cargo.toml version: $PACKAGE_VERSION"
 
     - name: Compare versions
       run: |
         TAG_VERSION="${{ steps.get_version.outputs.version }}"
-        PYPROJECT_VERSION="${{ steps.get_pyproject_version.outputs.pyproject_version }}"
+        PACKAGE_VERSION="${{ steps.get_package_version.outputs.package_version }}"
 
-        if [ "$TAG_VERSION" != "$PYPROJECT_VERSION" ]; then
+        if [ "$TAG_VERSION" != "$PACKAGE_VERSION" ]; then
           echo "❌ Version mismatch!"
           echo "Tag version: v$TAG_VERSION"
-          echo "pyproject.toml version: $PYPROJECT_VERSION"
+          echo "Cargo.toml version: $PACKAGE_VERSION"
           exit 1
         fi
 
@@ -49,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
     steps:
     - uses: actions/checkout@v4
@@ -62,39 +63,34 @@ jobs:
     - name: Install Rust toolchain
       uses: dtolnay/rust-toolchain@stable
 
-    - name: Cache Rust dependencies
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.cargo/registry
-          ~/.cargo/git
-          target
-        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-cargo-
+    - uses: Swatinem/rust-cache@v2
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install maturin
         pip install -e ".[dev]"
-        pip install pytest-cov
+
+    - name: Run Rust tests
+      run: cargo test
 
     - name: Run tests
-      run: |
-        pytest tests/ -v
+      run: pytest tests/ -v
 
     - name: Run mypy
-      run: |
-        mypy heracless/
+      run: mypy heracless/
 
-  build:
-    name: Build wheels on ${{ matrix.os }}
+  build-wheels:
+    # The extension uses the stable ABI (abi3), so one wheel per platform covers Python 3.10+.
+    name: Build wheels (${{ matrix.platform.os }}, ${{ matrix.platform.target }})
     needs: test
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.platform.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        platform:
+          - { os: ubuntu-latest, target: x86_64 }
+          - { os: ubuntu-latest, target: aarch64 }
+          - { os: windows-latest, target: x64 }
+          - { os: macos-latest, target: universal2-apple-darwin }
 
     steps:
     - uses: actions/checkout@v4
@@ -102,35 +98,46 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: "3.11"
-
-    - name: Install Rust toolchain
-      uses: dtolnay/rust-toolchain@stable
+        python-version: "3.12"
 
     - name: Build wheels
       uses: PyO3/maturin-action@v1
       with:
-        command: build
-        args: --release --out dist --interpreter 3.10 3.11 3.12 3.13
-
-    - name: Install twine
-      run: |
-        python -m pip install --upgrade pip twine
-
-    - name: Check package
-      run: |
-        twine check dist/*
+        target: ${{ matrix.platform.target }}
+        args: --release --out dist
+        manylinux: auto
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: dist-${{ matrix.os }}
+        name: dist-${{ matrix.platform.os }}-${{ matrix.platform.target }}
+        path: dist/
+        retention-days: 7
+
+  build-sdist:
+    name: Build source distribution
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build sdist
+      uses: PyO3/maturin-action@v1
+      with:
+        command: sdist
+        args: --out dist
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist-sdist
         path: dist/
         retention-days: 7
 
   publish-testpypi:
     name: Publish to TestPyPI (optional)
-    needs: build
+    needs: [build-wheels, build-sdist]
     runs-on: ubuntu-latest
     if: github.repository == 'felixscode/heracless'
     environment:
@@ -149,6 +156,8 @@ jobs:
       run: |
         mkdir -p dist
         mv dist-downloads/* dist/
+        python -m pip install --upgrade twine
+        twine check dist/*
 
     - name: Publish to TestPyPI
       if: vars.PUBLISH_TO_TESTPYPI == 'true'
@@ -161,7 +170,7 @@ jobs:
 
   publish-pypi:
     name: Publish to PyPI
-    needs: build
+    needs: [build-wheels, build-sdist]
     runs-on: ubuntu-latest
     if: github.repository == 'felixscode/heracless'
     environment:
@@ -182,6 +191,8 @@ jobs:
       run: |
         mkdir -p dist
         mv dist-downloads/* dist/
+        python -m pip install --upgrade twine
+        twine check dist/*
 
     - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1

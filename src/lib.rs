@@ -1,224 +1,141 @@
-//! Heracless - Type-safe YAML configuration management for Rust
+//! Heracless: type-safe YAML configuration.
 //!
-//! Transform your YAML config files into strongly-typed Rust structs with full type safety.
+//! This crate is the engine behind the `heracless` Python package. It parses a YAML
+//! config (with PyYAML-compatible scalar resolution), infers a schema of named
+//! classes from it, and generates code from that schema: Python type stubs for the
+//! Python package, or serde structs for Rust users.
 //!
-//! # Examples
+//! ```
+//! let doc = heracless::Document::from_str("server:\n  host: localhost\n  port: 8080\n")
+//!     .unwrap()
+//!     .expect("document is not empty");
 //!
-//! ```no_run
-//! use heracless::{load_config, generate_types};
-//! use std::path::Path;
+//! let stub = heracless::codegen::python::generate_stub(&doc.schema, true);
+//! assert!(stub.contains("class Server:\n    host: str\n    port: int\n"));
 //!
-//! // Generate type definitions from YAML
-//! generate_types(
-//!     Path::new("config.yaml"),
-//!     Path::new("src/config.rs"),
-//!     true
-//! ).unwrap();
+//! let rust = heracless::codegen::rust::generate(&doc.schema);
+//! assert!(rust.contains("pub struct Server {"));
 //! ```
 
 pub mod codegen;
-pub mod helper;
-pub mod tree;
+pub mod error;
+pub mod naming;
+pub mod schema;
+pub mod value;
+pub mod yaml;
+
+#[cfg(feature = "python")]
+mod python;
 
 use std::path::Path;
-use thiserror::Error;
 
-#[derive(Error, Debug)]
-pub enum HeraclessError {
-    #[error("YAML parsing error: {0}")]
-    YamlError(#[from] serde_yaml::Error),
+pub use error::{Error, Result};
+pub use schema::Schema;
+pub use value::{Map, Value};
 
-    #[error("IO error: {0}")]
-    IoError(#[from] std::io::Error),
-
-    #[error("Invalid configuration: {0}")]
-    ConfigError(String),
+/// A loaded config: the parsed document and its inferred schema.
+#[derive(Debug, Clone, PartialEq)]
+pub struct Document {
+    pub value: Map,
+    pub schema: Schema,
 }
 
-pub type Result<T> = std::result::Result<T, HeraclessError>;
-
-/// Load a YAML configuration file and parse it into a tree structure
-///
-/// # Arguments
-///
-/// * `config_path` - Path to the YAML configuration file
-///
-/// # Returns
-///
-/// Returns a `Tree` structure representing the parsed configuration
-///
-/// # Errors
-///
-/// Returns an error if:
-/// - The file cannot be read
-/// - The YAML is malformed
-/// - The root element is not a mapping
-pub fn load_config_tree(config_path: &Path) -> Result<tree::Tree> {
-    let content = std::fs::read_to_string(config_path)?;
-    let value: serde_yaml::Value = serde_yaml::from_str(&content)?;
-
-    tree::parse_tree(&value).map_err(|e| HeraclessError::ConfigError(e))
-}
-
-/// Generate Rust type definitions from a YAML configuration file
-///
-/// # Arguments
-///
-/// * `config_path` - Path to the YAML configuration file
-/// * `output_path` - Path where the generated Rust code should be written
-/// * `frozen` - Whether the generated structs should be immutable (adds Clone, PartialEq)
-///
-/// # Returns
-///
-/// Returns the generated code as a string, and writes it to the output file
-///
-/// # Errors
-///
-/// Returns an error if:
-/// - The config file cannot be read or parsed
-/// - The output file cannot be written
-///
-/// # Examples
-///
-/// ```no_run
-/// use heracless::generate_types;
-/// use std::path::Path;
-///
-/// generate_types(
-///     Path::new("config.yaml"),
-///     Path::new("src/config.rs"),
-///     true
-/// ).unwrap();
-/// ```
-pub fn generate_types(config_path: &Path, output_path: &Path, frozen: bool) -> Result<String> {
-    let tree = load_config_tree(config_path)?;
-    let code = codegen::generate_code(&tree, frozen);
-
-    std::fs::write(output_path, &code)?;
-
-    Ok(code)
-}
-
-/// Generate Rust type definitions and return as string without writing to file
-///
-/// # Arguments
-///
-/// * `config_path` - Path to the YAML configuration file
-/// * `frozen` - Whether the generated structs should be immutable
-///
-/// # Returns
-///
-/// Returns the generated code as a string
-pub fn generate_types_string(config_path: &Path, frozen: bool) -> Result<String> {
-    let tree = load_config_tree(config_path)?;
-    Ok(codegen::generate_code(&tree, frozen))
-}
-
-/// Main function that loads config and optionally generates type file
-///
-/// This is the equivalent of Python's `fight()` function
-///
-/// # Arguments
-///
-/// * `config_path` - Path to the YAML configuration file
-/// * `output_path` - Optional path where generated code should be written
-/// * `frozen` - Whether the generated structs should be immutable
-///
-/// # Returns
-///
-/// Returns the generated code as a string if successful
-pub fn fight(config_path: &Path, output_path: Option<&Path>, frozen: bool) -> Result<String> {
-    let tree = load_config_tree(config_path)?;
-    let code = codegen::generate_code(&tree, frozen);
-
-    if let Some(path) = output_path {
-        std::fs::write(path, &code)?;
+impl Document {
+    /// Build a document from a parsed value. `Null` (an empty file) yields `None`;
+    /// anything other than a mapping at the top level is an error.
+    pub fn from_value(value: Value) -> Result<Option<Document>> {
+        match value {
+            Value::Null => Ok(None),
+            Value::Map(map) => Ok(Some(Document {
+                schema: Schema::infer(&map),
+                value: map,
+            })),
+            other => Err(Error::Config(format!(
+                "the top level of a config file must be a mapping of keys to values, found a {}",
+                other.kind_name()
+            ))),
+        }
     }
 
-    Ok(code)
-}
+    /// Parse a YAML string. Returns `None` for an empty document.
+    #[allow(clippy::should_implement_trait)] // returns Option, so FromStr doesn't fit
+    pub fn from_str(source: &str) -> Result<Option<Document>> {
+        Document::from_value(yaml::parse_str(source)?)
+    }
 
-// Python bindings using PyO3
-use pyo3::prelude::*;
-use pyo3::exceptions::PyException;
-
-/// Convert HeraclessError to Python exception
-impl std::convert::From<HeraclessError> for PyErr {
-    fn from(err: HeraclessError) -> PyErr {
-        PyException::new_err(err.to_string())
+    /// Load a YAML file. Returns `None` for an empty document.
+    pub fn load(path: &Path) -> Result<Option<Document>> {
+        Document::from_value(yaml::parse_file(path)?)
     }
 }
 
-/// Generate Python type stub code from YAML config
+/// Write `content` to `path` unless the file already holds exactly that content.
 ///
-/// This generates Python dataclass definitions with type annotations
-#[pyfunction]
-fn generate_python_stubs(config_path: String, frozen: bool) -> PyResult<String> {
-    let path = Path::new(&config_path);
-    let tree = load_config_tree(path)?;
-    let code = codegen::generate_python_code(&tree, frozen);
+/// Leaving an unchanged file untouched keeps its mtime stable, so watchers, IDEs
+/// and build tools don't react to every config load.
+pub fn write_if_changed(path: &Path, content: &str) -> Result<()> {
+    if std::fs::read(path).is_ok_and(|existing| existing == content.as_bytes()) {
+        return Ok(());
+    }
+    std::fs::write(path, content).map_err(|e| Error::io("write", path, e))
+}
+
+/// Generate serde structs for the YAML config at `config_path` and write them to
+/// `output_path`. Returns the generated code.
+pub fn generate_rust_types(config_path: &Path, output_path: &Path) -> Result<String> {
+    let doc = Document::load(config_path)?
+        .ok_or_else(|| Error::Config(format!("{} is empty", config_path.display())))?;
+    let code = codegen::rust::generate(&doc.schema);
+    write_if_changed(output_path, &code)?;
     Ok(code)
-}
-
-/// Parse YAML and return as JSON string for Python to deserialize
-#[pyfunction]
-fn parse_yaml_to_json(config_path: String) -> PyResult<String> {
-    let path = Path::new(&config_path);
-    let content = std::fs::read_to_string(path)
-        .map_err(|e| PyException::new_err(format!("Failed to read file: {}", e)))?;
-    let value: serde_yaml::Value = serde_yaml::from_str(&content)
-        .map_err(|e| PyException::new_err(format!("Failed to parse YAML: {}", e)))?;
-    let json = serde_json::to_string(&value)
-        .map_err(|e| PyException::new_err(format!("Failed to convert to JSON: {}", e)))?;
-    Ok(json)
-}
-
-/// Python module definition
-#[pymodule]
-fn heracless_core(m: &Bound<'_, PyModule>) -> PyResult<()> {
-    m.add_function(wrap_pyfunction!(generate_python_stubs, m)?)?;
-    m.add_function(wrap_pyfunction!(parse_yaml_to_json, m)?)?;
-    Ok(())
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::io::Write;
-    use tempfile::NamedTempFile;
+    use std::io::Write as _;
 
     #[test]
-    fn test_load_config_tree() {
-        let mut temp_file = NamedTempFile::new().unwrap();
-        writeln!(temp_file, "database:\n  host: localhost\n  port: 5432").unwrap();
+    fn load_and_generate() {
+        let dir = tempfile::tempdir().unwrap();
+        let config = dir.path().join("config.yaml");
+        std::fs::File::create(&config)
+            .unwrap()
+            .write_all(b"app:\n  name: myapp\n  version: 1\n")
+            .unwrap();
+        let out = dir.path().join("config.rs");
 
-        let tree = load_config_tree(temp_file.path()).unwrap();
-        assert_eq!(tree.name, "Config");
-        assert_eq!(tree.children.len(), 1);
+        let code = generate_rust_types(&config, &out).unwrap();
+        assert_eq!(std::fs::read_to_string(&out).unwrap(), code);
+        assert!(code.contains("pub struct App {\n    pub name: String,\n    pub version: i64,\n}"));
     }
 
     #[test]
-    fn test_generate_types_string() {
-        let mut temp_file = NamedTempFile::new().unwrap();
-        writeln!(
-            temp_file,
-            "app:\n  name: myapp\n  version: 1\n  debug: true"
-        )
-        .unwrap();
-
-        let code = generate_types_string(temp_file.path(), true).unwrap();
-        assert!(code.contains("pub struct App"));
-        assert!(code.contains("pub struct Config"));
-        assert!(code.contains("pub name: String"));
+    fn errors() {
+        assert!(matches!(
+            Document::load(Path::new("/definitely/missing.yaml")),
+            Err(Error::NotFound { .. })
+        ));
+        assert!(matches!(
+            Document::from_str("- a\n- b\n"),
+            Err(Error::Config(_))
+        ));
+        assert_eq!(Document::from_str("").unwrap(), None);
     }
 
     #[test]
-    fn test_fight() {
-        let mut temp_file = NamedTempFile::new().unwrap();
-        writeln!(temp_file, "test:\n  value: 42").unwrap();
-
-        let code = fight(temp_file.path(), None, true).unwrap();
-        assert!(code.contains("pub struct Test"));
-        assert!(code.contains("pub struct Config"));
+    fn write_if_changed_keeps_identical_files() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("x.pyi");
+        write_if_changed(&path, "a").unwrap();
+        let before = std::fs::metadata(&path).unwrap().modified().unwrap();
+        std::thread::sleep(std::time::Duration::from_millis(20));
+        write_if_changed(&path, "a").unwrap();
+        assert_eq!(
+            std::fs::metadata(&path).unwrap().modified().unwrap(),
+            before
+        );
+        write_if_changed(&path, "b").unwrap();
+        assert_eq!(std::fs::read_to_string(&path).unwrap(), "b");
     }
 }

@@ -10,58 +10,7 @@ from heracless.utils.exceptions import DirectoryError, NotIterable, YamlSyntaxEr
 from heracless.utils.utils import (
     dump_template_to_file,
     insert_path_into_load_config_template,
-    path_exists,
 )
-
-
-class TestPathExists:
-    """Test path_exists function"""
-
-    def test_path_exists_creates_file(self, tmp_path: Path) -> None:
-        """Test that path_exists creates a file if it doesn't exist"""
-        test_file = tmp_path / "test.txt"
-        assert not test_file.exists()
-
-        path_exists(test_file)
-
-        assert test_file.exists()
-
-    def test_path_exists_with_existing_file(self, tmp_path: Path) -> None:
-        """Test that path_exists works with existing file"""
-        test_file = tmp_path / "test.txt"
-        test_file.touch()
-        assert test_file.exists()
-
-        # Should not raise an error
-        path_exists(test_file)
-        assert test_file.exists()
-
-    def test_path_exists_raises_error_for_nonexistent_parent(self) -> None:
-        """Test that path_exists raises error when parent directory doesn't exist"""
-        non_existent_path = Path("/nonexistent/directory/file.txt")
-
-        with pytest.raises(DirectoryError):
-            path_exists(non_existent_path)
-
-    def test_path_exists_with_nested_directory(self, tmp_path: Path) -> None:
-        """Test path_exists with nested directory structure"""
-        nested_dir = tmp_path / "level1" / "level2"
-        nested_dir.mkdir(parents=True)
-        test_file = nested_dir / "test.txt"
-
-        path_exists(test_file)
-
-        assert test_file.exists()
-
-    def test_path_exists_idempotent(self, tmp_path: Path) -> None:
-        """Test that calling path_exists multiple times is safe"""
-        test_file = tmp_path / "test.txt"
-
-        path_exists(test_file)
-        path_exists(test_file)
-        path_exists(test_file)
-
-        assert test_file.exists()
 
 
 class TestInsertPathIntoLoadConfigTemplate:
@@ -311,15 +260,17 @@ class TestYamlSyntaxError:
 class TestExceptionsIntegration:
     """Integration tests for exception handling"""
 
-    def test_directory_error_in_path_exists(self) -> None:
-        """Test that path_exists raises DirectoryError appropriately"""
-        non_existent = Path("/absolutely/nonexistent/path/file.txt")
+    def test_missing_config_raises_directory_error(self, tmp_path: Path) -> None:
+        """A missing config file raises DirectoryError, which is also a FileNotFoundError"""
+        from heracless import load_config
 
+        missing = tmp_path / "missing.yaml"
         with pytest.raises(DirectoryError) as exc_info:
-            path_exists(non_existent)
+            load_config(missing)
 
-        error = exc_info.value
-        assert isinstance(error.given_dir, Path) or isinstance(error.given_dir, str)
+        assert isinstance(exc_info.value, FileNotFoundError)
+        assert str(missing) in str(exc_info.value)
+        assert not missing.exists(), "loading must never create the config file"
 
     def test_exception_chaining(self) -> None:
         """Test that exceptions can be chained"""
@@ -333,20 +284,12 @@ class TestExceptionsIntegration:
 class TestUtilsEdgeCases:
     """Test edge cases in utils module"""
 
-    def test_path_exists_with_symbolic_link(self, tmp_path: Path) -> None:
-        """Test path_exists behavior with symbolic links"""
-        # This test may be skipped on Windows where symlinks require admin privileges
-        try:
-            real_file = tmp_path / "real.txt"
-            real_file.touch()
-            symlink = tmp_path / "link.txt"
-            symlink.symlink_to(real_file)
-
-            # Should work with symlink
-            path_exists(symlink)
-            assert symlink.exists()
-        except (OSError, NotImplementedError):
-            pytest.skip("Symbolic links not supported on this platform")
+    def test_template_path_is_a_valid_literal(self, tmp_path: Path) -> None:
+        """Backslashes (Windows paths) must not turn into escape sequences"""
+        lines = insert_path_into_load_config_template("C:\\new\\config.yaml")
+        source = "".join(lines)
+        compile(source, "load_config.py", "exec")
+        assert "Path('C:\\\\new\\\\config.yaml')" in source
 
     def test_dump_template_with_unicode_path(self, tmp_path: Path) -> None:
         """Test dump_template_to_file with unicode characters in path"""
@@ -358,11 +301,3 @@ class TestUtilsEdgeCases:
         assert output_file.exists()
         content = output_file.read_text(encoding="utf-8")
         assert "配置文件" in content
-
-    def test_path_exists_with_empty_filename(self, tmp_path: Path) -> None:
-        """Test path_exists with just directory path"""
-        test_dir = tmp_path / "testdir"
-        test_dir.mkdir()
-        # Calling path_exists on a directory that exists shouldn't create anything new
-        path_exists(test_dir)
-        assert test_dir.is_dir()

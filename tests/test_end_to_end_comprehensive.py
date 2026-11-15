@@ -7,11 +7,9 @@ from datetime import date, datetime
 from pathlib import Path
 
 import pytest
-import yaml
 
-from heracless.fight import fight, load_as_dict
+from heracless.fight import fight
 from heracless.utils import as_dict, from_dict, mutate_config
-from heracless.utils.cfg_tree import tree_parser, tree_to_config_obj, tree_to_string_translator
 
 
 class TestEndToEndBasicWorkflow:

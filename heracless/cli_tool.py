@@ -1,71 +1,94 @@
+"""Command line interface: ``heracless CONFIG [--parse STUB | --dry]`` (or ``python -m heracless``)."""
+
 import argparse
-import os
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Sequence
 
-from art import text2art
-from yaml import full_load
+from heracless.fight import generate_stub, load_config
+from heracless.utils.exceptions import HeraclessError
 
-from heracless.fight import dump_in_console, dump_in_file
-from heracless.fight import fight as main
+BANNER = r"""
+ _   _                           _
+| | | |  ___  _ __   __ _   ___ | |  ___  ___  ___
+| |_| | / _ \| '__| / _` | / __|| | / _ \/ __|/ __|
+|  _  ||  __/| |   | (_| || (__ | ||  __/\__ \\__ \
+|_| |_| \___||_|    \__,_| \___||_| \___||___/|___/
+"""
+
+YAML_SUFFIXES = (".yaml", ".yml")
+STUB_SUFFIXES = (".py", ".pyi")
 
 
-def parse_args() -> argparse.Namespace:
-    """
-    Parses command line arguments and returns them as a Namespace object.
+def _version() -> str:
+    from importlib.metadata import PackageNotFoundError, version
 
-    If --help or --version is provided, it prints the ASCII art and exits the program.
-    """
+    try:
+        return version("heracless")
+    except PackageNotFoundError:  # pragma: no cover - running from a source tree without metadata
+        return "unknown"
+
+
+def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Heracless Client Tool",
-        usage="""heracless [-h] cfg_dir [--parse [PARSE]] [--dry] [--version]""",
+        prog="heracless",
+        description=f"{BANNER}\nTurn a YAML config into typed Python dataclasses.\n\n"
+        "Without options, the generated type stub is printed to stdout.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument("cfg_dir", help="Path to the configuration file", type=str)
-    parser.add_argument("--parse", "-p", help="path to where to parse the input as a python file ", type=str)
-    parser.add_argument("--dry", "-d", action="store_true", help="Dry run")
-    parser.add_argument("--version", action="version", version="Heracless 0.2")
+    parser.add_argument("cfg_dir", metavar="CONFIG", help="path to the YAML config file")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument(
+        "--parse", "-p", metavar="STUB", help="write the type stub to STUB (a .py suffix is replaced by .pyi)"
+    )
+    mode.add_argument("--dry", "-d", action="store_true", help="load the config and print it, writing nothing")
+    parser.add_argument("--version", action="version", version=f"%(prog)s {_version()}")
+    return parser
 
-    if "-h" in sys.argv or "--help" in sys.argv or "--version" in sys.argv:
-        my_text = "Heracless Client Tool"
-        ascii_art = text2art(my_text)
-        print(ascii_art)
-    return parser.parse_args()
+
+def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
+    """Parse command line arguments (``sys.argv[1:]`` by default)."""
+    return build_parser().parse_args(argv)
+
+
+def _error(message: str) -> int:
+    print(f"heracless: error: {message}", file=sys.stderr)
+    return 1
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    """Run the CLI and return the process exit code."""
+    args = parse_args(argv)
+    cfg_path = Path(args.cfg_dir)
+
+    if cfg_path.suffix not in YAML_SUFFIXES:
+        return _error(f"{cfg_path} is not a YAML file (expected a {' or '.join(YAML_SUFFIXES)} suffix)")
+    if not cfg_path.is_file():
+        return _error(f"config file {cfg_path} does not exist")
+    if args.parse and Path(args.parse).suffix not in STUB_SUFFIXES:
+        return _error("the stub file must be a Python file (.py or .pyi)")
+
+    try:
+        if args.dry:
+            print(f"Loaded config: {load_config(cfg_path, None)}")
+        elif args.parse:
+            stub_path = Path(args.parse).with_suffix(".pyi")
+            if load_config(cfg_path, stub_path) is None:
+                return _error(f"{cfg_path} is empty, no stub written")
+            print(f"Config generated and written to {stub_path}")
+        else:
+            stub = generate_stub(cfg_path)
+            if stub is None:
+                return _error(f"{cfg_path} is empty")
+            sys.stdout.write(stub)
+    except (HeraclessError, OSError) as e:
+        return _error(str(e))
+    return 0
 
 
 def run_cli() -> None:
-    """
-    Parses command line arguments and runs the main function based on the arguments.
-
-    If --dry is provided, it runs the main function with dump_dir set to None (no file output).
-    If --parse is provided, it runs the main function with dump_dir set to the specified path.
-    """
-    args = parse_args()
-    cfg_path: str = args.cfg_dir
-
-    if not os.path.exists(cfg_path) or not cfg_path.endswith(".yaml"):
-        print("Config file does not exist or is not a YAML file.")
-        return
-
-    if args.dry:
-        config = main(
-            cfg_dir=cfg_path,
-            dump_dir=None,
-            frozen=True,
-        )
-        print(f"Loaded config: {config}")
-    elif args.parse:
-        dump_path: Optional[str] = args.parse
-        if dump_path and (not dump_path.endswith(".py") and not dump_path.endswith(".pyi")):
-            print("Dump file must be a Python file (.py or .pyi).")
-            return
-        dump_path_obj: Optional[Path] = Path(dump_path) if dump_path else None
-        config = main(
-            cfg_dir=cfg_path,
-            dump_dir=dump_path_obj,
-            frozen=True,
-        )
-        print(f"Config generated and written to {dump_path}")
+    """Console script entry point."""
+    sys.exit(main())
 
 
 if __name__ == "__main__":
