@@ -32,8 +32,8 @@ heracless = "heracless.cli_tool:run_cli"
 
 [project.urls]
 Repository = "https://github.com/felixscode/heracless.git"
-Homepage = "https://heracless.io"
-Documentation = "https://heracless.io"
+Homepage = "https://heracless-py.com"
+Documentation = "https://heracless-py.com"
 
 [project.optional-dependencies]
 dev = [

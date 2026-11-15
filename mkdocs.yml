@@ -1,6 +1,6 @@
 site_name: Heracless
-site_url: https://heracless.io
-site_description: Type-safe YAML configuration management for Python build with Rust speed.
+site_url: https://heracless-py.com
+site_description: Type-safe YAML configuration management for Python, built with Rust.
 site_author: Felix Schelling
 
 repo_name: felixscode/heracless

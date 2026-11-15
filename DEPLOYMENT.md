@@ -281,7 +281,7 @@ Configure these secrets in your GitHub repository settings:
 
 2. **`SSH_HOST`** - Your Hetzner VM hostname or IP
    ```
-   Example: heracless.io or 123.456.789.0
+   Example: heracless-py.com or 123.456.789.0
    ```
 
 3. **`SSH_USER`** - SSH username
@@ -324,7 +324,7 @@ Example nginx config:
 ```nginx
 server {
     listen 80;
-    server_name heracless.io;
+    server_name heracless-py.com www.heracless-py.com;
     root /var/www/heracless;
     index index.html;
 
